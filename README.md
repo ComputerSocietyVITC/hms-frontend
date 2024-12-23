@@ -1,36 +1,176 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend for Hackathon Management System (HMS)
+
+This project is built with Next.js and uses several modern development tools, including pre-commit hooks, Storybook for component development, and more. Below you'll find a guide on how to set up and run the project, along with instructions on adding stories for components and configuring necessary pre-commit hooks.
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Prerequisites](#prerequisites)
+- [Setting Up Pre-Commit Hooks](#setting-up-pre-commit-hooks)
+- [Setting Up Storybook](#setting-up-storybook)
+- [Adding Component Stories](#adding-component-stories)
+- [Running the Project](#running-the-project)
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to get the development environment up and running:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Fork the repository**
+   Click the Fork button at the top right corner of the repository to create a copy of the project in your GitHub account.
+2. **Clone the repository**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   git clone https://github.com/your-username/hms-frontend.git
+   cd hms-frontend
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Install dependencies**
+   Run the following command to install all necessary dependencies for the project:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   npm install
+   ```
 
-## Learn More
+## Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+Before setting up pre-commit hooks and Storybook, make sure you have the following installed:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Node.js (>= 14.x)
+- npm (>= 7.x)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+If you don't have these installed, download and install them from [Node.js Official Website](https://nodejs.org/).
 
-## Deploy on Vercel
+## Setting Up Pre-Commit Hooks
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project uses Husky and lint-staged to enforce code quality before each commit. Here’s how to set up the pre-commit hooks:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Enable Husky
+
+   Husky needs to be enabled in your project. Run the following:
+
+   ```bash
+   npm run prepare
+   ```
+
+   This will install Husky hooks into your project, specifically the pre-commit hook that will run lint-staged before every commit.
+
+2. Configure lint-staged
+
+   Lint-staged is configured to run ESLint, Prettier, and other tools on staged files before commit. The configuration is already set in package.json as follows:
+
+   ```json
+   "lint-staged": {
+       "src/**/\*.{js,ts,tsx}": [
+           "eslint --fix",
+           "prettier --write"
+       ],
+       "src/**/\*.{css,scss}": [
+           "stylelint --fix"
+       ]
+   }
+   ```
+
+## Setting Up Storybook
+
+Storybook is used for visualizing and developing components in isolation. Here's how to set it up:
+
+1. Install Storybook Dependencies
+
+   Storybook is already included in the project, you don't need to do anything.
+
+2. Run Storybook
+
+   To start Storybook and view your components in isolation, run:
+
+   ```bash
+   npm run storybook
+   ```
+
+This will open Storybook in your browser at http://localhost:6006.
+
+## Adding Component Stories
+
+In order to visualize and test components in isolation with Storybook, you should create stories for your components.
+
+1. Create a Component File
+   Let's say you have a button component `Button.tsx`:
+
+   ```tsx
+   // src/components/Button.tsx
+   import React from "react";
+
+   type ButtonProps = {
+     label: string;
+   };
+
+   const Button = ({ label }: ButtonProps) => {
+     return <button>{label}</button>;
+   };
+
+   export default Button;
+   ```
+
+2. Create a Story File for the Component
+   For each component, create a corresponding `.stories.tsx` file in the same directory. For example, for `Button.tsx`, create `Button.stories.tsx`:
+
+   ```tsx
+   // src/components/Button.stories.tsx
+
+   import React from "react";
+   import Button from "./Button";
+
+   export default {
+     title: "Components/Button",
+     component: Button,
+   };
+
+   const Template = (args) => <Button {...args} />;
+
+   export const Default = Template.bind({});
+   Default.args = {
+     label: "Click Me",
+   };
+   ```
+
+3. Test Your Stories
+   Once you've created the story file, run Storybook:
+
+   ```bash
+   npm run storybook
+   ```
+
+   You should see your component (Button in this case) in Storybook's UI.
+
+## Running the Project
+
+Once everything is set up, you can run the project locally for development and production builds.
+
+1. Development
+   For running the project in development mode, use:
+
+   ```bash
+   npm run dev
+   ```
+
+   This will start the Next.js development server, and you can view the project at **http://localhost:3000**.
+
+2. Build for Production
+   To build the project for production:
+
+   ```bash
+   npm run build
+   ```
+
+   After building, you can start the production server:
+
+   ```bash
+   npm run start
+   ```
+
+   This will serve the app on **http://localhost:3000** with optimized production code.
+
+## Conclusion
+
+The project is built with Next.js, Husky (for pre-commit hooks), and Storybook (for component-driven development). Follow the steps in this README to set up your development environment, add component stories, and run the project locally.
+
+If you have any issues or need additional guidance, feel free to reach out!
