@@ -50,8 +50,8 @@ Follow these steps to get the development environment up and running:
 
 Before setting up pre-commit hooks and Storybook, make sure you have the following installed:
 
-- Node.js (>= 14.x)
-- npm (>= 7.x)
+- Node.js
+- npm
 
 If you don't have these installed, download and install them from [Node.js Official Website](https://nodejs.org/).
 
@@ -75,13 +75,10 @@ This project uses Husky and lint-staged to enforce code quality before each comm
 
    ```json
    "lint-staged": {
-       "src/**/\*.{js,ts,tsx}": [
-           "eslint --fix",
-           "prettier --write"
-       ],
-       "src/**/\*.{css,scss}": [
-           "stylelint --fix"
-       ]
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
    }
    ```
 
@@ -89,19 +86,13 @@ This project uses Husky and lint-staged to enforce code quality before each comm
 
 Storybook is used for visualizing and developing components in isolation. Here's how to set it up:
 
-1. **Install Storybook Dependencies**
+To start Storybook and view your components in isolation, run:
 
-   Storybook is already included in the project, you don't need to do anything.
+```bash
+npm run storybook
+```
 
-2. **Run Storybook**
-
-   To start Storybook and view your components in isolation, run:
-
-   ```bash
-   npm run storybook
-   ```
-
-   This will open Storybook in your browser at http://localhost:6006.
+This will open Storybook in your browser at http://localhost:6006.
 
 ## Adding Component Stories
 
@@ -193,8 +184,9 @@ Once everything is set up, you can run the project locally for development and p
 
 To maintain a clean and consistent commit history, follow these guidelines:
 
-- **Commit Messages**: Use meaningful commit messages that describe the changes you've made. If you're fixing a bug, use `fix: bug description`. For adding a new feature, use `feat: feature description`. For refactoring, use `refactor: description`.
 - **Branch Naming**: Use meaningful branch names that describe the feature or bug you're working on. For example, `feat/add-login-page` or `fix/fix-button-styling`.
+- **Commit Messages**: Use meaningful commit messages that describe the changes you've made. If you're fixing a bug, use `fix: bug description`. For adding a new feature, use `feat: feature description`. For refactoring, use `refactor: description`.
+- **Always build before committing**: Make sure to run `npm run build` before committing your changes. This ensures that the code is error-free and builds successfully. Even though it will run automatically on a Pull Request, it's a good practice to run it locally.
 - **Pull Requests**: Create a pull request for each feature or bug fix. Add a meaningful title and description to the PR. Assign reviewers and labels as needed.
 
 ## Conclusion
