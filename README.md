@@ -7,8 +7,6 @@ This project is built with Next.js and uses several modern development tools, in
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
 - [Setting Up Pre-Commit Hooks](#setting-up-pre-commit-hooks)
-- [Setting Up Storybook](#setting-up-storybook)
-- [Adding Component Stories](#adding-component-stories)
 - [Running the Project](#running-the-project)
 - [Commit Guidelines](#commit-guidelines)
 - [Conclusion](#conclusion)
@@ -82,73 +80,21 @@ This project uses Husky and lint-staged to enforce code quality before each comm
    }
    ```
 
-## Setting Up Storybook
+## Building Components
 
-Storybook is used for visualizing and developing components in isolation. Here's how to set it up:
+This project uses shadcn/ui for building components. You don't need to install it separately as it's already included in the project dependencies.
 
-To start Storybook and view your components in isolation, run:
+To add a new component, you need to refer to the shadcn/ui documentation. For example, to add a button component, you can use the following code:
 
 ```bash
-npm run storybook
+npx shadcn@latest add button
 ```
 
-This will open Storybook in your browser at http://localhost:6006.
+This will add a new button component to the components directory. You can then import and use this component in the project.
 
-## Adding Component Stories
+You can add more components using the same command. Refer to the [shadcn/ui documentation](https://ui.shadcn.com/docs) for more details.
 
-In order to visualize and test components in isolation with Storybook, you should create stories for your components.
-
-1. **Create a Component File**
-
-   Let's say you have a button component `Button.tsx`:
-
-   ```tsx
-   // src/components/Button.tsx
-   import React from "react";
-
-   type ButtonProps = {
-     label: string;
-   };
-
-   const Button = ({ label }: ButtonProps) => {
-     return <button>{label}</button>;
-   };
-
-   export default Button;
-   ```
-
-2. **Create a Story File for the Component**
-
-   For each component, create a corresponding `.stories.tsx` file in the same directory. For example, for `Button.tsx`, create `Button.stories.tsx`:
-
-   ```tsx
-   // src/components/Button.stories.tsx
-
-   import React from "react";
-   import Button from "./Button";
-
-   export default {
-     title: "Components/Button",
-     component: Button,
-   };
-
-   const Template = (args) => <Button {...args} />;
-
-   export const Default = Template.bind({});
-   Default.args = {
-     label: "Click Me",
-   };
-   ```
-
-3. **Test Your Stories**
-
-   Once you've created the story file, run Storybook:
-
-   ```bash
-   npm run storybook
-   ```
-
-   You should see your component (Button in this case) in Storybook's UI.
+For further development, you will need to pick up issues from the GitHub repository and work on them.
 
 ## Running the Project
 
