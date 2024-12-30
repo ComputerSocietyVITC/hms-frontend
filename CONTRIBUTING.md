@@ -4,8 +4,6 @@ These are the guidelines you need to follow to contribute to the project.
 
 You are **REQUIRED** to follow these guidelines otherwise your pull requests will **NOT BE ACCEPTED**!
 
----
-
 ## **Commit Guidelines**
 
 ### **Branch Naming**
@@ -33,8 +31,6 @@ You are **REQUIRED** to follow these guidelines otherwise your pull requests wil
   - Running builds locally helps save time by avoiding repeated errors during the CI/CD pipeline.
   - Commit only if the build completes without errors.
 
----
-
 ## **Setting Up Pre-Commit Hooks**
 
 To enforce code quality, this project uses **Husky** and **lint-staged** to run automated checks before each commit.
@@ -42,9 +38,11 @@ To enforce code quality, this project uses **Husky** and **lint-staged** to run 
 ### **Enable Husky**
 
 1. Run the following command to enable Husky in your project:
+
    ```bash
    npm run prepare
    ```
+
 2. This will install Husky hooks, specifically the pre-commit hook, which runs lint-staged before every commit.
 
 ### **Configure lint-staged**
@@ -61,7 +59,6 @@ The lint-staged configuration is already included in the package.json file:
 ```
 
 These tools ensure your code is linted and formatted correctly before it is committed.
-
 
 ## **Pull Request Guidelines**
 
@@ -91,14 +88,18 @@ These tools ensure your code is linted and formatted correctly before it is comm
 
 1. Fork the repository and create a local clone.
 2. Create a branch for your feature or fix:
+
    ```bash
    git checkout -b feat/your-feature-name
    ```
+
 3. Make your changes and commit them following the guidelines.
 4. Push your branch to your fork:
+
     ```bash
     git push origin feat/your-feature-name
     ```
+
 5. Create a pull request against the main repository.
 6. Keep an eye on the main repository, and sync your fork and your local clone after every change on the main repository. Resolve merge conflicts if needed.
 
