@@ -11,6 +11,8 @@ import TeamMemberList from "@/components/team/TeamMemberList";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import DangerButton from "@/components/ui/DangerButton";
+import { useRouter } from "next/navigation";
 
 interface TeamMember {
   id: string;
@@ -62,6 +64,7 @@ const TeamPage = () => {
   const [loading, setLoading] = useState(true);
   const [project, setProject] = useState<Project | null>(null);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const { user, getUser } = useAuth();
 
@@ -138,7 +141,10 @@ const TeamPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-      <HeaderComponent />
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-4 border-b border-gray-700">
+        <h1 className="text-lg font-bold">Your Team</h1>
+        <DangerButton buttonText="Go Back" onClick={() => router.push("/")} />
+      </header>
       <div className="flex flex-grow flex-col p-8 w-full gap-8">
         <div className="flex flex-row justify-between gap-8">
           <TeamInformation
