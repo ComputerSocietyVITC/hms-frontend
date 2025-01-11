@@ -20,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
         backgroundColor: customBackgroundColor,
         color: customTextColor,
       }}
-      className="rounded-lg py-2 px-4 focus:outline-none transition duration-300 ease-in-out hover:bg-gray-800"
+      className="rounded-lg py-2 px-4"
     >
       {buttonText}
     </button>
