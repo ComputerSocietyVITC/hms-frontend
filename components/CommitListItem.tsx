@@ -55,16 +55,16 @@ const CommitListItem = ({
           className="self-center"
         />
         <div className="flex flex-col">
-          <h1 className="text-base md:text-lg font-medium text-gray-800">
+          <h1 className="text-base md:text-lg font-semibold">
             {commitMessage}
           </h1>
 
-          <span className="text-xs md:text-sm text-gray-500">
+          <span className="text-xs md:text-sm">
             {commitAuthor} &middot; {timeSinceCommit}
           </span>
         </div>
       </div>
-      <hr className="w-3/4 mx-auto border-0 h-px bg-gray-300 mt-4" />
+      <hr className="w-3/4 mx-auto border-0 h-px bg-[#D6D6D6] mt-4" />
     </div>
   );
 };
