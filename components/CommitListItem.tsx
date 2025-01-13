@@ -5,7 +5,7 @@ import Image from "next/image";
       <CommitListItem commitMessage="Hello World" commitAuthor="Hello" timeStamp="2025-01-10T14:00:00Z" />
  */
 
-type CommitListItemProps = {
+export type CommitListItemProps = {
   commitMessage: string;
   commitAuthor: string;
   timeStamp: string;
