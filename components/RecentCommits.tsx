@@ -25,9 +25,14 @@ const RecentCommits = ({ list, className, ...props }: RecentCommitsProps) => {
       </h1>
 
       <div className="flex flex-col max-h-96 overflow-y-auto">
-        {list.map((v, _) => {
-          return <CommitListItem key={_} {...v} />;
-        })}
+        {list
+          .sort(
+            (a, b) =>
+              new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime(),
+          )
+          .map((v, _) => {
+            return <CommitListItem key={_} {...v} />;
+          })}
       </div>
     </div>
   );
