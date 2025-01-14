@@ -5,7 +5,7 @@ import Image from "next/image";
    <TeamMemberListItem name="shivzee" githubId="shivam1608" avatarSrc="/image.png" />
  */
 
-type TeamMemberListItemProps = {
+export type TeamMemberListItemProps = {
   githubId: string;
   name: string;
   avatarSrc: string;
