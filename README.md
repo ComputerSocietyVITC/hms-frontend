@@ -9,6 +9,7 @@ This project is built with Next.js and uses several modern development tools, in
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
 - [Setting Up Pre-Commit Hooks](#setting-up-pre-commit-hooks)
+- [Building Components](#building-components)
 - [Running the Project](#running-the-project)
 - [Commit Guidelines](#commit-guidelines)
 - [Conclusion](#conclusion)
