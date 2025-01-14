@@ -5,6 +5,7 @@ interface ButtonProps {
   customTextColor?: string;
   buttonText: string;
   onClick: () => void;
+  customStyle?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -12,6 +13,7 @@ const Button: React.FC<ButtonProps> = ({
   customTextColor = "#F5F5F5",
   buttonText,
   onClick,
+  customStyle = "",
 }) => {
   return (
     <button
@@ -20,7 +22,7 @@ const Button: React.FC<ButtonProps> = ({
         backgroundColor: customBackgroundColor,
         color: customTextColor,
       }}
-      className="rounded-lg py-2 px-4"
+      className={`rounded-lg py-2 px-4 ${customStyle}`}
     >
       {buttonText}
     </button>

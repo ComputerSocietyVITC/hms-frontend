@@ -6,6 +6,7 @@ interface IconButtonProps {
   customBackgroundColor?: string;
   customTextColor?: string;
   onClick: () => void;
+  customStyle?: string;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({
@@ -14,11 +15,12 @@ const IconButton: React.FC<IconButtonProps> = ({
   customBackgroundColor = "#F5F5F5",
   customTextColor = "#1E1E1E",
   onClick,
+  customStyle = "",
 }) => {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center justify-center gap-2 px-5 py-2 rounded-full cursor-pointer text-base font-medium shadow-md`}
+      className={`flex items-center justify-center gap-2 px-5 py-2 rounded-full cursor-pointer text-base font-medium shadow-md ${customStyle}`}
       style={{
         backgroundColor: customBackgroundColor,
         color: customTextColor,
