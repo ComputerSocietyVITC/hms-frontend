@@ -1,8 +1,8 @@
 import React from "react";
 
 interface ButtonProps {
-  customBackgroundColor: string;
-  customTextColor: string;
+  customBackgroundColor?: string;
+  customTextColor?: string;
   buttonText: string;
   onClick: () => void;
 }
