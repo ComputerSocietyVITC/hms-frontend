@@ -14,14 +14,14 @@ const cardObjects = [
     link: "https://card2.com/2",
   },
   {
-    title: "Card 2",
-    description: "This is card 2.",
-    link: "https://card2.com/2",
+    title: "Card 3",
+    description: "This is card 3.",
+    link: "https://card3.com/3",
   },
   {
-    title: "Card 2",
-    description: "This is card 2.",
-    link: "https://card2.com/2",
+    title: "Card 4",
+    description: "This is card 4.",
+    link: "https://card4.com/4",
   },
 ];
 const CardList: React.FC = () => {
