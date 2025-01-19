@@ -2,6 +2,8 @@
 
 This project is built with Next.js and uses several modern development tools, including pre-commit hooks, Storybook for component development, and more. Below you'll find a guide on how to set up and run the project, along with instructions on adding stories for components and configuring necessary pre-commit hooks.
 
+[![CI Workflow](https://github.com/ComputerSocietyVITC/hms-frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/ComputerSocietyVITC/hms-frontend/actions/workflows/ci.yml)
+
 > Refer to the [CONTRIBUTING.md](https://github.com/ComputerSocietyVITC/hms-frontend/blob/master/CONTRIBUTING.md) before starting out development and working on the project.
 
 ## Table of Contents

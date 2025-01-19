@@ -20,14 +20,13 @@ const Login = () => {
           placeholder="Enter your email"
           onTextChange={(value) => setEmail(value)}
         />
-        <div className="mt-4">
-          <InputField
-            label="Password"
-            type="password"
-            placeholder="Enter your password"
-            onTextChange={(value) => setPassword(value)}
-          />
-        </div>
+        <InputField
+          label="Password"
+          type="password"
+          placeholder="Enter your password"
+          onTextChange={(value) => setPassword(value)}
+          customStyle="mt-4"
+        />
         <Button
           buttonText="Sign In"
           onClick={handleSubmit}
