@@ -20,7 +20,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className={`flex items-center justify-center gap-2 px-5 py-2 rounded-full cursor-pointer text-base font-medium shadow-md ${customStyle}`}
+      className={`flex items-center justify-center gap-2 px-5 py-2 rounded-full cursor-pointer text-base font-medium ${customStyle}`}
       style={{
         backgroundColor: customBackgroundColor,
         color: customTextColor,
