@@ -6,6 +6,7 @@ interface InputFieldProps {
   type: string;
   placeholder: string;
   disabled?: boolean;
+  customStyle?: string;
   onTextChange: (value: string) => void;
 }
 
@@ -14,10 +15,11 @@ const InputField: React.FC<InputFieldProps> = ({
   type,
   placeholder,
   disabled,
+  customStyle,
   onTextChange,
 }) => {
   return (
-    <div className="flex flex-col text-[#1E1E1E]">
+    <div className={`flex flex-col text-[#1E1E1E] ${customStyle}`}>
       <label className="mb-2">{label}</label>
       <Input
         type={type}
