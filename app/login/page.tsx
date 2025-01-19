@@ -13,15 +13,13 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-[#F3F4F6]">
-      <div className="flex border-2 flex-col p-6 rounded-lg bg-[#FFFFFF] w-96 ">
-        <div>
-          <InputField
-            label="Email"
-            type="email"
-            placeholder="Enter your email"
-            onTextChange={(value) => setEmail(value)}
-          />
-        </div>
+      <div className="flex flex-col p-4 border rounded-lg bg-white h-auto w-96 border-[#D6D6D6]">
+        <InputField
+          label="Email"
+          type="email"
+          placeholder="Enter your email"
+          onTextChange={(value) => setEmail(value)}
+        />
         <div className="mt-4">
           <InputField
             label="Password"
@@ -30,13 +28,11 @@ const Login = () => {
             onTextChange={(value) => setPassword(value)}
           />
         </div>
-        <div className="mt-6">
-          <Button
-            buttonText="Sign In"
-            onClick={handleSubmit}
-            customStyle="w-full"
-          />
-        </div>
+        <Button
+          buttonText="Sign In"
+          onClick={handleSubmit}
+          customStyle="w-full mt-6"
+        />
       </div>
     </div>
   );
