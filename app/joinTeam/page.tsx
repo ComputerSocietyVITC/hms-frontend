@@ -33,8 +33,6 @@ const JoinTeamPage: React.FC = () => {
           <Button
             buttonText="Join Team"
             onClick={handleSubmit}
-            customBackgroundColor="#1E1E1E"
-            customTextColor="#FFFFFF"
             customStyle="w-full mt-4"
           />
         </div>
