@@ -2,16 +2,18 @@
 "use client";
 
 import api from "@/api";
+import DangerButton from "@/components/ui/DangerButton";
 import FooterSection from "@/components/ui/FooterSection";
-import HeaderComponent from "@/components/ui/HeaderComponent";
 import UserCard from "@/components/user/UserCard";
 import UserInformation from "@/components/user/UserInformation";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 const Profile = () => {
   const { user, loading, getUser } = useAuth();
   const [team, setTeam] = useState<string | null>(null);
+  const router = useRouter();
 
   const getTeam = async () => {
     if (user?.teamId) {
@@ -48,7 +50,10 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-      <HeaderComponent />
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-4 border-b border-gray-700">
+        <h1 className="text-lg font-bold">Your Profile</h1>
+        <DangerButton buttonText="Go Back" onClick={() => router.push("/")} />
+      </header>
       <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-10">
         <UserCard
           id={user.id}
