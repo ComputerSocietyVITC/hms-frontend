@@ -120,7 +120,7 @@ const ProjectInformation = ({
         </div>
       )}
 
-      {project && (
+      {project && user?.isLeader && (
         <Link href="/updateProject">
           <Button
             buttonText="Edit Project Details"
