@@ -156,6 +156,7 @@ const TeamPage = () => {
               })) || []
             }
             nonClickable={true}
+            displayInviteButton={user?.isLeader}
             teamId={response.id}
           />
           <ProjectInformation project={project} teamId={response.id} />
