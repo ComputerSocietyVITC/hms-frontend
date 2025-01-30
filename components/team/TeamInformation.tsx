@@ -93,7 +93,7 @@ const TeamInformation = ({
         </div>
       </div>
 
-      {user?.teamId === teamId && (
+      {user?.teamId === teamId && !user.isLeader && (
         <div className="absolute bottom-6 mt-6">
           <DangerButton
             buttonText="Leave Team"
