@@ -45,7 +45,7 @@ const CommitListItem = ({
   const timeSinceCommit = getTimeSince(new Date(timeStamp));
 
   return (
-    <div {...props} className={`flex flex-col py-4 ${className}`}>
+    <div {...props} className={`flex flex-col py-2 ${className}`}>
       <div className="flex items-start px-4 space-x-4">
         <Image
           width={28}
