@@ -14,6 +14,7 @@ interface UserCardProps {
 }
 
 const UserCard = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   id,
   createdAt,
   name,
