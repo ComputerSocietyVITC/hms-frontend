@@ -20,7 +20,7 @@ type TeamMemberListProps = {
 const TeamMemberList = ({ list, className, ...props }: TeamMemberListProps) => {
   return (
     <div
-      className={`flex flex-col p-3 md:p-4 rounded-lg border border-[#D9D9D9] ${className}`}
+      className={`flex flex-col p-3 md:p-4 rounded-lg border border-[#D9D9D9] bg-white w-full ${className}`}
       {...props}
     >
       <h1 className="pb-2 md:pb-4 text-lg md:text-2xl font-bold">
