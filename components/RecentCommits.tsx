@@ -17,7 +17,7 @@ type RecentCommitsProps = {
 const RecentCommits = ({ list, className, ...props }: RecentCommitsProps) => {
   return (
     <div
-      className={`flex flex-col p-3 md:p-4 rounded-lg border border-[#D9D9D9] ${className}`}
+      className={`flex flex-col p-3 md:p-4 rounded-lg border border-[#D9D9D9] w-full bg-white ${className}`}
       {...props}
     >
       <h1 className="pb-2 md:pb-4 text-lg md:text-2xl font-bold">
@@ -28,7 +28,7 @@ const RecentCommits = ({ list, className, ...props }: RecentCommitsProps) => {
         {list
           .sort(
             (a, b) =>
-              new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime(),
+              new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime()
           )
           .map((v, _) => {
             return <CommitListItem key={_} {...v} />;
