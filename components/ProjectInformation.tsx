@@ -25,7 +25,7 @@ const ProjectInformation = ({
   projectId,
 }: ProjectInformationProps) => {
   return (
-    <div className="rounded-md border border-[#D9D9D9] bg-[#FFFFFF] p-4 max-w-[25vw]">
+    <div className="rounded-md border border-[#D9D9D9] bg-[#FFFFFF] p-4 w-full">
       <span className="text-xl font-bold block">Project Information</span>
       <span className="block mt-6 font-bold">Project Name</span>
       <span className="block">{projectName}</span>

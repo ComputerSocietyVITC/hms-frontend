@@ -23,7 +23,7 @@ const TeamInformation = ({
   teamId,
 }: TeamInformationProps) => {
   return (
-    <div className="rounded-md border border-[#D9D9D9] bg-[#FFFFFF] p-4">
+    <div className="rounded-md border border-[#D9D9D9] bg-[#FFFFFF] p-4 w-full">
       <span className="text-xl font-bold block">Team Information</span>
       <span className="block mt-6 font-bold">Team Name</span>
       <span className="block">{teamName}</span>
