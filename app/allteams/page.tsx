@@ -507,15 +507,20 @@ export default function Page() {
   }, [selectedTeam, selectedTeamInfo]);
 
   return (
-    <div className="h-[100vh] w-full flex flex-row gap-4 p-4 bg-[#F3F4F6]">
-      <AllTeams
-        teams={teams}
-        onClickUpdate={handleTeamClick}
-        customStyle="flex-[1]"
-      />
-      {selectedTeamInfo && (
-        <SelectedTeamInfo selectedTeamInfo={selectedTeamInfo} />
-      )}
+    <div className="flex flex-col h-screen">
+      <header className="flex justify-between items-center w-full bg-white py-3 px-6 border-b border-b-[#D9D9D9]">
+        <div className="text-lg font-bold">Hackathon Teams</div>
+      </header>
+      <div className="flex-grow w-full flex flex-row gap-4 p-4 bg-[#F3F4F6]">
+        <AllTeams
+          teams={teams}
+          onClickUpdate={handleTeamClick}
+          customStyle="flex-[1]"
+        />
+        {selectedTeamInfo && (
+          <SelectedTeamInfo selectedTeamInfo={selectedTeamInfo} />
+        )}
+      </div>
     </div>
   );
 }
