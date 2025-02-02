@@ -9,11 +9,18 @@ interface Team {
 interface AllTeamsProps {
   teams: Team[];
   onClickUpdate: (teamId: string) => void;
+  customStyle?: string;
 }
 
-const AllTeams: React.FC<AllTeamsProps> = ({ teams, onClickUpdate }) => {
+const AllTeams: React.FC<AllTeamsProps> = ({
+  teams,
+  onClickUpdate,
+  customStyle,
+}) => {
   return (
-    <div className="flex flex-col border border-[#D9D9D9] bg-white rounded-md p-8 h-full w-full">
+    <div
+      className={`flex flex-col border border-[#D9D9D9] bg-white rounded-md p-8 h-full w-full ${customStyle}`}
+    >
       <span className="text-2xl font-bold">Teams</span>
       <span className="text-md">Select a team to view details</span>
       <div className="mt-4 overflow-y-auto h-full">
@@ -24,7 +31,6 @@ const AllTeams: React.FC<AllTeamsProps> = ({ teams, onClickUpdate }) => {
             teamName={team.name}
             teamAvatar="https://github.com/ComputerSocietyVITC.png"
             onClick={(teamId) => {
-              console.log(teamId);
               onClickUpdate(teamId);
             }}
           />
