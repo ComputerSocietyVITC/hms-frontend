@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import api from "@/api";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 interface User {
   authId: string;
@@ -30,14 +32,19 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const getUser = async () => {
     try {
       const res = await api.get("/user");
       setUser(res.data);
-    } catch (error) {
-      console.error("User fetch error:", error);
-      setUser(null);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 401) {
+          setUser(null);
+          router.push("/login");
+        }
+      }
     } finally {
       setLoading(false);
     }
