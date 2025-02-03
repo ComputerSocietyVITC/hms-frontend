@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Button from "@/components/Button";
 import InputField from "@/components/InputField";
+import axios from "axios";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -13,26 +14,58 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const role = "USER";
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!name || !regNum || !phone || !college || !email || !password) {
       setError("All fields are required. Please fill in all the fields.");
+      setSuccess("");
       return;
     }
 
     if (!/^\d{10}$/.test(phone)) {
       setError("Phone number must be exactly 10 digits long.");
+      setSuccess("");
       return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Please enter a valid email address.");
+      setSuccess("");
       return;
     }
 
-    const formData = { name, role, regNum, phone, college, email, password };
-    console.log("Registration Data:", formData);
-    setError("");
+    try {
+      const response = await axios.post("http://localhost:3000/auth/register", {
+        name,
+        role,
+        regNum,
+        phone,
+        college,
+        email,
+        password,
+      });
+
+      if (response.status === 201) {
+        setSuccess("User registered successfully.");
+        setError("");
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          if (error.response.status === 409) {
+            setError("User already exists.");
+          } else if (error.response.status === 500) {
+            setError("Internal server error. Please try again later.");
+          } else {
+            setError("An unexpected error occurred.");
+          }
+        } else {
+          setError("Failed to connect to the server.");
+        }
+        setSuccess("");
+      }
+    }
   };
 
   return (
@@ -77,8 +110,9 @@ const Register = () => {
           />
         </div>
         {error && <p className="text-red-500 mt-4">{error}</p>}
+        {success && <p className="text-green-500 mt-4">{success}</p>}
         <Button
-          buttonText="Register"
+          buttonText="Sign Up"
           onClick={handleSubmit}
           customStyle="w-full mt-6"
         />
