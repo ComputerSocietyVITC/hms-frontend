@@ -1,46 +1,61 @@
+"use client";
+
 import FooterSection from "@/components/FooterSection";
 import HeaderComponent from "@/components/HeaderComponent";
 import UserCard from "@/components/UserCard";
 import UserInformation from "@/components/UserInformation";
-import React from "react";
+import { useAuth } from "@/context/AuthContext";
+import React, { useEffect } from "react";
 
-const page = () => {
-  const response = {
-    id: "123e4567-e89b-12d3-a456-426614174000",
-    createdAt: "2021-08-01T00:00:00Z",
-    updatedAt: "2021-08-01T00:00:00Z",
-    authId: "123e4567-e89b-12d3-a456-426614174000",
-    name: "John Doe",
-    role: "USER",
-    regNum: "19BCE1234",
-    phone: "9876543210",
-    college: "VIT",
-    github: "https://github.com/example",
-    imageId: "123e4567-e89b-12d3-a456-426614174000",
-    isLeader: true,
-    teamId: "123e4567-e89b-12d3-a456-426614174000",
-  };
+const Profile = () => {
+  const { user, loading, getUser } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        User not found
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F4F6]">
       <HeaderComponent />
       <div className="flex flex-grow px-24 flex-row w-full">
         <UserCard
-          id={response.id}
-          createdAt={response.createdAt}
-          name={response.name}
-          college={response.college}
-          github={response.github}
-          isLeader={response.isLeader}
-          customStyle="w-1/4"
+          id={user.id}
+          createdAt={user.createdAt}
+          name={user.name}
+          college={user.college}
+          github={user.github || "https://github.com/notfound"}
+          isLeader={user.isLeader}
+          customStyle="w-[25%]"
         />
         <UserInformation
-          registrationNumber={response.regNum}
-          teamName="Team Innovators"
-          collegeName={response.college}
-          phoneNumber={response.phone}
-          userId={response.id}
-          customStyle="w-3/4 ml-8"
+          registrationNumber={user.regNum}
+          teamName={user.teamId || "Not in a team"}
+          collegeName={user.college}
+          phoneNumber={user.phone}
+          userId={user.id}
+          customStyle="w-[75%] ml-8"
         />
       </div>
       <FooterSection />
@@ -48,4 +63,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Profile;
