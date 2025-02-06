@@ -29,7 +29,7 @@ const CardList: React.FC = () => {
   const showButton = cardObjects.length > 3;
 
   return (
-    <div className="flex items-center gap-4 overflow-x-auto p-4">
+    <div className="flex items-center gap-8 overflow-x-auto p-4">
       {visible.map((card, index) => (
         <Card
           key={index}
