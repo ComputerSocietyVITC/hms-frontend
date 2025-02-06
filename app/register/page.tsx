@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import InputField from "@/components/InputField";
 import axios from "axios";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -15,6 +17,23 @@ const Register = () => {
   const role = "USER";
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const { user, loading, getUser } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
+  }
 
   const handleSubmit = async () => {
     if (!name || !regNum || !phone || !college || !email || !password) {
@@ -49,6 +68,7 @@ const Register = () => {
       if (response.status === 201) {
         setSuccess("User registered successfully.");
         setError("");
+        router.push("/login");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
