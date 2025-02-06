@@ -1,3 +1,6 @@
+"use client";
+
+import api from "@/api";
 import ContributionStats from "@/components/ContributionStats";
 import FooterSection from "@/components/FooterSection";
 import HeaderComponent from "@/components/HeaderComponent";
@@ -5,55 +8,92 @@ import ProjectInformation from "@/components/ProjectInformation";
 import RecentCommits from "@/components/RecentCommits";
 import TeamInformation from "@/components/TeamInformation";
 import TeamMemberList from "@/components/TeamMemberList";
-import React from "react";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+
+interface TeamMember {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  authId: string;
+  name: string;
+  role: string;
+  regNum: string;
+  phone: string;
+  college: string;
+  github: string | null;
+  imageId: string | null;
+  isLeader: boolean;
+  teamId: string;
+}
+
+interface Evaluation {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  projectId: string;
+  score: number;
+}
+
+interface Project {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+  description: string;
+  imageId: string;
+  teamId: string;
+  evaluations: Evaluation[];
+}
+
+interface TeamResponse {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+  imageId: string;
+  members: TeamMember[];
+  project: Project;
+}
 
 const TeamPage = () => {
-  const response = {
-    id: "123e4567-e89b-12d3-a456-426614174000",
-    createdAt: "2021-08-01T00:00:00Z",
-    updatedAt: "2021-08-01T00:00:00Z",
-    name: "Team Name",
-    imageId: "123e4567-e89b-12d3-a456-426614174000",
-    members: [
-      {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        createdAt: "2021-08-01T00:00:00Z",
-        updatedAt: "2021-08-01T00:00:00Z",
-        authId: "123e4567-e89b-12d3-a456-426614174000",
-        name: "John Doe",
-        role: "USER",
-        regNum: "19BCE1234",
-        phone: "9876543210",
-        college: "VIT",
-        github: "https://github.com/example",
-        imageId: "123e4567-e89b-12d3-a456-426614174000",
-        isLeader: true,
-        teamId: "123e4567-e89b-12d3-a456-426614174000",
-      },
-    ],
-    project: {
-      id: "123e4567-e89b-12d3-a456-426614174000",
-      createdAt: "2021-08-01T00:00:00Z",
-      updatedAt: "2021-08-01T00:00:00Z",
-      name: "Project Name",
-      description: "Project Description",
-      imageId: "123e4567-e89b-12d3-a456-426614174000",
-      teamId: "123e4567-e89b-12d3-a456-426614174000",
-      evaluations: [
-        {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          createdAt: "2021-08-01T00:00:00Z",
-          updatedAt: "2021-08-01T00:00:00Z",
-          projectId: "123e4567-e89b-12d3-a456-426614174000",
-          score: 10,
-        },
-      ],
-    },
+  const [response, setResponse] = useState<TeamResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { user, getUser } = useAuth();
+  const router = useRouter();
+
+  const getTeam = async () => {
+    if (!user?.teamId) return;
+    try {
+      const res = await api.get<TeamResponse>(`/team/${user.teamId}`);
+      setResponse(res.data);
+    } catch (error) {
+      console.error("Failed to fetch team data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    } else {
+      getTeam();
+    }
+  }, [user]);
+
   const getLeader = () => {
-    return response.members.find((member) => member.isLeader)!;
+    return response?.members?.find((member) => member.isLeader) || {};
   };
+
+  if (loading || !response) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F4F6]">
@@ -63,61 +103,32 @@ const TeamPage = () => {
           <TeamInformation
             teamName={response.name}
             createdOn={new Date(response.createdAt)}
-            teamLeader={getLeader().name}
+            teamLeader={(getLeader() as TeamMember).name || "Unknown Leader"}
             teamId={response.id}
           />
           <TeamMemberList
-            list={[
-              {
-                name: "Member 1",
-                githubId: "id1",
-                avatarSrc: "/image.png",
-              },
-              {
-                name: "Member 2",
-                githubId: "id2",
-                avatarSrc: "/image.png",
-              },
-              {
-                name: "Member 3",
-                githubId: "id3",
-                avatarSrc: "/image.png",
-              },
-            ]}
+            list={response.members.map((member) => ({
+              name: member.name,
+              githubId: member.github,
+              avatarSrc: "/avatar.png",
+            }))}
           />
           <ProjectInformation
-            projectName={response.project.name}
-            projectDescription={response.project.description}
-            createdOn={new Date(response.project.createdAt)}
-            currentScore={response.project.evaluations[0].score}
-            projectId={response.project.id}
+            projectName={response.project?.name || "No Project"}
+            projectDescription={
+              response.project?.description || "No Description"
+            }
+            createdOn={
+              response.project?.createdAt
+                ? new Date(response.project.createdAt)
+                : new Date()
+            }
+            currentScore={response.project?.evaluations?.[0]?.score || 0}
+            projectId={response.project?.id || "N/A"}
           />
         </div>
         <div className="flex flex-row gap-8">
-          <RecentCommits
-            list={[
-              {
-                commitMessage: "fix: hover button issue",
-                commitAuthor: "shivzee",
-                timeStamp: "2025-01-10T14:00:00Z",
-              },
-              {
-                commitMessage: "feat: add revision 2",
-                commitAuthor: "shivzee",
-                timeStamp: "2025-01-11T14:00:00Z",
-              },
-              {
-                commitMessage: "lint: linting",
-                commitAuthor: "shivzee",
-                timeStamp: "2025-01-12T14:00:00Z",
-              },
-              {
-                commitMessage: "lint: linting",
-                commitAuthor: "shivzee",
-                timeStamp: "2025-01-12T14:00:00Z",
-              },
-            ]}
-          />
+          <RecentCommits list={[]} />
           <ContributionStats />
         </div>
       </div>
