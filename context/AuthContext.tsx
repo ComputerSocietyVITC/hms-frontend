@@ -42,7 +42,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (axios.isAxiosError(error) && error.response) {
         if (error.response.status === 401) {
           setUser(null);
-          router.push("/login");
+          if (window.location.pathname !== "/register") {
+            router.push("/login");
+          }
         }
       }
     } finally {
