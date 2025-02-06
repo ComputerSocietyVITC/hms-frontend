@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/api";
 import axios from "axios";
+import { useAuth } from "@/context/AuthContext";
 
 const LoginComponent = () => {
   const [email, setEmail] = useState("");
@@ -15,9 +16,25 @@ const LoginComponent = () => {
 
   const [isMounted, setIsMounted] = useState(false);
 
+  const { user, loading, getUser } = useAuth();
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
+  }
 
   const handleSubmit = async () => {
     try {
