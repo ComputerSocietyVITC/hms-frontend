@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -13,7 +14,7 @@ const JoinTeamPage: React.FC = () => {
   const [imageId, setImageID] = useState("");
   const router = useRouter();
 
-  const { user, loading, getUser } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (user) {

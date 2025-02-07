@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React from "react";
 import Button from "@/components/Button";
@@ -16,7 +17,7 @@ const LoginComponent = () => {
 
   const [isMounted, setIsMounted] = useState(false);
 
-  const { user, loading, getUser } = useAuth();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     setIsMounted(true);

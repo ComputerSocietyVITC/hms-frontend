@@ -6,13 +6,11 @@ import Button from "@/components/Button";
 import DangerButton from "@/components/DangerButton";
 import { useRouter } from "next/navigation";
 import api from "@/api";
-import { useAuth } from "@/context/AuthContext";
+// import { useAuth } from "@/context/AuthContext";
 
 const JoinTeamPage: React.FC = () => {
   const [teamID, setTeamID] = useState("");
   const router = useRouter();
-
-  const { user, loading, getUser } = useAuth();
 
   const joinTeam = async () => {
     const response = await api.post(`/team/${teamID}/join`);

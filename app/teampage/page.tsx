@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import api from "@/api";
@@ -9,7 +10,6 @@ import RecentCommits from "@/components/RecentCommits";
 import TeamInformation from "@/components/TeamInformation";
 import TeamMemberList from "@/components/TeamMemberList";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface TeamMember {
@@ -61,7 +61,6 @@ const TeamPage = () => {
   const [response, setResponse] = useState<TeamResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const { user, getUser } = useAuth();
-  const router = useRouter();
 
   const getTeam = async () => {
     if (!user?.teamId) return;
