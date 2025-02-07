@@ -108,7 +108,7 @@ const TeamPage = () => {
           <TeamMemberList
             list={response.members.map((member) => ({
               name: member.name,
-              githubId: member.github,
+              githubId: member.github || "",
               avatarSrc: "/avatar.png",
             }))}
           />

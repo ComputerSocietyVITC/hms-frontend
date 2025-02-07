@@ -6,7 +6,7 @@ import Image from "next/image";
  */
 
 export type TeamMemberListItemProps = {
-  githubId: string;
+  githubId: string | null;
   name: string;
   avatarSrc: string;
   avatarAlt?: string;
@@ -32,7 +32,7 @@ export const TeamMemberListItem = ({
       ></Image>
       <div className="flex flex-col justify-center -space-y-1">
         <h1 className="font-semibold text-base md:text-lg">{name}</h1>
-        <span className="text-xs md:text-sm">{githubId}</span>
+        <span className="text-xs md:text-sm">{githubId || "No GitHub ID"}</span>
       </div>
     </div>
   );
