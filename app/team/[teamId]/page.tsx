@@ -9,6 +9,7 @@ import ProjectInformation from "@/components/ProjectInformation";
 import RecentCommits from "@/components/RecentCommits";
 import TeamInformation from "@/components/TeamInformation";
 import TeamMemberList from "@/components/TeamMemberList";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 interface TeamMember {
@@ -59,15 +60,40 @@ interface TeamResponse {
 const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
   const [response, setResponse] = useState<TeamResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const getTeam = async () => {
-    const { teamId } = await params;
-
-    if (!teamId) return;
     try {
+      const { teamId } = await params;
+
+      if (!teamId) {
+        setError("Team ID is required");
+        return;
+      }
+
       const res = await api.get<TeamResponse>(`/team/${teamId}`);
-      setResponse(res.data);
-    } catch (error) {
+
+      if (res.status === 200) {
+        setResponse(res.data);
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        switch (error.response.status) {
+          case 403:
+            setError("You are not authorized to view this team.");
+            break;
+          case 404:
+            setError("Team not found.");
+            break;
+          case 500:
+            setError("Internal Server Error. Please try again later.");
+            break;
+          default:
+            setError("An unexpected error occurred. Please try again later.");
+        }
+      } else {
+        setError("An unexpected error occurred. Please try again later.");
+      }
       console.error("Failed to fetch team data:", error);
     } finally {
       setLoading(false);
@@ -82,10 +108,26 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
     return response?.members?.find((member) => member.isLeader) || {};
   };
 
-  if (loading || !response) {
+  if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
         Loading...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
+
+  if (!response) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        No team data available
       </div>
     );
   }
