@@ -31,9 +31,8 @@ const CreateTeamPage: React.FC = () => {
     try {
       const response = await api.put("/team", { name: name, imageId: imageId });
 
-      if (response.status === 200) {
-        console.log(response.data);
-        router.push("/");
+      if (response.status === 200 || response.status === 409) {
+        router.push("/teampage");
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
@@ -77,6 +76,7 @@ const CreateTeamPage: React.FC = () => {
             placeholder="Enter Image ID"
             onTextChange={(value) => setImageID(value)}
             text={imageId}
+            customStyle="mt-4"
           />
 
           {error && (
