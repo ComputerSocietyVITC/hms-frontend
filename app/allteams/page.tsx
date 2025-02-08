@@ -54,7 +54,6 @@ interface Team {
 }
 
 export default function Page() {
-  const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
   const [selectedTeamInfo, setSelectedTeamInfo] = useState<Team | null>(null);
   const [teams2, setTeams] = useState<Team[]>([]);
   const [error, setError] = useState("");
@@ -93,7 +92,6 @@ export default function Page() {
   const teams = teams2.map(({ id, name }) => ({ id, name }));
 
   const handleTeamClick = (teamId: string) => {
-    setSelectedTeam(teamId);
     const teamData = teams2.find((team) => team.id === teamId) || null;
     setSelectedTeamInfo(teamData);
   };
