@@ -58,7 +58,7 @@ const Profile = () => {
           github={user.github || "https://github.com/notfound"}
           isLeader={user.isLeader}
           teamName={team || ""}
-          customStyle="w-[40%]"
+          customStyle="w-[1/4]"
         />
         <UserInformation
           registrationNumber={user.regNum}
@@ -67,7 +67,7 @@ const Profile = () => {
           phoneNumber={user.phone}
           userId={user.id}
           githubId={user.github}
-          customStyle="w-[60%] ml-8"
+          customStyle="w-[3/4] ml-8"
         />
       </div>
       <FooterSection />
