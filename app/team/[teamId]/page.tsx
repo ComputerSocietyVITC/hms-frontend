@@ -94,7 +94,6 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
       } else {
         setError("An unexpected error occurred. Please try again later.");
       }
-      console.error("Failed to fetch team data:", error);
     } finally {
       setLoading(false);
     }

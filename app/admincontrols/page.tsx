@@ -13,6 +13,7 @@ const AdminControls = () => {
     if (!user) {
       getUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const router = useRouter();

@@ -52,7 +52,6 @@ const LoginComponent = () => {
       }
 
       setError("");
-      console.log(response.data);
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         if (err.response) {

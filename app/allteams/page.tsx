@@ -63,14 +63,14 @@ export default function Page() {
 
       if (response.status === 200) {
         setTeams(response.data);
-        console.log(response.data);
+        console.log(selectedTeam);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           if (error.response.status === 403) {
             setError(
-              "You do not have sufficient permissions to perform this action."
+              "You do not have sufficient permissions to perform this action.",
             );
           } else if (error.response.status === 500) {
             setError("Internal Server Error. Please try again later.");
@@ -95,13 +95,6 @@ export default function Page() {
     const teamData = teams2.find((team) => team.id === teamId) || null;
     setSelectedTeamInfo(teamData);
   };
-
-  useEffect(() => {
-    if (selectedTeam) {
-      console.log("Selected team:", selectedTeam);
-      console.log("Selected team info:", selectedTeamInfo);
-    }
-  }, [selectedTeam, selectedTeamInfo]);
 
   if (error) {
     return (
