@@ -8,10 +8,13 @@ import DangerButton from "@/components/DangerButton";
 import { useRouter } from "next/navigation";
 import api from "@/api";
 import { useAuth } from "@/context/AuthContext";
+import axios from "axios";
 
-const JoinTeamPage: React.FC = () => {
+const CreateTeamPage: React.FC = () => {
   const [name, setName] = useState("");
   const [imageId, setImageID] = useState("");
+  const [error, setError] = useState("");
+
   const router = useRouter();
 
   const { user } = useAuth();
@@ -19,7 +22,7 @@ const JoinTeamPage: React.FC = () => {
   useEffect(() => {
     if (user) {
       if (user.teamId) {
-        router.push("/");
+        router.push("/teampage");
       }
     }
   }, [user]);
@@ -33,7 +36,21 @@ const JoinTeamPage: React.FC = () => {
         router.push("/");
       }
     } catch (err: unknown) {
-      console.log(err);
+      if (axios.isAxiosError(err)) {
+        if (err.response) {
+          if (err.response.status === 403) {
+            setError("You do not have permission to create a team.");
+          } else if (err.response.status === 404) {
+            setError("User not found.");
+          } else if (err.response.status === 500) {
+            setError("Internal Server Error. Please try again later.");
+          } else {
+            setError("An error occurred. Please try again later.");
+          }
+        } else {
+          setError("An error occurred. Please try again later.");
+        }
+      }
     }
   };
 
@@ -62,6 +79,10 @@ const JoinTeamPage: React.FC = () => {
             text={imageId}
           />
 
+          {error && (
+            <div className="mt-3 text-sm text-red-600 text-center">{error}</div>
+          )}
+
           <Button
             buttonText="Create Team"
             onClick={handleSubmit}
@@ -73,4 +94,4 @@ const JoinTeamPage: React.FC = () => {
   );
 };
 
-export default JoinTeamPage;
+export default CreateTeamPage;
