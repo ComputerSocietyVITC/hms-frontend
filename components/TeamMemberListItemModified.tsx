@@ -40,9 +40,10 @@ export const TeamMemberListItem = ({
       <div className="flex flex-col justify-center -space-y-1">
         <h1 className="font-semibold text-base md:text-lg">{name}</h1>
         <span className="text-xs md:text-sm">
-          {githubId || "No GitHub ID"} &bull; {teamName || "No Team"}
+          {githubId || "No GitHub ID"} • {teamName || "No Team"}
         </span>
       </div>
     </div>
   );
+};
 };
