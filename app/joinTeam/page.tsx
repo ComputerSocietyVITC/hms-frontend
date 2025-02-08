@@ -6,7 +6,6 @@ import Button from "@/components/Button";
 import DangerButton from "@/components/DangerButton";
 import { useRouter } from "next/navigation";
 import api from "@/api";
-// import { useAuth } from "@/context/AuthContext";
 
 const JoinTeamPage: React.FC = () => {
   const [teamID, setTeamID] = useState("");
