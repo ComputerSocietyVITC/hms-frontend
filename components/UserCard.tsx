@@ -10,6 +10,7 @@ interface UserCardProps {
   college: string;
   github: string;
   isLeader: boolean;
+  teamName: string;
   customStyle?: string;
 }
 
@@ -21,6 +22,7 @@ const UserCard = ({
   college,
   github,
   isLeader,
+  teamName,
   customStyle,
 }: UserCardProps) => {
   const info = [
@@ -55,8 +57,10 @@ const UserCard = ({
       />
 
       <div className="flex flex-col -space-y-1 text-center my-4">
-        <h1 className="text-2xl font-bold">{name}</h1>
-        <span className="text-base">{isLeader ? "Team Leader" : "Member"}</span>
+        <h1 className="text-2xl font-bold mb-1">{name}</h1>
+        {teamName !== "" && (
+          <span className="text-base">{`${isLeader ? "Team Leader" : "Member"} of ${teamName}`}</span>
+        )}
       </div>
 
       <div className="flex flex-col space-y-2 text-[#1E1E1E]">
