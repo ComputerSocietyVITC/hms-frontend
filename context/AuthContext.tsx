@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(res.data);
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
-        if (error.response.status === 401) {
+        if (error.response.status === 404) {
           setUser(null);
           if (window.location.pathname !== "/register") {
             router.push("/login");
