@@ -56,16 +56,16 @@ const CreateTeamPage: React.FC = () => {
   return (
     <div className="bg-[#F3F4F6] w-full h-screen flex flex-col">
       <header className="w-full bg-white flex items-center justify-between px-6 py-3">
-        <h1 className="text-lg font-medium">Join a Team</h1>
+        <h1 className="text-lg font-bold">Create a Team</h1>
         <DangerButton buttonText="Cancel" onClick={() => router.push("/")} />
       </header>
 
       <main className="flex justify-center items-center flex-1">
         <div className="bg-white p-4 rounded-lg w-96 border border-[#D9D9D9]">
           <InputField
-            label="Team ID"
+            label="Team Name"
             type="text"
-            placeholder="Enter Team ID"
+            placeholder="Enter a Team Name"
             onTextChange={(value) => setName(value)}
             text={name}
           />
@@ -88,6 +88,16 @@ const CreateTeamPage: React.FC = () => {
             onClick={handleSubmit}
             customStyle="w-full mt-4"
           />
+
+          <p className="mt-4 text-center block">
+            Want to join a team?{" "}
+            <a
+              onClick={() => (window.location.href = "/joinTeam")}
+              className="font-bold cursor-pointer hover:underline"
+            >
+              Join a Team
+            </a>
+          </p>
         </div>
       </main>
     </div>

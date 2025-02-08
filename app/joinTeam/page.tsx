@@ -65,7 +65,7 @@ const JoinTeamPage: React.FC = () => {
   return (
     <div className="bg-[#F3F4F6] w-full h-screen flex flex-col">
       <header className="w-full bg-white flex items-center justify-between px-6 py-3">
-        <h1 className="text-lg font-medium">Join a Team</h1>
+        <h1 className="text-lg font-bold">Join a Team</h1>
         <DangerButton buttonText="Cancel" onClick={() => router.push("/")} />
       </header>
 
@@ -92,6 +92,16 @@ const JoinTeamPage: React.FC = () => {
           {error && (
             <div className="mt-3 text-sm text-red-600 text-center">{error}</div>
           )}
+
+          <p className="mt-4 text-center block">
+            Want to create a team?{" "}
+            <a
+              onClick={() => (window.location.href = "/createTeam")}
+              className="font-bold cursor-pointer hover:underline"
+            >
+              Create a Team
+            </a>
+          </p>
         </div>
       </main>
     </div>
