@@ -65,6 +65,7 @@ const Profile = () => {
           collegeName={user.college}
           phoneNumber={user.phone}
           userId={user.id}
+          githubId={user.github}
           customStyle="w-[75%] ml-8"
         />
       </div>
