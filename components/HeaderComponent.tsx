@@ -1,11 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "./Button";
 import { useRouter } from "next/navigation";
 import DangerButton from "./DangerButton";
+import { useAuth } from "@/context/AuthContext";
 
 const HeaderComponent = () => {
+  const { user, getUser } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+  }, []);
+
   const router = useRouter();
 
   return (
@@ -14,9 +23,24 @@ const HeaderComponent = () => {
         className="text-lg font-bold hover:cursor-pointer"
         onClick={() => router.push("/")}
       >
-        Logo
+        HMS
       </div>
       <div className="flex space-x-2">
+        {user?.teamId ? (
+          <Button
+            buttonText="View Team"
+            onClick={() => {
+              router.push("/teampage");
+            }}
+          />
+        ) : (
+          <Button
+            buttonText="Join Team"
+            onClick={() => {
+              router.push("/joinTeam");
+            }}
+          />
+        )}
         <Button
           buttonText="Profile"
           onClick={() => {
