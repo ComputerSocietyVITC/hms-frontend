@@ -94,6 +94,9 @@ const LoginComponent = () => {
           placeholder="Enter your password"
           onTextChange={(value) => setPassword(value)}
           text={password}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSubmit();
+          }}
           customStyle="mt-4"
         />
         {error && <p className="text-red-500 mt-4">{error}</p>}
