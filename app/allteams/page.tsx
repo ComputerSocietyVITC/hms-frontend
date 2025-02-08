@@ -70,7 +70,7 @@ export default function Page() {
         if (error.response) {
           if (error.response.status === 403) {
             setError(
-              "You do not have sufficient permissions to perform this action.",
+              "You do not have sufficient permissions to perform this action."
             );
           } else if (error.response.status === 500) {
             setError("Internal Server Error. Please try again later.");
@@ -86,6 +86,7 @@ export default function Page() {
 
   useEffect(() => {
     fetchTeams();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const teams = teams2.map(({ id, name }) => ({ id, name }));
