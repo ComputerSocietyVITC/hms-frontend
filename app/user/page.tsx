@@ -49,7 +49,7 @@ const Profile = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F4F6]">
       <HeaderComponent />
-      <div className="flex flex-grow flex-row w-full align-center justify-center">
+      <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center">
         <UserCard
           id={user.id}
           createdAt={user.createdAt}
@@ -58,7 +58,7 @@ const Profile = () => {
           github={user.github || "https://github.com/notfound"}
           isLeader={user.isLeader}
           teamName={team || ""}
-          customStyle="w-[35%]"
+          customStyle="w-[40%]"
         />
         <UserInformation
           registrationNumber={user.regNum}
@@ -67,7 +67,7 @@ const Profile = () => {
           phoneNumber={user.phone}
           userId={user.id}
           githubId={user.github}
-          customStyle="w-[65%] ml-8"
+          customStyle="w-[60%] ml-8"
         />
       </div>
       <FooterSection />

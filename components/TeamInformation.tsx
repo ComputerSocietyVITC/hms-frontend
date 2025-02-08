@@ -79,15 +79,15 @@ const TeamInformation = ({
       <span className="block mt-2 font-bold">Team Leader</span>
       <span className="block">{teamLeader}</span>
 
-      <div className="grid grid-cols-2 gap-2 mt-16">
-        {user?.teamId === teamId && (
+      {user?.teamId === teamId && (
+        <div className="mt-10 mx-auto">
           <DangerButton
             buttonText="Leave Team"
             onClick={leaveTeam}
             primary={false}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
