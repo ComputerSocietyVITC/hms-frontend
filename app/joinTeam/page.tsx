@@ -6,16 +6,55 @@ import Button from "@/components/Button";
 import DangerButton from "@/components/DangerButton";
 import { useRouter } from "next/navigation";
 import api from "@/api";
+import axios from "axios";
 
 const JoinTeamPage: React.FC = () => {
   const [teamID, setTeamID] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const joinTeam = async () => {
-    const response = await api.post(`/team/${teamID}/join`);
+  const getErrorMessage = (status: number): string => {
+    switch (status) {
+      case 403:
+        return "You don't have permission to join this team.";
+      case 404:
+        return "Team not found. Please check the Team ID and try again.";
+      case 409:
+        return "You are already a member of a team.";
+      case 500:
+        return "An unexpected error occurred. Please try again later.";
+      default:
+        return "Something went wrong. Please try again.";
+    }
+  };
 
-    if (response.status === 201) {
-      router.push("/teampage");
+  const joinTeam = async () => {
+    if (!teamID.trim()) {
+      setError("Please enter a Team ID");
+      return;
+    }
+
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const response = await api.post(`/team/${teamID}/join`);
+
+      if (response.status === 201) {
+        router.push("/teampage");
+      }
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.response) {
+          const status = err.response.status;
+          setError(getErrorMessage(status));
+        } else {
+          setError("Unable to connect to the server.");
+        }
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -36,14 +75,22 @@ const JoinTeamPage: React.FC = () => {
             label="Team ID"
             type="text"
             placeholder="Enter Team ID"
-            onTextChange={(value) => setTeamID(value)}
+            onTextChange={(value) => {
+              setTeamID(value);
+              setError(null);
+            }}
           />
 
           <Button
-            buttonText="Join Team"
+            buttonText={isLoading ? "Joining..." : "Join Team"}
             onClick={handleSubmit}
             customStyle="w-full mt-4"
+            disabled={isLoading}
           />
+
+          {error && (
+            <div className="mt-3 text-sm text-red-600 text-center">{error}</div>
+          )}
         </div>
       </main>
     </div>
