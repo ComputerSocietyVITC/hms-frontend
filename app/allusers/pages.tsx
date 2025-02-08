@@ -50,7 +50,7 @@ const Page: React.FC = () => {
           setError("You don't have permission to view this page.");
         } else {
           setError(
-            err.response?.data?.message || "An unexpected error occurred."
+            err.response?.data?.message || "An unexpected error occurred.",
           );
         }
       } else {
@@ -102,6 +102,7 @@ const Page: React.FC = () => {
                   college={user.college}
                   github={user.github}
                   isLeader={user.isLeader}
+                  teamName={user.teamId || ""}
                   customStyle="w-full md:w-1/4"
                 />
                 <UserInformation
