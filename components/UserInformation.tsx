@@ -68,14 +68,6 @@ const UserInformation = ({
           onClick={() => router.push("/editProfile")}
         />
       )}
-      {/* <Button
-        onClick={() => alert(`Promoted user with ID: ${userId}`)}
-        buttonText="Promote"
-        customBackgroundColor="#14AE5C"
-        customBorderColor="#02542D"
-        customTextColor="#FFFFFF"
-        customStyle="mt-6 w-fit"
-      /> */}
     </div>
   );
 };
