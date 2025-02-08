@@ -7,6 +7,7 @@ interface InputFieldProps {
   placeholder: string;
   disabled?: boolean;
   customStyle?: string;
+  text?: string;
   onTextChange: (value: string) => void;
 }
 
@@ -16,6 +17,7 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder,
   disabled,
   customStyle,
+  text,
   onTextChange,
 }) => {
   return (
@@ -26,6 +28,7 @@ const InputField: React.FC<InputFieldProps> = ({
         placeholder={placeholder}
         disabled={disabled}
         onTextChange={onTextChange}
+        text={text}
       />
     </div>
   );

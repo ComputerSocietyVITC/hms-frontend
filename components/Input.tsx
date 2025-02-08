@@ -7,6 +7,7 @@ interface InputProps {
   placeholder?: string;
   disabled?: boolean;
   customStyle?: string;
+  text?: string;
   onTextChange: (value: string) => void;
 }
 
@@ -15,6 +16,7 @@ const Input: React.FC<InputProps> = ({
   placeholder = "",
   disabled = false,
   customStyle = "",
+  text = "",
   onTextChange,
 }) => {
   return (
@@ -24,6 +26,7 @@ const Input: React.FC<InputProps> = ({
       disabled={disabled}
       onChange={(e) => onTextChange(e.target.value)}
       className={`border border-[#D9D9D9] rounded-md px-3 py-2 w-full text-[#1E1E1E] placeholder-[#B3B3B3] disabled:cursor-not-allowed ${customStyle}`}
+      value={text}
     />
   );
 };
