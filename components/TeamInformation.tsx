@@ -61,8 +61,14 @@ const TeamInformation = ({
 
   if (error) {
     return (
-      <div className="flex justify-center items-center w-screen h-screen font-bold text-2xl text-red-600">
-        {error}
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
+          role="alert"
+        >
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
       </div>
     );
   }
