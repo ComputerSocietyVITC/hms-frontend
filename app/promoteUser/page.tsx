@@ -35,7 +35,7 @@ const PromoteUserPage: React.FC = () => {
       });
 
       if (response.status === 201) {
-        router.push("/teampage");
+        router.push("/admincontrols");
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
@@ -66,7 +66,10 @@ const PromoteUserPage: React.FC = () => {
     <div className="bg-[#F3F4F6] w-full h-screen flex flex-col">
       <header className="w-full bg-white flex items-center justify-between px-6 py-3">
         <h1 className="text-lg font-bold">Promote User</h1>
-        <DangerButton buttonText="Cancel" onClick={() => router.push("/")} />
+        <DangerButton
+          buttonText="Go Back"
+          onClick={() => router.push("/admincontrols")}
+        />
       </header>
 
       <main className="flex justify-center items-center flex-1">
