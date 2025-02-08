@@ -2,6 +2,7 @@ import Image from "next/image";
 import DangerButton from "./DangerButton";
 import api from "@/api";
 import axios from "axios";
+import Button from "./Button";
 
 export type TeamMemberListItemModifiedProps = {
   githubId: string | null;
@@ -71,12 +72,20 @@ export const TeamMemberListItemModified = ({
           </span>
         </div>
       </div>
-      <DangerButton
-        buttonText="Delete User"
-        onClick={() => {
-          handleClick();
-        }}
-      />
+      <div className="flex flex-row gap-4">
+        <Button
+          buttonText="View Profile"
+          onClick={() => {
+            window.location.href = `/user/${userId}`;
+          }}
+        />
+        <DangerButton
+          buttonText="Delete User"
+          onClick={() => {
+            handleClick();
+          }}
+        />
+      </div>
     </div>
   );
 };
