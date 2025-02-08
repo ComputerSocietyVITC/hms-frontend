@@ -2,8 +2,10 @@
 
 import api from "@/api";
 import AllTeams from "@/components/AllTeams";
+import DangerButton from "@/components/DangerButton";
 import SelectedTeamInfo from "@/components/SelectedTeamInfo";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface Evaluation {
@@ -56,6 +58,7 @@ export default function Page() {
   const [selectedTeamInfo, setSelectedTeamInfo] = useState<Team | null>(null);
   const [teams2, setTeams] = useState<Team[]>([]);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const fetchTeams = async () => {
     try {
@@ -63,7 +66,6 @@ export default function Page() {
 
       if (response.status === 200) {
         setTeams(response.data);
-        console.log(selectedTeam);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -86,7 +88,6 @@ export default function Page() {
 
   useEffect(() => {
     fetchTeams();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const teams = teams2.map(({ id, name }) => ({ id, name }));
@@ -99,8 +100,14 @@ export default function Page() {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center h-screen text-red-500 text-2xl">
-        {error}
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
+          role="alert"
+        >
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
       </div>
     );
   }
@@ -109,6 +116,10 @@ export default function Page() {
     <div className="flex flex-col h-screen">
       <header className="flex justify-between items-center w-full bg-white py-3 px-6 border-b border-b-[#D9D9D9]">
         <div className="text-lg font-bold">Hackathon Teams</div>
+        <DangerButton
+          buttonText="Go Back"
+          onClick={() => router.push("/admincontrols")}
+        />
       </header>
       <div className="flex-grow w-full flex flex-row gap-4 p-4 bg-[#F3F4F6]">
         <AllTeams
@@ -117,7 +128,12 @@ export default function Page() {
           customStyle="flex-[1]"
         />
         {selectedTeamInfo && (
-          <SelectedTeamInfo selectedTeamInfo={selectedTeamInfo} />
+          <SelectedTeamInfo
+            selectedTeamInfo={selectedTeamInfo}
+            onTeamDelete={() => {
+              window.location.reload();
+            }}
+          />
         )}
       </div>
     </div>
