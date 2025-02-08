@@ -1,12 +1,12 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useState, useEffect } from "react";
 import Button from "@/components/Button";
 import InputField from "@/components/InputField";
-import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import api from "@/api";
+import axios from "axios";
 
 const EditProfile = () => {
   const [name, setName] = useState("");
@@ -14,12 +14,23 @@ const EditProfile = () => {
   const [phone, setPhone] = useState("");
   const [college, setCollege] = useState("");
   const [github, setGithub] = useState("");
-  const [imageId, setImageId] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const imageId = "123e4567-e89b-12d3-a456-426614174000";
+
   const { user, loading } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name || "");
+      setRegNum(user.regNum || "");
+      setPhone(user.phone || "");
+      setCollege(user.college || "");
+      setGithub(user.github || "");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -36,7 +47,7 @@ const EditProfile = () => {
   }
 
   const handleSubmit = async () => {
-    if (!name || !regNum || !phone || !college || !github || !imageId) {
+    if (!name || !regNum || !phone || !college || !github) {
       setError("All fields are required. Please fill in all the fields.");
       setSuccess("");
       return;
@@ -55,7 +66,7 @@ const EditProfile = () => {
     }
 
     try {
-      const response = await axios.put("http://localhost:3000/user/editProfile", {
+      const response = await api.post(`/user/${user.id}`, {
         name,
         regNum,
         phone,
@@ -64,16 +75,27 @@ const EditProfile = () => {
         imageId,
       });
 
-      if (response.status === 200) {
-        setSuccess("Profile updated successfully.");
-        setError("");
+      if (response.status === 201) {
+        router.push("/user");
       }
     } catch (error: unknown) {
-        if (axios.isAxiosError(error)) {
-          setError("Failed to update profile. Please try again later.");
-          setSuccess("");
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          if (error.response.status === 403) {
+            setError("You do not have sufficient permissions.");
+          } else if (error.response.status === 409) {
+            setError("One or more field(s) conflict(s) with other users.");
+          } else if (error.response.status === 500) {
+            setError("Internal Server Error. Please try again later.");
+          } else {
+            setError("An unexpected error occured.");
+          }
+        } else {
+          setError("Failed to connect to the server.");
         }
+        setSuccess("");
       }
+    }
   };
 
   return (
@@ -85,36 +107,35 @@ const EditProfile = () => {
             type="text"
             placeholder="Enter your name"
             onTextChange={setName}
+            text={name}
           />
           <InputField
             label="Registration Number"
             type="text"
             placeholder="Enter your registration number"
             onTextChange={setRegNum}
+            text={regNum}
           />
           <InputField
             label="Phone"
             type="tel"
             placeholder="Enter your phone number"
             onTextChange={setPhone}
+            text={phone}
           />
           <InputField
             label="College"
             type="text"
             placeholder="Enter your college"
             onTextChange={setCollege}
+            text={college}
           />
           <InputField
             label="GitHub"
             type="url"
             placeholder="Enter your GitHub profile URL"
             onTextChange={setGithub}
-          />
-          <InputField
-            label="Image ID"
-            type="text"
-            placeholder="Enter your image ID"
-            onTextChange={setImageId}
+            text={github}
           />
         </div>
         {error && <p className="text-red-500 mt-4">{error}</p>}
