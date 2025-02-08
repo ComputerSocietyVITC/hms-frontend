@@ -46,6 +46,7 @@ const EvaluateProjectPage: React.FC = () => {
             type="text"
             placeholder="Enter Project ID"
             onTextChange={(value) => setProjectId(value)}
+            text={projectId}
           />
 
           <InputField
@@ -53,6 +54,7 @@ const EvaluateProjectPage: React.FC = () => {
             type="number"
             placeholder="Enter Score"
             onTextChange={(value) => setScore(value ? parseInt(value) : "")}
+            text={score.toString()}
           />
 
           <Button

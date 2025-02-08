@@ -79,6 +79,7 @@ const JoinTeamPage: React.FC = () => {
               setTeamID(value);
               setError(null);
             }}
+            text={teamID}
           />
 
           <Button

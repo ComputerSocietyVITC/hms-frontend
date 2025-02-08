@@ -86,12 +86,14 @@ const LoginComponent = () => {
           type="email"
           placeholder="Enter your email"
           onTextChange={(value) => setEmail(value)}
+          text={email}
         />
         <InputField
           label="Password"
           type="password"
           placeholder="Enter your password"
           onTextChange={(value) => setPassword(value)}
+          text={password}
           customStyle="mt-4"
         />
         {error && <p className="text-red-500 mt-4">{error}</p>}

@@ -51,6 +51,7 @@ const JoinTeamPage: React.FC = () => {
             type="text"
             placeholder="Enter Team ID"
             onTextChange={(value) => setName(value)}
+            text={name}
           />
 
           <InputField
@@ -58,6 +59,7 @@ const JoinTeamPage: React.FC = () => {
             type="text"
             placeholder="Enter Image ID"
             onTextChange={(value) => setImageID(value)}
+            text={imageId}
           />
 
           <Button

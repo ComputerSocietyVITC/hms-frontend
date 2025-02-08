@@ -98,36 +98,42 @@ const Register = () => {
             type="text"
             placeholder="Enter your name"
             onTextChange={(value) => setName(value)}
+            text={name}
           />
           <InputField
             label="Registration Number"
             type="text"
             placeholder="Enter your registration number"
             onTextChange={(value) => setRegNum(value)}
+            text={regNum}
           />
           <InputField
             label="Phone"
             type="tel"
             placeholder="Enter your phone number"
             onTextChange={(value) => setPhone(value)}
+            text={phone}
           />
           <InputField
             label="College"
             type="text"
             placeholder="Enter your college"
             onTextChange={(value) => setCollege(value)}
+            text={college}
           />
           <InputField
             label="Email"
             type="email"
             placeholder="Enter your email"
             onTextChange={(value) => setEmail(value)}
+            text={email}
           />
           <InputField
             label="Password"
             type="password"
             placeholder="Enter your password"
             onTextChange={(value) => setPassword(value)}
+            text={password}
           />
         </div>
         {error && <p className="text-red-500 mt-4">{error}</p>}
