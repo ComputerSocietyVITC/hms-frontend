@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import api from "@/api";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import axios from "axios";
 
 interface User {
@@ -29,32 +29,47 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const PUBLIC_ROUTES = ["/login", "/register"];
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const pathname = usePathname();
 
   const getUser = async () => {
     try {
       const res = await api.get("/user");
       setUser(res.data);
+      setLoading(false);
     } catch (error: unknown) {
-      if (axios.isAxiosError(error) && error.response) {
-        if (error.response.status === 404) {
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status;
+        if (status === 401 || status === 403 || status === 404) {
           setUser(null);
-          if (window.location.pathname !== "/register") {
-            router.push("/login");
-          }
         }
       }
-    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getUser();
-  }, []);
+    if (!PUBLIC_ROUTES.includes(pathname)) {
+      getUser();
+    } else {
+      setLoading(false);
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user && !PUBLIC_ROUTES.includes(pathname)) {
+        router.push("/login");
+      } else if (user && PUBLIC_ROUTES.includes(pathname)) {
+        router.push("/");
+      }
+    }
+  }, [loading, user, pathname, router]);
 
   return (
     <AuthContext.Provider value={{ user, loading, getUser }}>
