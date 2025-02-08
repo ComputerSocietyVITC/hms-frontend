@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import api from "@/api";
@@ -66,18 +65,28 @@ const TeamPage = () => {
   const { user, getUser } = useAuth();
 
   const getTeam = async () => {
-    if (!user?.teamId) return;
+    if (!user?.teamId) {
+      setError("You are not part of any team.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await api.get<TeamResponse>(`/team/${user.teamId}`);
 
-      if (res.status === 200) {
+      if (res.status === 200 && res.data) {
         setResponse(res.data);
+      } else {
+        setError("Failed to load team data.");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         switch (error.response.status) {
           case 403:
             setError("You are not authorized to view this page.");
+            break;
+          case 404:
+            setError("Team not found.");
             break;
           case 500:
             setError("Internal Server Error. Please try again later.");
@@ -99,13 +108,15 @@ const TeamPage = () => {
     } else {
       getTeam();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const getLeader = () => {
-    return response?.members?.find((member) => member.isLeader) || {};
+    const leader = response?.members?.find((member) => member.isLeader);
+    return leader || null;
   };
 
-  if (loading || !response) {
+  if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
         Loading...
@@ -113,13 +124,16 @@ const TeamPage = () => {
     );
   }
 
-  if (error) {
+  if (error || !response) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="text-red-500">{error}</div>
+        <div className="text-red-500">{error || "No team data available."}</div>
       </div>
     );
   }
+
+  const leader = getLeader();
+  const project = response.project || null;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F4F6]">
@@ -127,30 +141,30 @@ const TeamPage = () => {
       <div className="flex flex-grow flex-col p-8 w-full gap-4">
         <div className="flex flex-row justify-between gap-8">
           <TeamInformation
-            teamName={response.name}
+            teamName={response.name || "Unnamed Team"}
             createdOn={new Date(response.createdAt)}
-            teamLeader={(getLeader() as TeamMember).name || "Unknown Leader"}
+            teamLeader={leader?.name || "No Leader Assigned"}
             teamId={response.id}
           />
           <TeamMemberList
-            list={response.members.map((member) => ({
-              name: member.name,
-              githubId: member.github || "",
-              avatarSrc: "/avatar.png",
-            }))}
+            list={
+              response.members?.map((member) => ({
+                name: member.name || "Unknown Member",
+                githubId: member.github || "",
+                avatarSrc: member.imageId
+                  ? `/api/images/${member.imageId}`
+                  : "/avatar.png",
+              })) || []
+            }
           />
           <ProjectInformation
-            projectName={response.project?.name || "No Project"}
-            projectDescription={
-              response.project?.description || "No Description"
-            }
+            projectName={project?.name || "No Project"}
+            projectDescription={project?.description || "No Description"}
             createdOn={
-              response.project?.createdAt
-                ? new Date(response.project.createdAt)
-                : new Date()
+              project?.createdAt ? new Date(project.createdAt) : new Date()
             }
-            currentScore={response.project?.evaluations?.[0]?.score || 0}
-            projectId={response.project?.id || "N/A"}
+            currentScore={project?.evaluations?.[0]?.score ?? 0}
+            projectId={project?.id || "N/A"}
           />
         </div>
         <div className="flex flex-row gap-8">
