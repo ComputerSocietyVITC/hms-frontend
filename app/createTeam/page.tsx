@@ -31,7 +31,7 @@ const CreateTeamPage: React.FC = () => {
     try {
       const response = await api.put("/team", { name: name, imageId: imageId });
 
-      if (response.status === 200 || response.status === 409) {
+      if (response.status === 201) {
         router.push("/teampage");
       }
     } catch (err: unknown) {
