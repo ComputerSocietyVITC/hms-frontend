@@ -61,7 +61,7 @@ const UserInformation = ({
         <p className="font-bold">Phone Number</p>
         <p>{phoneNumber}</p>
       </div>
-      {user!.id === userId && (
+      {user?.id === userId && (
         <Button
           buttonText="Edit Profile"
           customStyle="mt-6"
