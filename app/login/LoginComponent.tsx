@@ -105,6 +105,15 @@ const LoginComponent = () => {
           onClick={handleSubmit}
           customStyle="w-full mt-6"
         />
+        <p className="mt-4 text-center block">
+          Do not have an account?{" "}
+          <a
+            onClick={() => (window.location.href = "/register")}
+            className="font-bold cursor-pointer hover:underline"
+          >
+            Register
+          </a>
+        </p>
       </div>
     </div>
   );

@@ -143,6 +143,15 @@ const Register = () => {
           onClick={handleSubmit}
           customStyle="w-full mt-6"
         />
+        <p className="mt-4 text-center block">
+          Already have an account?{" "}
+          <a
+            onClick={() => (window.location.href = "/login")}
+            className="font-bold cursor-pointer hover:underline"
+          >
+            Login
+          </a>
+        </p>
       </div>
     </div>
   );
