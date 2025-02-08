@@ -26,6 +26,12 @@ const HeaderComponent = () => {
         HMS
       </div>
       <div className="flex space-x-2">
+        {user && (user.role === "ADMIN" || user.role === "SUPER_ADMIN") && (
+          <Button
+            buttonText="Go to Admin Controls"
+            onClick={() => router.push("/admincontrols")}
+          />
+        )}
         {user?.teamId ? (
           <Button
             buttonText="View Team"
