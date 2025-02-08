@@ -33,8 +33,12 @@ const UserCard = ({
     {
       Icon: GitHub,
       Text: (
-        <Link className="hover:text-[#1A237E]" href={github} target="_blank">
-          {github.match(/github\.com\/([^/]+)/)?.[1]}
+        <Link
+          className="hover:text-[#1A237E]"
+          href={github || "https://github.com/notfound"}
+          target="_blank"
+        >
+          {github && github.match(/github\.com\/([^/]+)/)?.[1]}
         </Link>
       ),
     },
@@ -52,7 +56,7 @@ const UserCard = ({
         className="size-48 rounded-full"
         width={1024}
         height={1024}
-        src={`${github}.png`}
+        src={`${github || "https://github.com/notfound"}.png`}
         alt="profile_img"
       />
 
