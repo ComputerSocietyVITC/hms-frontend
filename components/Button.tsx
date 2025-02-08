@@ -7,6 +7,7 @@ interface ButtonProps {
   buttonText: string;
   onClick: () => void;
   customStyle?: string;
+  disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -16,6 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   buttonText,
   onClick,
   customStyle = "",
+  disabled,
 }) => {
   return (
     <button
@@ -26,6 +28,7 @@ const Button: React.FC<ButtonProps> = ({
         border: customBorderColor && `1px solid ${customBorderColor}`,
       }}
       className={`rounded-lg py-2 px-4 ${customStyle}`}
+      disabled={disabled}
     >
       {buttonText}
     </button>
