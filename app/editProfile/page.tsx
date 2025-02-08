@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import api from "@/api";
 import axios from "axios";
+import DangerButton from "@/components/DangerButton";
 
 const EditProfile = () => {
   const [name, setName] = useState("");
@@ -99,52 +100,61 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-[#F3F4F6]">
-      <div className="flex flex-col p-6 border rounded-lg bg-white h-auto w-[600px] border-[#D6D6D6]">
-        <div className="grid grid-cols-2 gap-4">
-          <InputField
-            label="Name"
-            type="text"
-            placeholder="Enter your name"
-            onTextChange={setName}
-            text={name}
-          />
-          <InputField
-            label="Registration Number"
-            type="text"
-            placeholder="Enter your registration number"
-            onTextChange={setRegNum}
-            text={regNum}
-          />
-          <InputField
-            label="Phone"
-            type="tel"
-            placeholder="Enter your phone number"
-            onTextChange={setPhone}
-            text={phone}
-          />
-          <InputField
-            label="College"
-            type="text"
-            placeholder="Enter your college"
-            onTextChange={setCollege}
-            text={college}
-          />
-          <InputField
-            label="GitHub"
-            type="url"
-            placeholder="Enter your GitHub profile URL"
-            onTextChange={setGithub}
-            text={github}
+    <div className="flex flex-col h-screen bg-[#F3F4F6]">
+      <header className="w-full bg-white flex items-center justify-between px-6 py-3">
+        <h1 className="text-lg font-bold">Edit your Profile</h1>
+        <DangerButton
+          buttonText="Cancel"
+          onClick={() => router.push("/user")}
+        />
+      </header>
+      <div className="flex-grow flex items-center justify-center w-full">
+        <div className="flex flex-col p-6 border rounded-lg bg-white h-auto w-[600px] border-[#D6D6D6]">
+          <div className="grid grid-cols-2 gap-4">
+            <InputField
+              label="Name"
+              type="text"
+              placeholder="Enter your name"
+              onTextChange={setName}
+              text={name}
+            />
+            <InputField
+              label="Registration Number"
+              type="text"
+              placeholder="Enter your registration number"
+              onTextChange={setRegNum}
+              text={regNum}
+            />
+            <InputField
+              label="Phone"
+              type="tel"
+              placeholder="Enter your phone number"
+              onTextChange={setPhone}
+              text={phone}
+            />
+            <InputField
+              label="College"
+              type="text"
+              placeholder="Enter your college"
+              onTextChange={setCollege}
+              text={college}
+            />
+            <InputField
+              label="GitHub"
+              type="url"
+              placeholder="Enter your GitHub profile URL"
+              onTextChange={setGithub}
+              text={github}
+            />
+          </div>
+          {error && <p className="text-red-500 mt-4">{error}</p>}
+          {success && <p className="text-green-500 mt-4">{success}</p>}
+          <Button
+            buttonText="Update Profile"
+            onClick={handleSubmit}
+            customStyle="w-full mt-6"
           />
         </div>
-        {error && <p className="text-red-500 mt-4">{error}</p>}
-        {success && <p className="text-green-500 mt-4">{success}</p>}
-        <Button
-          buttonText="Update Profile"
-          onClick={handleSubmit}
-          customStyle="w-full mt-6"
-        />
       </div>
     </div>
   );
