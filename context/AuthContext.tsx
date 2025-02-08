@@ -16,7 +16,7 @@ interface User {
   name: string;
   phone: string;
   regNum: string;
-  role: string;
+  role: "ADMIN" | "EVALUATOR" | "SUPER_ADMIN" | "USER";
   teamId: string | null;
   updatedAt: string;
 }
