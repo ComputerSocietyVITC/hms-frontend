@@ -9,6 +9,7 @@ interface InputFieldProps {
   customStyle?: string;
   text?: string;
   onTextChange: (value: string) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -18,10 +19,14 @@ const InputField: React.FC<InputFieldProps> = ({
   disabled,
   customStyle,
   text,
+  onKeyDown,
   onTextChange,
 }) => {
   return (
-    <div className={`flex flex-col text-[#1E1E1E] ${customStyle}`}>
+    <div
+      className={`flex flex-col text-[#1E1E1E] ${customStyle}`}
+      onKeyDown={onKeyDown}
+    >
       <label className="mb-2 font-bold">{label}</label>
       <Input
         type={type}
