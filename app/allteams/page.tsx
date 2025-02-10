@@ -1,9 +1,9 @@
 "use client";
 
 import api from "@/api";
-import AllTeams from "@/components/AllTeams";
+import AllTeams from "@/components/allteams/AllTeams";
 import DangerButton from "@/components/DangerButton";
-import SelectedTeamInfo from "@/components/SelectedTeamInfo";
+import SelectedTeamInfo from "@/components/allteams/SelectedTeamInfo";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";

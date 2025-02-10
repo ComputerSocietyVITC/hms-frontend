@@ -2,7 +2,7 @@
 
 import React from "react";
 import { TeamMemberListItem } from "@/components/team/TeamMemberListItem";
-import DangerButton from "./DangerButton";
+import DangerButton from "../DangerButton";
 
 interface Evaluation {
   id: string;
