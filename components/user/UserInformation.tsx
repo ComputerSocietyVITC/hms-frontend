@@ -13,6 +13,7 @@ interface UserInformationProps {
   userId: string;
   githubId: string | null;
   customStyle?: string;
+  adminView?: boolean;
 }
 
 const UserInformation = ({
@@ -23,6 +24,7 @@ const UserInformation = ({
   userId,
   githubId,
   customStyle,
+  adminView,
 }: UserInformationProps) => {
   const { user, getUser } = useAuth();
   const router = useRouter();
@@ -38,10 +40,18 @@ const UserInformation = ({
       className={`w-full flex flex-col my-auto h-auto border border-gray-700 p-6 rounded-md bg-[#121212] text-white ${customStyle}`}
     >
       <div className="mb-4">
-        <h2 className="text-3xl font-black">Your Details</h2>
-        <p className="text-sm text-gray-400">
-          Here&apos;s how you look to us 😎
-        </p>
+        {adminView || <h2 className="text-3xl font-black">Your Details</h2>}
+        {adminView && <h2 className="text-3xl font-black">User Details</h2>}
+        {adminView || (
+          <p className="text-sm text-gray-400">
+            Here&apos;s how you look to us 😎
+          </p>
+        )}
+        {adminView && (
+          <p className="text-sm text-gray-400">
+            Below are the user&apos;s details
+          </p>
+        )}
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col">
