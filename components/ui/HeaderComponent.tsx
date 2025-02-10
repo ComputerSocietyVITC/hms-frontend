@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect } from "react";
-import Button from "./ui/Button";
+import Button from "./Button";
 import { useRouter } from "next/navigation";
-import DangerButton from "./ui/DangerButton";
+import DangerButton from "./DangerButton";
 import { useAuth } from "@/context/AuthContext";
 
 const HeaderComponent = () => {

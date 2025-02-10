@@ -2,8 +2,8 @@
 
 import { useEffect, useState, use } from "react";
 import api from "@/api";
-import FooterSection from "@/components/FooterSection";
-import HeaderComponent from "@/components/HeaderComponent";
+import FooterSection from "@/components/ui/FooterSection";
+import HeaderComponent from "@/components/ui/HeaderComponent";
 import UserCard from "@/components/user/UserCard";
 import UserInformation from "@/components/user/UserInformation";
 import DangerButton from "@/components/ui/DangerButton";

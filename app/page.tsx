@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import HeaderComponent from "@/components/HeaderComponent";
+import HeaderComponent from "@/components/ui/HeaderComponent";
 import HeroSection from "@/components/home/HeroSection";
 import CardList from "@/components/home/CardList";
-import FooterSection from "@/components/FooterSection";
+import FooterSection from "@/components/ui/FooterSection";
 
 export default function Home() {
   return (

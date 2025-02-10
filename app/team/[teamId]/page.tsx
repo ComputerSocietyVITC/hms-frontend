@@ -3,8 +3,8 @@
 
 import api from "@/api";
 import ContributionStats from "@/components/team/ContributionStats";
-import FooterSection from "@/components/FooterSection";
-import HeaderComponent from "@/components/HeaderComponent";
+import FooterSection from "@/components/ui/FooterSection";
+import HeaderComponent from "@/components/ui/HeaderComponent";
 import ProjectInformation from "@/components/team/ProjectInformation";
 import RecentCommits from "@/components/team/RecentCommits";
 import TeamInformation from "@/components/team/TeamInformation";
