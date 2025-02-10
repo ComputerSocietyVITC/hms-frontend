@@ -1,10 +1,5 @@
 import Image from "next/image";
 
-/**
- * Example;
-   <TeamMemberListItem name="shivzee" githubId="shivam1608" avatarSrc="/image.png" />
- */
-
 export type TeamMemberListItemProps = {
   githubId: string | null;
   name: string;
@@ -22,17 +17,22 @@ export const TeamMemberListItem = ({
   ...props
 }: TeamMemberListItemProps) => {
   return (
-    <div {...props} className={`${className} flex items-center space-x-2 p-2`}>
+    <div
+      {...props}
+      className={`${className} flex items-center space-x-4 p-2 rounded-md hover:bg-neutral-900 cursor-pointer transition-all`}
+    >
       <Image
         src={avatarSrc}
         alt={avatarAlt || "team-member-pfp"}
         height={64}
         width={64}
-        className="size-10 rounded-full"
-      ></Image>
-      <div className="flex flex-col justify-center -space-y-1">
-        <h1 className="font-semibold text-base md:text-lg">{name}</h1>
-        <span className="text-xs md:text-sm">{githubId || "No GitHub ID"}</span>
+        className="size-12 md:size-14 rounded-full border border-gray-600"
+      />
+      <div className="flex flex-col justify-center">
+        <h1 className="font-bold text-lg md:text-xl">{name}</h1>
+        <span className="text-sm md:text-base text-gray-400">
+          {githubId || "No GitHub ID"}
+        </span>
       </div>
     </div>
   );

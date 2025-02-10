@@ -20,19 +20,28 @@ const RecentCommits = ({ list, className, ...props }: RecentCommitsProps) => {
       className={`flex flex-col p-3 md:p-4 rounded-lg border border-gray-700 bg-[#121212] text-white w-full ${className}`}
       {...props}
     >
-      <h1 className="pb-2 md:pb-4 text-lg md:text-2xl font-bold">
+      <h1 className="text-2xl font-extrabold pb-4 border-b border-gray-600">
         Recent Commits
       </h1>
 
       <div className="flex flex-col max-h-96 overflow-y-auto">
-        {list
-          .sort(
-            (a, b) =>
-              new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime()
-          )
-          .map((v, _) => {
-            return <CommitListItem key={_} {...v} />;
-          })}
+        {list.length === 0 ? (
+          <div className="flex items-center justify-center h-24 text-gray-400">
+            No recent commits found.
+          </div>
+        ) : (
+          <div className="flex flex-col max-h-96 overflow-y-auto">
+            {list
+              .sort(
+                (a, b) =>
+                  new Date(b.timeStamp).getTime() -
+                  new Date(a.timeStamp).getTime()
+              )
+              .map((v, index) => (
+                <CommitListItem key={index} {...v} />
+              ))}
+          </div>
+        )}
       </div>
     </div>
   );

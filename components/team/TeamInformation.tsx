@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import DangerButton from "./DangerButton";
+import DangerButton from "../DangerButton";
 import api from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
@@ -59,31 +59,37 @@ const TeamInformation = ({
     }
   };
 
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-        <div className="bg-red-500 text-white px-4 py-3 rounded" role="alert">
-          <strong className="font-bold">Error: </strong>
-          <span className="block sm:inline">{error}</span>
+  return (
+    <div className="relative rounded-lg border border-gray-700 bg-[#121212] text-white p-6 w-full">
+      <h1 className="text-2xl font-extrabold pb-4 border-b border-gray-600">
+        Team Information
+      </h1>
+
+      {error && (
+        <div className="bg-red-600 text-white p-3 rounded-md mt-4 text-center">
+          <strong>Error:</strong> {error}
+        </div>
+      )}
+
+      <div className="mt-4 space-y-3">
+        <div>
+          <span className="block text-sm text-gray-400">Team Name</span>
+          <span className="text-lg font-semibold">{teamName}</span>
+        </div>
+        <div>
+          <span className="block text-sm text-gray-400">Created On</span>
+          <span className="text-base">
+            {createdOn.toLocaleDateString("en-US", options)}
+          </span>
+        </div>
+        <div>
+          <span className="block text-sm text-gray-400">Team Leader</span>
+          <span className="text-lg font-semibold">{teamLeader}</span>
         </div>
       </div>
-    );
-  }
-
-  return (
-    <div className="relative rounded-md border border-gray-700 bg-[#121212] text-white p-4 w-full">
-      <span className="text-xl font-bold block">Team Information</span>
-      <span className="block mt-6 font-bold">Team Name</span>
-      <span className="block">{teamName}</span>
-      <span className="block mt-2 font-bold">Created On</span>
-      <span className="block">
-        {createdOn.toLocaleDateString("en-US", options)}
-      </span>
-      <span className="block mt-2 font-bold">Team Leader</span>
-      <span className="block">{teamLeader}</span>
 
       {user?.teamId === teamId && (
-        <div className="mx-auto absolute bottom-4">
+        <div className="absolute bottom-4 mt-6">
           <DangerButton
             buttonText="Leave Team"
             onClick={leaveTeam}
