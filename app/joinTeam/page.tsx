@@ -63,14 +63,14 @@ const JoinTeamPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#F3F4F6] w-full h-screen flex flex-col">
-      <header className="w-full bg-white flex items-center justify-between px-6 py-3">
+    <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
+      <header className="flex justify-between items-center w-full bg-[#121212] text-white py-3 px-6 border-b border-gray-700">
         <h1 className="text-lg font-bold">Join a Team</h1>
         <DangerButton buttonText="Cancel" onClick={() => router.push("/")} />
       </header>
 
       <main className="flex justify-center items-center flex-1">
-        <div className="bg-white p-4 rounded-lg w-96 border border-[#D9D9D9]">
+        <div className="bg-[#121212] p-6 rounded-lg w-96 border border-gray-700 shadow-lg">
           <InputField
             label="Team ID"
             type="text"
@@ -90,14 +90,14 @@ const JoinTeamPage: React.FC = () => {
           />
 
           {error && (
-            <div className="mt-3 text-sm text-red-600 text-center">{error}</div>
+            <div className="mt-3 text-sm text-red-400 text-center">{error}</div>
           )}
 
           <p className="mt-4 text-center block">
             Want to create a team?{" "}
             <a
-              onClick={() => (window.location.href = "/createTeam")}
-              className="font-bold cursor-pointer hover:underline"
+              onClick={() => router.push("/createTeam")}
+              className="font-bold cursor-pointer hover:underline text-blue-400"
             >
               Create a Team
             </a>

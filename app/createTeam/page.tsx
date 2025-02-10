@@ -16,14 +16,11 @@ const CreateTeamPage: React.FC = () => {
   const [error, setError] = useState("");
 
   const router = useRouter();
-
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user) {
-      if (user.teamId) {
-        router.push("/teampage");
-      }
+    if (user?.teamId) {
+      router.push("/teampage");
     }
   }, [user]);
 
@@ -37,15 +34,16 @@ const CreateTeamPage: React.FC = () => {
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         if (err.response) {
-          if (err.response.status === 403) {
-            setError("You do not have permission to create a team.");
-          } else if (err.response.status === 404) {
-            setError("User not found.");
-          } else if (err.response.status === 500) {
-            setError("Internal Server Error. Please try again later.");
-          } else {
-            setError("An error occurred. Please try again later.");
-          }
+          const status = err.response.status;
+          setError(
+            status === 403
+              ? "You do not have permission to create a team."
+              : status === 404
+                ? "User not found."
+                : status === 500
+                  ? "Internal Server Error. Please try again later."
+                  : "An error occurred. Please try again later."
+          );
         } else {
           setError("An error occurred. Please try again later.");
         }
@@ -54,14 +52,14 @@ const CreateTeamPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#F3F4F6] w-full h-screen flex flex-col">
-      <header className="w-full bg-white flex items-center justify-between px-6 py-3">
+    <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <h1 className="text-lg font-bold">Create a Team</h1>
         <DangerButton buttonText="Cancel" onClick={() => router.push("/")} />
       </header>
 
       <main className="flex justify-center items-center flex-1">
-        <div className="bg-white p-4 rounded-lg w-96 border border-[#D9D9D9]">
+        <div className="bg-[#121212] p-6 rounded-lg w-96 border border-gray-700 shadow-lg">
           <InputField
             label="Team Name"
             type="text"
@@ -80,7 +78,7 @@ const CreateTeamPage: React.FC = () => {
           />
 
           {error && (
-            <div className="mt-3 text-sm text-red-600 text-center">{error}</div>
+            <div className="mt-3 text-sm text-red-400 text-center">{error}</div>
           )}
 
           <Button
@@ -92,8 +90,8 @@ const CreateTeamPage: React.FC = () => {
           <p className="mt-4 text-center block">
             Want to join a team?{" "}
             <a
-              onClick={() => (window.location.href = "/joinTeam")}
-              className="font-bold cursor-pointer hover:underline"
+              onClick={() => router.push("/joinTeam")}
+              className="font-bold cursor-pointer hover:underline text-blue-400"
             >
               Join a Team
             </a>
