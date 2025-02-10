@@ -24,7 +24,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   return (
     <div
-      className={`flex flex-col text-[#1E1E1E] ${customStyle}`}
+      className={`flex flex-col text-[#EAEAEA] ${customStyle}`}
       onKeyDown={onKeyDown}
     >
       <label className="mb-2 font-bold">{label}</label>
