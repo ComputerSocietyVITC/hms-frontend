@@ -25,7 +25,7 @@ const ProjectInformation = ({
   projectId,
 }: ProjectInformationProps) => {
   return (
-    <div className="rounded-md border border-[#D9D9D9] bg-[#FFFFFF] p-4 w-full">
+    <div className="rounded-md border border-gray-700 bg-[#121212] text-white p-4 w-full">
       <span className="text-xl font-bold block">Project Information</span>
       <span className="block mt-6 font-bold">Project Name</span>
       <span className="block">{projectName}</span>
@@ -40,9 +40,6 @@ const ProjectInformation = ({
 
       <Button
         buttonText="Edit Project Details"
-        customBorderColor="#767676"
-        customBackgroundColor="#E3E3E3"
-        customTextColor="#000000"
         customStyle="mt-6"
         onClick={() => console.log("Editing project with ID: ", projectId)}
       />

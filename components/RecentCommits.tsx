@@ -1,5 +1,3 @@
-import CommitListItem, { CommitListItemProps } from "./CommitListItem";
-
 /**
  * Example;
    <RecentCommits list={[
@@ -9,6 +7,8 @@ import CommitListItem, { CommitListItemProps } from "./CommitListItem";
     ]} />
  */
 
+import CommitListItem, { CommitListItemProps } from "./CommitListItem";
+
 type RecentCommitsProps = {
   list: CommitListItemProps[];
   className?: string;
@@ -17,7 +17,7 @@ type RecentCommitsProps = {
 const RecentCommits = ({ list, className, ...props }: RecentCommitsProps) => {
   return (
     <div
-      className={`flex flex-col p-3 md:p-4 rounded-lg border border-[#D9D9D9] w-full bg-white ${className}`}
+      className={`flex flex-col p-3 md:p-4 rounded-lg border border-gray-700 bg-[#121212] text-white w-full ${className}`}
       {...props}
     >
       <h1 className="pb-2 md:pb-4 text-lg md:text-2xl font-bold">

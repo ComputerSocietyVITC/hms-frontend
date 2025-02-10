@@ -1,8 +1,3 @@
-import {
-  TeamMemberListItem,
-  TeamMemberListItemProps,
-} from "./TeamMemberListItem";
-
 /**
  * Example;
    <TeamMemberList className="w-96" list={[
@@ -12,6 +7,11 @@ import {
     ]} />
  */
 
+import {
+  TeamMemberListItem,
+  TeamMemberListItemProps,
+} from "./TeamMemberListItem";
+
 type TeamMemberListProps = {
   list: TeamMemberListItemProps[];
   className?: string;
@@ -20,7 +20,7 @@ type TeamMemberListProps = {
 const TeamMemberList = ({ list, className, ...props }: TeamMemberListProps) => {
   return (
     <div
-      className={`flex flex-col p-3 md:p-4 rounded-lg border border-[#D9D9D9] bg-white w-full ${className}`}
+      className={`flex flex-col p-3 md:p-4 rounded-lg border border-gray-700 bg-[#121212] text-white w-full ${className}`}
       {...props}
     >
       <h1 className="pb-2 md:pb-4 text-lg md:text-2xl font-bold">

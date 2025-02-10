@@ -118,16 +118,16 @@ const TeamPage = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+      <div className="flex justify-center items-center h-screen bg-[#09090b]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-300" />
       </div>
     );
   }
 
   if (error || !response) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-red-500">{error || "No team data available."}</div>
+      <div className="flex justify-center items-center h-screen bg-[#09090b] text-red-400">
+        {error || "No team data available."}
       </div>
     );
   }
@@ -136,7 +136,7 @@ const TeamPage = () => {
   const project = response.project || null;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F4F6]">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
       <HeaderComponent />
       <div className="flex flex-grow flex-col p-8 w-full gap-4">
         <div className="flex flex-row justify-between gap-8">

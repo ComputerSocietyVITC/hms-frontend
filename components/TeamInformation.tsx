@@ -50,7 +50,7 @@ const TeamInformation = ({
           } else if (error.response.status === 500) {
             setError("Internal Server Error");
           } else {
-            setError("An unexpected error occured. Please try again later.");
+            setError("An unexpected error occurred. Please try again later.");
           }
         } else {
           setError("Please check your network connection and try again.");
@@ -61,11 +61,8 @@ const TeamInformation = ({
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <div
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
-          role="alert"
-        >
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+        <div className="bg-red-500 text-white px-4 py-3 rounded" role="alert">
           <strong className="font-bold">Error: </strong>
           <span className="block sm:inline">{error}</span>
         </div>
@@ -74,7 +71,7 @@ const TeamInformation = ({
   }
 
   return (
-    <div className="rounded-md border border-[#D9D9D9] bg-[#FFFFFF] p-4 w-full">
+    <div className="relative rounded-md border border-gray-700 bg-[#121212] text-white p-4 w-full">
       <span className="text-xl font-bold block">Team Information</span>
       <span className="block mt-6 font-bold">Team Name</span>
       <span className="block">{teamName}</span>
@@ -86,7 +83,7 @@ const TeamInformation = ({
       <span className="block">{teamLeader}</span>
 
       {user?.teamId === teamId && (
-        <div className="mt-10 mx-auto">
+        <div className="mx-auto absolute bottom-4">
           <DangerButton
             buttonText="Leave Team"
             onClick={leaveTeam}
