@@ -20,7 +20,7 @@ const CreateTeamPage: React.FC = () => {
 
   useEffect(() => {
     if (user?.teamId) {
-      router.push("/teampage");
+      router.push("/team");
     }
   }, [user]);
 
@@ -29,7 +29,7 @@ const CreateTeamPage: React.FC = () => {
       const response = await api.put("/team", { name: name, imageId: imageId });
 
       if (response.status === 201) {
-        router.push("/teampage");
+        router.push("/team");
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {

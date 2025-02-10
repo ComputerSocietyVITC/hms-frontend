@@ -32,11 +32,11 @@ const HeaderComponent = () => {
             onClick={() => router.push("/admincontrols")}
           />
         )}
-        {user?.teamId ? (
-          <Button
-            buttonText="View Team"
-            onClick={() => router.push("/teampage")}
-          />
+        {user &&
+        user.role !== "ADMIN" &&
+        user.role !== "SUPER_ADMIN" &&
+        user.teamId ? (
+          <Button buttonText="View Team" onClick={() => router.push("/team")} />
         ) : (
           <Button
             buttonText="Join Team"

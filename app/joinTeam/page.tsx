@@ -42,7 +42,7 @@ const JoinTeamPage: React.FC = () => {
       const response = await api.post(`/team/${teamID}/join`);
 
       if (response.status === 201) {
-        router.push("/teampage");
+        router.push("/team");
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
