@@ -20,23 +20,23 @@ const AdminControls = () => {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+      <div className="flex items-center justify-center h-screen bg-[#09090b]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-300" />
       </div>
     );
   }
 
   if (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN") {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen bg-[#09090b] text-red-400">
         You do not have the permissions to view this page
       </div>
     );
   }
 
   return (
-    <div className="bg-[#F3F4F6] w-full h-screen flex flex-col">
-      <header className="w-full bg-white flex items-center justify-between px-6 py-3">
+    <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <h1 className="text-lg font-bold">Admin Controls</h1>
         <DangerButton buttonText="Go Back" onClick={() => router.push("/")} />
       </header>
