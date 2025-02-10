@@ -13,13 +13,12 @@ const HeaderComponent = () => {
     if (!user) {
       getUser();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const router = useRouter();
 
   return (
-    <header className="flex justify-between items-center w-full bg-white py-3 px-6 border-b border-b-[#D9D9D9]">
+    <header className="flex justify-between items-center w-full bg-[#121212] text-white py-3 px-6 border-b border-gray-700">
       <div
         className="text-lg font-bold hover:cursor-pointer"
         onClick={() => router.push("/")}
@@ -36,24 +35,15 @@ const HeaderComponent = () => {
         {user?.teamId ? (
           <Button
             buttonText="View Team"
-            onClick={() => {
-              router.push("/teampage");
-            }}
+            onClick={() => router.push("/teampage")}
           />
         ) : (
           <Button
             buttonText="Join Team"
-            onClick={() => {
-              router.push("/joinTeam");
-            }}
+            onClick={() => router.push("/joinTeam")}
           />
         )}
-        <Button
-          buttonText="Profile"
-          onClick={() => {
-            router.push("/user");
-          }}
-        />
+        <Button buttonText="Profile" onClick={() => router.push("/user")} />
         <DangerButton
           buttonText="Logout"
           onClick={() => {
