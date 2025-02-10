@@ -41,8 +41,8 @@ const EditProfile = () => {
 
   if (loading || !user) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+      <div className="flex justify-center items-center h-screen bg-[#121212]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
       </div>
     );
   }
@@ -89,7 +89,7 @@ const EditProfile = () => {
           } else if (error.response.status === 500) {
             setError("Internal Server Error. Please try again later.");
           } else {
-            setError("An unexpected error occured.");
+            setError("An unexpected error occurred.");
           }
         } else {
           setError("Failed to connect to the server.");
@@ -100,16 +100,17 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#F3F4F6]">
-      <header className="w-full bg-white flex items-center justify-between px-6 py-3">
+    <div className="flex flex-col h-screen bg-[#09090b] text-white">
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-4 border-b border-gray-700">
         <h1 className="text-lg font-bold">Edit your Profile</h1>
         <DangerButton
           buttonText="Cancel"
           onClick={() => router.push("/user")}
         />
       </header>
-      <div className="flex-grow flex items-center justify-center w-full">
-        <div className="flex flex-col p-6 border rounded-lg bg-white h-auto w-[600px] border-[#D6D6D6]">
+
+      <main className="flex-grow flex items-center justify-center w-full">
+        <div className="flex flex-col p-6 border rounded-lg bg-[#121212] h-auto w-[600px] border-gray-700">
           <div className="grid grid-cols-2 gap-4">
             <InputField
               label="Name"
@@ -152,10 +153,10 @@ const EditProfile = () => {
           <Button
             buttonText="Update Profile"
             onClick={handleSubmit}
-            customStyle="w-full mt-6"
+            customStyle="w-full mt-6 bg-blue-600 hover:bg-blue-500 text-white"
           />
         </div>
-      </div>
+      </main>
     </div>
   );
 };

@@ -35,7 +35,7 @@ const UserInformation = ({
 
   return (
     <div
-      className={`w-full flex flex-col my-auto h-auto border border-gray-700 p-6 rounded-md bg-[#1E1E1E] text-white ${customStyle}`}
+      className={`w-full flex flex-col my-auto h-auto border border-gray-700 p-6 rounded-md bg-[#121212] text-white ${customStyle}`}
     >
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col">

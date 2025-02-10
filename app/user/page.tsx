@@ -47,7 +47,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#121212] text-white">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
       <HeaderComponent />
       <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-10">
         <UserCard

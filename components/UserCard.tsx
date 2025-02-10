@@ -46,7 +46,7 @@ const UserCard = ({
 
   return (
     <div
-      className={`flex flex-col p-8 rounded-lg border border-gray-700 bg-[#1E1E1E] text-white justify-center items-center w-fit h-fit my-auto ${customStyle}`}
+      className={`flex flex-col p-8 rounded-lg border border-gray-700 bg-[#121212] text-white justify-center items-center w-fit h-fit my-auto ${customStyle}`}
     >
       <Image
         className="size-48 rounded-full"
