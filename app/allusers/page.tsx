@@ -58,6 +58,10 @@ const Page = () => {
     fetchUsers();
   }, []);
 
+  const handleUserDelete = (userId: string) => {
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+  };
+
   const getTeamName = async (teamId: string | null): Promise<string | null> => {
     if (!teamId) return null;
     try {
@@ -88,15 +92,15 @@ const Page = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+      <div className="flex justify-center items-center h-screen bg-[#09090b]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
         <div
           className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
           role="alert"
@@ -109,15 +113,15 @@ const Page = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      <header className="w-full bg-white flex items-center justify-between px-6 py-3">
-        <h1 className="text-lg font-bold">Promote User</h1>
+    <div className="flex flex-col h-screen bg-[#09090b] text-white">
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
+        <h1 className="text-lg font-bold">All Users</h1>
         <DangerButton
           buttonText="Go Back"
           onClick={() => router.push("/admincontrols")}
         />
       </header>
-      <main className="flex-grow container mx-auto py-8">
+      <main className="flex-grow w-[95%] mx-auto py-8 bg-[#09090b]">
         <div className="flex flex-col">
           {users.map((user) => (
             <TeamMemberListItemModified
@@ -125,8 +129,12 @@ const Page = () => {
               githubId={user.github}
               name={user.name}
               teamName={teamNames[user.teamId || ""] || "No Team"}
-              avatarSrc={"https://github.com/example.png"}
+              avatarSrc={
+                (user.github && `${user.github}.png`) ||
+                "https://github.com/example.png"
+              }
               userId={user.id}
+              onDelete={handleUserDelete}
             />
           ))}
         </div>

@@ -12,6 +12,7 @@ export type TeamMemberListItemModifiedProps = {
   avatarAlt?: string;
   className?: string;
   userId: string;
+  onDelete: (userId: string) => void;
 };
 
 export const TeamMemberListItemModified = ({
@@ -22,14 +23,17 @@ export const TeamMemberListItemModified = ({
   avatarAlt,
   className,
   userId,
+  onDelete,
   ...props
 }: TeamMemberListItemModifiedProps) => {
   const handleClick = async () => {
+    onDelete(userId);
+
     try {
       const response = await api.delete(`/user/${userId}`);
 
-      if (response.status === 201) {
-        window.location.reload();
+      if (response.status !== 201) {
+        throw new Error("Failed to delete user");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -43,7 +47,9 @@ export const TeamMemberListItemModified = ({
           } else if (error.response.status === 500) {
             console.log("Internal Server Error");
           } else {
-            console.log("An unexpected error occured. Please try again later.");
+            console.log(
+              "An unexpected error occurred. Please try again later."
+            );
           }
         } else {
           console.log("Please check your network connection and try again.");
@@ -55,35 +61,33 @@ export const TeamMemberListItemModified = ({
   return (
     <div
       {...props}
-      className={`${className} flex items-center justify-between space-x-2 p-4 mb-4 rounded-lg cursor-pointer bg-white`}
+      className={`${className} flex items-center justify-between p-5 rounded-lg bg-[#121212] border border-gray-700`}
     >
-      <div className="flex flex-row gap-4">
+      <div className="flex items-center gap-4">
         <Image
           src={avatarSrc}
           alt={avatarAlt || "team-member-pfp"}
-          height={64}
-          width={64}
-          className="size-10 rounded-full"
+          height={48}
+          width={48}
+          className="size-12 rounded-full border border-gray-600"
         />
-        <div className="flex flex-col justify-center -space-y-1">
-          <h1 className="font-semibold text-base md:text-lg">{name}</h1>
-          <span className="text-xs md:text-sm">
-            {githubId || "No GitHub ID"} • {teamName || "No Team"}
+        <div className="flex flex-col justify-center">
+          <h1 className="font-semibold text-lg">{name}</h1>
+          <span className="text-sm text-gray-400">
+            {githubId || "No GitHub"} • {teamName || "No Team"}
           </span>
         </div>
       </div>
-      <div className="flex flex-row gap-4">
+
+      <div className="flex gap-3">
         <Button
           buttonText="View Profile"
-          onClick={() => {
-            window.location.href = `/user/${userId}`;
-          }}
+          onClick={() => (window.location.href = `/user/${userId}`)}
         />
         <DangerButton
           buttonText="Delete User"
-          onClick={() => {
-            handleClick();
-          }}
+          onClick={handleClick}
+          primary={false}
         />
       </div>
     </div>
