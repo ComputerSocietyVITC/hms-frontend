@@ -138,7 +138,7 @@ const TeamPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
       <HeaderComponent />
-      <div className="flex flex-grow flex-col p-8 w-full gap-4">
+      <div className="flex flex-grow flex-col p-8 w-full gap-8">
         <div className="flex flex-row justify-between gap-8">
           <TeamInformation
             teamName={response.name || "Unnamed Team"}
