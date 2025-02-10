@@ -35,36 +35,36 @@ const UserInformation = ({
 
   return (
     <div
-      className={`w-full flex flex-col my-auto h-auto border border-[#D9D9D9] p-8 rounded-md bg-white justify-center ${customStyle}`}
+      className={`w-full flex flex-col my-auto h-auto border border-gray-700 p-6 rounded-md bg-[#1E1E1E] text-white ${customStyle}`}
     >
-      <div className="grid grid-cols-2">
-        <div className="flex flex-col justify-between w-full">
-          <p className="font-bold">Registration Number</p>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-col">
+          <p className="font-bold text-gray-300">Registration Number</p>
           <p>{registrationNumber}</p>
         </div>
-        <div className="flex flex-col justify-between w-full">
-          <p className="font-bold">Team Name</p>
+        <div className="flex flex-col">
+          <p className="font-bold text-gray-300">Team Name</p>
           <p>{teamName}</p>
         </div>
       </div>
-      <div className="grid grid-cols-2">
-        <div className="flex flex-col justify-between w-full mt-4">
-          <p className="font-bold">College Name</p>
+      <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="flex flex-col">
+          <p className="font-bold text-gray-300">College Name</p>
           <p>{collegeName}</p>
         </div>
-        <div className="flex flex-col justify-between w-full mt-4">
-          <p className="font-bold">GitHub Profile URL</p>
+        <div className="flex flex-col">
+          <p className="font-bold text-gray-300">GitHub Profile</p>
           <p>{githubId || "GitHub ID not set"}</p>
         </div>
       </div>
-      <div className="flex flex-col justify-between w-full mt-4">
-        <p className="font-bold">Phone Number</p>
+      <div className="flex flex-col mt-4">
+        <p className="font-bold text-gray-300">Phone Number</p>
         <p>{phoneNumber}</p>
       </div>
       {user?.id === userId && (
         <Button
           buttonText="Edit Profile"
-          customStyle="mt-6"
+          customStyle="mt-6 bg-blue-600 hover:bg-blue-500 text-white"
           onClick={() => router.push("/editProfile")}
         />
       )}

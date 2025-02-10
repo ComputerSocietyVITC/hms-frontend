@@ -14,7 +14,7 @@ const Profile = () => {
   const [team, setTeam] = useState<string | null>(null);
 
   const getTeam = async () => {
-    if (user && user.teamId) {
+    if (user?.teamId) {
       const response = await api.get(`/team/${user.teamId}`);
       setTeam(response.data.name);
     }
@@ -32,24 +32,24 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+      <div className="flex justify-center items-center h-screen bg-[#121212]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen bg-[#121212] text-white">
         User not found
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F4F6]">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#121212] text-white">
       <HeaderComponent />
-      <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center">
+      <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-10">
         <UserCard
           id={user.id}
           createdAt={user.createdAt}

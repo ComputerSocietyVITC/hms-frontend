@@ -15,7 +15,6 @@ interface UserCardProps {
 }
 
 const UserCard = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   id,
   createdAt,
   name,
@@ -26,15 +25,12 @@ const UserCard = ({
   customStyle,
 }: UserCardProps) => {
   const info = [
-    {
-      Icon: MapPin,
-      Text: college,
-    },
+    { Icon: MapPin, Text: college },
     {
       Icon: GitHub,
       Text: (
         <Link
-          className="hover:text-[#1A237E]"
+          className="hover:text-gray-300"
           href={github || "https://github.com/notfound"}
           target="_blank"
         >
@@ -50,7 +46,7 @@ const UserCard = ({
 
   return (
     <div
-      className={`flex flex-col p-8 rounded-lg border border-[#D9D9D9] bg-white justify-center items-center w-fit h-fit my-auto ${customStyle}`}
+      className={`flex flex-col p-8 rounded-lg border border-gray-700 bg-[#1E1E1E] text-white justify-center items-center w-fit h-fit my-auto ${customStyle}`}
     >
       <Image
         className="size-48 rounded-full"
@@ -63,14 +59,14 @@ const UserCard = ({
       <div className="flex flex-col -space-y-1 text-center my-4">
         <h1 className="text-2xl font-bold mb-1">{name}</h1>
         {teamName !== "" && (
-          <span className="text-base">{`${isLeader ? "Team Leader" : "Member"} of ${teamName}`}</span>
+          <span className="text-base text-gray-400">{`${isLeader ? "Team Leader" : "Member"} of ${teamName}`}</span>
         )}
       </div>
 
-      <div className="flex flex-col space-y-2 text-[#1E1E1E]">
+      <div className="flex flex-col space-y-2 text-gray-300">
         {info.map((v, index) => (
           <div key={index} className="flex space-x-2">
-            <v.Icon className="size-6" color="#1E1E1E" />
+            <v.Icon className="size-6 text-gray-300" />
             <span>{v.Text}</span>
           </div>
         ))}
