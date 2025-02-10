@@ -60,15 +60,17 @@ const Profile = () => {
           teamName={team || ""}
           customStyle="w-[1/4]"
         />
-        <UserInformation
-          registrationNumber={user.regNum}
-          teamName={team || "Not in a team"}
-          collegeName={user.college}
-          phoneNumber={user.phone}
-          userId={user.id}
-          githubId={user.github}
-          customStyle="w-[3/4] ml-8"
-        />
+        <div className="ml-8 my-auto">
+          <UserInformation
+            registrationNumber={user.regNum}
+            teamName={team || "Not in a team"}
+            collegeName={user.college}
+            phoneNumber={user.phone}
+            userId={user.id}
+            githubId={user.github}
+            customStyle="w-[3/4]"
+          />
+        </div>
       </div>
       <FooterSection />
     </div>
