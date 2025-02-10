@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import Button from "../ui/Button";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface UserInformationProps {
   registrationNumber: string;
@@ -78,11 +79,13 @@ const UserInformation = ({
         <p className="text-gray-400">{phoneNumber}</p>
       </div>
       {user?.id === userId && (
-        <Button
-          buttonText="Edit Profile"
-          customStyle="mt-6 bg-blue-600 hover:bg-blue-500 text-white"
-          onClick={() => router.push("/editProfile")}
-        />
+        <Link href="/editProfile">
+          <Button
+            buttonText="Edit Profile"
+            customStyle="mt-6 bg-blue-600 hover:bg-blue-500 text-white w-full"
+            onClick={() => {}}
+          />
+        </Link>
       )}
     </div>
   );
