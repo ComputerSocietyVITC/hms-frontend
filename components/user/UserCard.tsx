@@ -31,7 +31,7 @@ const UserCard = ({
       Text: (
         <Link
           className="hover:text-gray-300"
-          href={github || "https://github.com/notfound"}
+          href={github || "https://github.com/example"}
           target="_blank"
         >
           {github && github.match(/github\.com\/([^/]+)/)?.[1]}
@@ -52,14 +52,14 @@ const UserCard = ({
         className="size-48 rounded-full"
         width={1024}
         height={1024}
-        src={`${github || "https://github.com/notfound"}.png`}
+        src={`${github || "https://github.com/example"}.png`}
         alt="profile_img"
       />
 
-      <div className="flex flex-col -space-y-1 text-center my-4">
-        <h1 className="text-2xl font-bold mb-1">{name}</h1>
+      <div className="flex flex-col text-center my-4">
+        <h1 className="text-3xl font-black">{name}</h1>
         {teamName !== "" && (
-          <span className="text-base text-gray-400">{`${isLeader ? "Team Leader" : "Member"} of ${teamName}`}</span>
+          <span className="text-sm text-gray-400">{`${isLeader ? "Team Leader" : "Member"} of ${teamName}`}</span>
         )}
       </div>
 

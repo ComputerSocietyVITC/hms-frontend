@@ -47,7 +47,7 @@ const CardList: React.FC = () => {
             icon={<span className="text-white text-lg font-bold">→</span>}
             text="View More"
             onClick={() => console.log("View More clicked")}
-            customStyle="flex-shrink-0 px-4 py-3 ml-auto rounded-md"
+            customStyle="flex-shrink-0 px-4 py-3 ml-auto rounded-lg"
           />
         </div>
       )}

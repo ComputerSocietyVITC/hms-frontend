@@ -37,29 +37,35 @@ const UserInformation = ({
     <div
       className={`w-full flex flex-col my-auto h-auto border border-gray-700 p-6 rounded-md bg-[#121212] text-white ${customStyle}`}
     >
+      <div className="mb-4">
+        <h2 className="text-3xl font-black">Your Details</h2>
+        <p className="text-sm text-gray-400">
+          Here&apos;s how you look to us 😎
+        </p>
+      </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col">
-          <p className="font-bold text-gray-300">Registration Number</p>
-          <p>{registrationNumber}</p>
+          <p className="font-bold">Registration Number</p>
+          <p className="text-gray-400">{registrationNumber}</p>
         </div>
         <div className="flex flex-col">
-          <p className="font-bold text-gray-300">Team Name</p>
-          <p>{teamName}</p>
+          <p className="font-bold">Team Name</p>
+          <p className="text-gray-400">{teamName}</p>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4 mt-4">
         <div className="flex flex-col">
-          <p className="font-bold text-gray-300">College Name</p>
-          <p>{collegeName}</p>
+          <p className="font-bold">College Name</p>
+          <p className="text-gray-400">{collegeName}</p>
         </div>
         <div className="flex flex-col">
-          <p className="font-bold text-gray-300">GitHub Profile</p>
-          <p>{githubId || "GitHub ID not set"}</p>
+          <p className="font-bold">GitHub Profile</p>
+          <p className="text-gray-400">{githubId || "GitHub ID not set"}</p>
         </div>
       </div>
       <div className="flex flex-col mt-4">
-        <p className="font-bold text-gray-300">Phone Number</p>
-        <p>{phoneNumber}</p>
+        <p className="font-bold">Phone Number</p>
+        <p className="text-gray-400">{phoneNumber}</p>
       </div>
       {user?.id === userId && (
         <Button
