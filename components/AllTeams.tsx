@@ -19,20 +19,18 @@ const AllTeams: React.FC<AllTeamsProps> = ({
 }) => {
   return (
     <div
-      className={`flex flex-col border border-[#D9D9D9] bg-white rounded-md p-8 h-full w-full ${customStyle}`}
+      className={`flex flex-col border border-gray-700 bg-[#121212] rounded-lg p-6 h-full w-full shadow-lg ${customStyle}`}
     >
-      <span className="text-2xl font-bold">Teams</span>
-      <span className="text-md">Select a team to view details</span>
+      <h2 className="text-3xl font-bold text-gray-200">Teams</h2>
+      <p className="text-lg text-gray-400">Select a team to view details</p>
+
       <div className="mt-4 overflow-y-auto h-full">
         {teams.map((team) => (
           <TeamListItem
             key={team.id}
             teamId={team.id}
             teamName={team.name}
-            teamAvatar="https://github.com/ComputerSocietyVITC.png"
-            onClick={(teamId) => {
-              onClickUpdate(teamId);
-            }}
+            onClick={(teamId) => onClickUpdate(teamId)}
           />
         ))}
       </div>
