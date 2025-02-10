@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import Button from "../ui/Button";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface UserInformationProps {
@@ -28,7 +27,6 @@ const UserInformation = ({
   adminView,
 }: UserInformationProps) => {
   const { user, getUser } = useAuth();
-  const router = useRouter();
 
   useEffect(() => {
     if (!user) {

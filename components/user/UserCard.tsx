@@ -15,7 +15,6 @@ interface UserCardProps {
 }
 
 const UserCard = ({
-  id,
   createdAt,
   name,
   college,
