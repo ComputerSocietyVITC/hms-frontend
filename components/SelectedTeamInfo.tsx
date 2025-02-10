@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { TeamMemberListItem } from "@/components/TeamMemberListItem";
+import { TeamMemberListItem } from "@/components/team/TeamMemberListItem";
 import DangerButton from "./DangerButton";
 import api from "@/api";
 import axios from "axios";

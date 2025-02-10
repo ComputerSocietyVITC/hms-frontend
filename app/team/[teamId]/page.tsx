@@ -2,13 +2,13 @@
 "use client";
 
 import api from "@/api";
-import ContributionStats from "@/components/ContributionStats";
+import ContributionStats from "@/components/team/ContributionStats";
 import FooterSection from "@/components/FooterSection";
 import HeaderComponent from "@/components/HeaderComponent";
-import ProjectInformation from "@/components/ProjectInformation";
-import RecentCommits from "@/components/RecentCommits";
-import TeamInformation from "@/components/TeamInformation";
-import TeamMemberList from "@/components/TeamMemberList";
+import ProjectInformation from "@/components/team/ProjectInformation";
+import RecentCommits from "@/components/team/RecentCommits";
+import TeamInformation from "@/components/team/TeamInformation";
+import TeamMemberList from "@/components/team/TeamMemberList";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 

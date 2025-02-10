@@ -4,8 +4,8 @@
 import api from "@/api";
 import FooterSection from "@/components/FooterSection";
 import HeaderComponent from "@/components/HeaderComponent";
-import UserCard from "@/components/UserCard";
-import UserInformation from "@/components/UserInformation";
+import UserCard from "@/components/user/UserCard";
+import UserInformation from "@/components/user/UserInformation";
 import { useAuth } from "@/context/AuthContext";
 import React, { useState, useEffect } from "react";
 
