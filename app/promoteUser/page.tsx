@@ -63,8 +63,8 @@ const PromoteUserPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#F3F4F6] w-full h-screen flex flex-col">
-      <header className="w-full bg-white flex items-center justify-between px-6 py-3">
+    <div className="bg-[#09090b] w-full h-screen flex flex-col">
+      <header className="w-full bg-[#121212] text-white flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <h1 className="text-lg font-bold">Promote User</h1>
         <DangerButton
           buttonText="Go Back"
@@ -73,7 +73,8 @@ const PromoteUserPage: React.FC = () => {
       </header>
 
       <main className="flex justify-center items-center flex-1">
-        <div className="bg-white p-4 rounded-lg w-96 border border-[#D9D9D9]">
+        <div className="bg-[#121212] text-white p-4 rounded-lg w-96 border-[#303030] shadow-lg h-auto">
+          <p className="font-black text-3xl mb-2">Promote a User</p>
           <InputField
             label="User ID"
             type="text"
@@ -81,15 +82,19 @@ const PromoteUserPage: React.FC = () => {
             text={userID}
             onTextChange={setUserID}
           />
-          <div className="mt-2">
+          <div className="mt-4">
             <label className="font-bold">User Role</label>
             <select
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value as UserRole)}
-              className="border border-[#D9D9D9] rounded-md px-3 py-2 w-full text-[#1E1E1E] placeholder-[#B3B3B3] focus:outline-none focus:ring-2 focus:ring-[#1E1E1E] mt-2"
+              className="border border-[#303030] bg-[#1E1E1E] text-[#EAEAEA] rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#EAEAEA] mt-2"
             >
               {roles.map((role) => (
-                <option key={role} value={role}>
+                <option
+                  key={role}
+                  value={role}
+                  className="bg-[#1E1E1E] text-[#EAEAEA]"
+                >
                   {role.replace("_", " ")}
                 </option>
               ))}
