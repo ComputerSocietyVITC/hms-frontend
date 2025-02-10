@@ -23,7 +23,7 @@ const HeaderComponent = () => {
         className="text-lg font-bold hover:cursor-pointer"
         onClick={() => router.push("/")}
       >
-        HMS
+        IEEE CS VITC / HMS
       </div>
       <div className="flex space-x-2">
         {user && (user.role === "ADMIN" || user.role === "SUPER_ADMIN") && (
