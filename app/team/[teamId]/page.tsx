@@ -109,19 +109,16 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+      <div className="flex justify-center items-center h-screen bg-[#09090b]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-300" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <div
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
-          role="alert"
-        >
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-red-400">
+        <div className="bg-red-800 text-white px-4 py-3 rounded border border-red-500">
           <strong className="font-bold">Error: </strong>
           <span className="block sm:inline">{error}</span>
         </div>
@@ -131,16 +128,16 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
 
   if (!response) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen bg-[#09090b] text-white">
         No team data available
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F4F6]">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
       <HeaderComponent />
-      <div className="flex flex-grow flex-col p-8 w-full gap-4">
+      <div className="flex flex-grow flex-col p-8 w-full gap-8">
         <div className="flex flex-row justify-between gap-8">
           <TeamInformation
             teamName={response.name}
@@ -152,7 +149,10 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
             list={response.members.map((member) => ({
               name: member.name,
               githubId: member.github || "",
-              avatarSrc: "/avatar.png",
+              avatarSrc: member.imageId
+                ? `/api/images/${member.imageId}`
+                : "/avatar.png",
+              userId: member.id,
             }))}
           />
           <ProjectInformation
