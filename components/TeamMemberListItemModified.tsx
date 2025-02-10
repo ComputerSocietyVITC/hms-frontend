@@ -2,7 +2,7 @@ import Image from "next/image";
 import DangerButton from "./DangerButton";
 import api from "@/api";
 import axios from "axios";
-import Button from "./Button";
+import Button from "./ui/Button";
 
 export type TeamMemberListItemModifiedProps = {
   githubId: string | null;

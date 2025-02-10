@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import InputField from "@/components/InputField";
-import Button from "@/components/Button";
+import InputField from "@/components/ui/InputField";
+import Button from "@/components/ui/Button";
 import DangerButton from "@/components/DangerButton";
 import { useRouter } from "next/navigation";
 import api from "@/api";

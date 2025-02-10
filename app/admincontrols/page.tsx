@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/Button";
+import Button from "@/components/ui/Button";
 import DangerButton from "@/components/DangerButton";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";

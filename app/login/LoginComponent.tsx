@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useState, useEffect } from "react";
-import Button from "@/components/Button";
-import InputField from "@/components/InputField";
+import Button from "@/components/ui/Button";
+import InputField from "@/components/ui/InputField";
 import { useRouter } from "next/navigation";
 import api from "@/api";
 import axios from "axios";
