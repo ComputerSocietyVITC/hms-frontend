@@ -33,16 +33,20 @@ const HeaderComponent = () => {
           />
         )}
         {user &&
-        user.role !== "ADMIN" &&
-        user.role !== "SUPER_ADMIN" &&
-        user.teamId ? (
-          <Button buttonText="View Team" onClick={() => router.push("/team")} />
-        ) : (
-          <Button
-            buttonText="Join Team"
-            onClick={() => router.push("/joinTeam")}
-          />
-        )}
+          user.role !== "ADMIN" &&
+          user.role !== "SUPER_ADMIN" &&
+          (user.teamId ? (
+            <Button
+              buttonText="View Team"
+              onClick={() => router.push("/team")}
+            />
+          ) : (
+            <Button
+              buttonText="Join Team"
+              onClick={() => router.push("/joinTeam")}
+            />
+          ))}
+
         <Button buttonText="Profile" onClick={() => router.push("/user")} />
         <DangerButton
           buttonText="Logout"
