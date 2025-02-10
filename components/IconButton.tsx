@@ -1,10 +1,6 @@
-import React from "react";
-
 interface IconButtonProps {
   icon: React.ReactNode;
   text: string;
-  customBackgroundColor?: string;
-  customTextColor?: string;
   onClick: () => void;
   customStyle?: string;
 }
@@ -12,19 +8,13 @@ interface IconButtonProps {
 const IconButton: React.FC<IconButtonProps> = ({
   icon,
   text,
-  customBackgroundColor = "#F5F5F5",
-  customTextColor = "#1E1E1E",
   onClick,
   customStyle = "",
 }) => {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center justify-center gap-2 px-5 py-2 rounded-full cursor-pointer text-base font-medium ${customStyle}`}
-      style={{
-        backgroundColor: customBackgroundColor,
-        color: customTextColor,
-      }}
+      className={`flex items-center justify-center gap-2 px-5 py-2 rounded-full cursor-pointer text-base bg-[#1E1E1E] hover:bg-[#292929] border border-[#404040] text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed ${customStyle}`}
     >
       {icon && <span className="flex items-center">{icon}</span>}
       {text}
