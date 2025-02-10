@@ -1,9 +1,6 @@
 import React from "react";
 
 interface ButtonProps {
-  customBackgroundColor?: string;
-  customTextColor?: string;
-  customBorderColor?: string;
   buttonText: string;
   onClick: () => void;
   customStyle?: string;
@@ -11,9 +8,6 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({
-  customBackgroundColor = "#1E1E1E",
-  customTextColor = "#F5F5F5",
-  customBorderColor,
   buttonText,
   onClick,
   customStyle = "",
@@ -22,12 +16,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      style={{
-        backgroundColor: customBackgroundColor,
-        color: customTextColor,
-        border: customBorderColor && `1px solid ${customBorderColor}`,
-      }}
-      className={`rounded-lg py-2 px-4 ${customStyle}`}
+      className={`rounded-lg py-2 px-4 bg-[#1E1E1E] hover:bg-[#292929] border border-[#404040] text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed ${customStyle}`}
       disabled={disabled}
     >
       {buttonText}
