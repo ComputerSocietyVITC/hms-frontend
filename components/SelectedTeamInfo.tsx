@@ -3,8 +3,6 @@
 import React from "react";
 import { TeamMemberListItem } from "@/components/team/TeamMemberListItem";
 import DangerButton from "./DangerButton";
-import api from "@/api";
-import axios from "axios";
 
 interface Evaluation {
   id: string;
@@ -53,7 +51,7 @@ interface Team {
 
 interface SelectedTeamInfoProps {
   selectedTeamInfo: Team;
-  onTeamDelete: () => void;
+  onTeamDelete: (id: string) => void;
 }
 
 const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
@@ -70,79 +68,91 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
   };
 
   const handleTeamDelete = async () => {
-    try {
-      const response = await api.delete(`/team/${selectedTeamInfo.id}`);
-
-      if (response.status === 200) {
-        onTeamDelete();
-      }
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        console.error(error.response?.data);
-      }
-    }
+    onTeamDelete(selectedTeamInfo.id);
   };
 
   return (
-    <div className="p-4 border rounded-md border-[#D9D9D9] bg-white flex-[3] h-fit">
+    <div className="p-6 border border-gray-700 rounded-lg bg-[#121212] text-white flex-[3] h-fit shadow-lg">
       {selectedTeamInfo.project && (
-        <div>
-          <h2 className="text-2xl font-bold">
+        <div className="mb-6">
+          <h2 className="text-3xl font-bold text-gray-200">
             {selectedTeamInfo.project.name}
           </h2>
-          <p>by {selectedTeamInfo.name}</p>
+          <p className="text-gray-400 text-lg">
+            by <span className="font-semibold">{selectedTeamInfo.name}</span>
+          </p>
           <div className="mt-4">
-            <p className="font-bold">Project Description</p>
-            <p>{selectedTeamInfo.project.description}</p>
+            <h3 className="text-xl font-semibold text-gray-300">
+              Project Description
+            </h3>
+            <p className="text-gray-400 mt-1 leading-relaxed">
+              {selectedTeamInfo.project.description}
+            </p>
           </div>
         </div>
       )}
-      <div className="grid grid-cols-2">
+
+      <div className="grid grid-cols-2 gap-6">
         <div>
-          <h3 className="font-semibold mt-4">Team Members</h3>
-          <ul>
+          <h3 className="text-xl font-semibold text-gray-300">Team Members</h3>
+          <ul className="mt-2 space-y-3">
             {selectedTeamInfo.members.map((member) => (
               <TeamMemberListItem
                 key={member.id}
                 name={member.isLeader ? `${member.name} (Leader)` : member.name}
                 githubId={extractGitHubUsername(member.github)}
-                avatarSrc="https://github.com/example.png"
+                avatarSrc={`https://github.com/${extractGitHubUsername(member.github)}.png`}
+                userId={member.id}
               />
             ))}
           </ul>
         </div>
+
         {selectedTeamInfo.project && (
           <div>
-            <h3 className="font-semibold mt-4">Project Details</h3>
-            <p>
-              Created:{" "}
-              {new Date(selectedTeamInfo.project.createdAt).toLocaleDateString(
-                "en-US",
-                {
+            <h3 className="text-xl font-semibold text-gray-300">
+              Project Details
+            </h3>
+            <div className="mt-2 text-gray-400 space-y-2">
+              <p>
+                <span className="font-semibold text-gray-300">Created:</span>{" "}
+                {new Date(
+                  selectedTeamInfo.project.createdAt
+                ).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
-                }
-              )}
-              <br />
-              Last Updated:{" "}
-              {new Date(selectedTeamInfo.project.updatedAt).toLocaleDateString(
-                "en-US",
-                {
+                })}
+              </p>
+              <p>
+                <span className="font-semibold text-gray-300">
+                  Last Updated:
+                </span>{" "}
+                {new Date(
+                  selectedTeamInfo.project.updatedAt
+                ).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
-                }
-              )}
-              <br />
-              Current Evaluation:{" "}
-              {selectedTeamInfo.project.evaluations[0]?.score || "N/A"} / 10
-            </p>
+                })}
+              </p>
+              <p>
+                <span className="font-semibold text-gray-300">
+                  Current Evaluation:
+                </span>{" "}
+                {selectedTeamInfo.project.evaluations[0]?.score || "N/A"} / 10
+              </p>
+            </div>
           </div>
         )}
       </div>
-      <div className="mt-4">
-        <DangerButton buttonText="Delete Team" onClick={handleTeamDelete} />
+
+      <div className="mt-6 flex justify-end">
+        <DangerButton
+          buttonText="Delete Team"
+          onClick={handleTeamDelete}
+          primary={false}
+        />
       </div>
     </div>
   );
