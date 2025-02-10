@@ -4,6 +4,7 @@ export type TeamMemberListItemProps = {
   githubId: string | null;
   name: string;
   avatarSrc: string;
+  userId?: string;
   avatarAlt?: string;
   className?: string;
 };
@@ -12,6 +13,7 @@ export const TeamMemberListItem = ({
   githubId,
   name,
   avatarSrc,
+  userId,
   avatarAlt,
   className,
   ...props
@@ -20,6 +22,9 @@ export const TeamMemberListItem = ({
     <div
       {...props}
       className={`${className} flex items-center space-x-4 p-2 rounded-md hover:bg-neutral-900 cursor-pointer transition-all`}
+      onClick={() => {
+        if (userId) window.location.href = `/user/${userId}`;
+      }}
     >
       <Image
         src={avatarSrc}
