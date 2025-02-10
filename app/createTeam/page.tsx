@@ -60,6 +60,13 @@ const CreateTeamPage: React.FC = () => {
 
       <main className="flex justify-center items-center flex-1">
         <div className="bg-[#121212] p-6 rounded-lg w-96 border border-gray-700 shadow-lg">
+          <div className="mb-4">
+            <h2 className="text-3xl font-black">Create a Team</h2>
+            <p className="text-sm text-gray-400">
+              Enter the team details to create a team
+            </p>
+          </div>
+
           <InputField
             label="Team Name"
             type="text"

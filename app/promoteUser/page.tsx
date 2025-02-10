@@ -74,7 +74,12 @@ const PromoteUserPage: React.FC = () => {
 
       <main className="flex justify-center items-center flex-1">
         <div className="bg-[#121212] text-white p-4 rounded-lg w-96 border-[#303030] shadow-lg h-auto">
-          <p className="font-black text-3xl mb-2">Promote a User</p>
+          <div className="mb-4">
+            <h2 className="text-3xl font-black">Promote a user</h2>
+            <p className="text-sm text-gray-400">
+              Enter the User ID and role to promote
+            </p>
+          </div>
           <InputField
             label="User ID"
             type="text"

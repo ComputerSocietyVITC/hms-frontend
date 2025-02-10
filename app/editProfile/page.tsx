@@ -111,6 +111,12 @@ const EditProfile = () => {
 
       <main className="flex-grow flex items-center justify-center w-full">
         <div className="flex flex-col p-6 border rounded-lg bg-[#121212] h-auto w-[600px] border-gray-700">
+          <div className="mb-4">
+            <h2 className="text-3xl font-black">Edit your profile</h2>
+            <p className="text-sm text-gray-400">
+              Update your profile with the latest information about you 🤖
+            </p>
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <InputField
               label="Name"

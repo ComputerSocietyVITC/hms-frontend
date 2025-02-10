@@ -21,8 +21,8 @@ const AllTeams: React.FC<AllTeamsProps> = ({
     <div
       className={`flex flex-col border border-gray-700 bg-[#121212] rounded-lg p-6 h-full w-full shadow-lg ${customStyle}`}
     >
-      <h2 className="text-3xl font-bold text-gray-200">Teams</h2>
-      <p className="text-lg text-gray-400">Select a team to view details</p>
+      <h2 className="text-3xl font-black text-gray-200">Teams</h2>
+      <p className="text-sm text-gray-400">Select a team to view details</p>
 
       <div className="mt-4 overflow-y-auto h-full">
         {teams.map((team) => (
