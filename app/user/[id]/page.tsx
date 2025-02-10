@@ -77,7 +77,9 @@ const Profile = ({ params }: ProfileProps) => {
           } else if (error.response.status === 500) {
             console.log("Internal Server Error");
           } else {
-            console.log("An unexpected error occured. Please try again later.");
+            console.log(
+              "An unexpected error occurred. Please try again later."
+            );
           }
         } else {
           console.log("Please check your network connection and try again.");
@@ -100,24 +102,24 @@ const Profile = ({ params }: ProfileProps) => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+      <div className="flex justify-center items-center h-screen bg-[#121212]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen bg-[#121212] text-white text-lg font-semibold">
         User not found
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F4F6]">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
       <HeaderComponent />
-      <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center">
+      <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-10">
         <UserCard
           id={user.id}
           createdAt={user.createdAt}
@@ -136,13 +138,14 @@ const Profile = ({ params }: ProfileProps) => {
             phoneNumber={user.phone}
             userId={user.id}
             githubId={user.github}
-            customStyle="my-0"
+            customStyle="w-[3/4]"
           />
           <DangerButton
             buttonText="Delete User"
             onClick={() => {
               handleClick();
             }}
+            primary={false}
           />
         </div>
       </div>
