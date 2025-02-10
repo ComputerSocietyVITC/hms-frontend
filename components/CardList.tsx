@@ -24,6 +24,7 @@ const cardObjects = [
     link: "https://card4.com/4",
   },
 ];
+
 const CardList: React.FC = () => {
   const visible = cardObjects.slice(0, 3);
   const showButton = cardObjects.length > 3;
@@ -41,13 +42,11 @@ const CardList: React.FC = () => {
       ))}
 
       {showButton && (
-        <div className="flex justify-center  ml-auto mr-auto">
+        <div className="flex justify-center ml-auto mr-auto">
           <IconButton
             icon={<span className="text-white text-lg font-bold">→</span>}
             text="View More"
             onClick={() => console.log("View More clicked")}
-            customBackgroundColor="#2C2C2C"
-            customTextColor="#F5F5F5"
             customStyle="flex-shrink-0 px-4 py-3 ml-auto rounded-md"
           />
         </div>
@@ -55,4 +54,5 @@ const CardList: React.FC = () => {
     </div>
   );
 };
+
 export default CardList;
