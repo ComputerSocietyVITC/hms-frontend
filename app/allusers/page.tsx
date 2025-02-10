@@ -3,7 +3,7 @@
 import api from "@/api";
 import DangerButton from "@/components/ui/DangerButton";
 import FooterSection from "@/components/ui/FooterSection";
-import { TeamMemberListItemModified } from "@/components/TeamMemberListItemModified";
+import { TeamMemberListItemModified } from "@/components/team/TeamMemberListItemModified";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
