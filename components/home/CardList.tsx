@@ -1,6 +1,6 @@
 import React from "react";
-import IconButton from "./ui/IconButton";
-import Card from "./ui/Card";
+import IconButton from "../ui/IconButton";
+import Card from "../ui/Card";
 
 const cardObjects = [
   {

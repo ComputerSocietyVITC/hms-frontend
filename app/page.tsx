@@ -2,8 +2,8 @@
 
 import React from "react";
 import HeaderComponent from "@/components/HeaderComponent";
-import HeroSection from "@/components/HeroSection";
-import CardList from "@/components/CardList";
+import HeroSection from "@/components/home/HeroSection";
+import CardList from "@/components/home/CardList";
 import FooterSection from "@/components/FooterSection";
 
 export default function Home() {
