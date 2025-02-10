@@ -1,5 +1,5 @@
 import Image from "next/image";
-import DangerButton from "./DangerButton";
+import DangerButton from "./ui/DangerButton";
 import api from "@/api";
 import axios from "axios";
 import Button from "./ui/Button";

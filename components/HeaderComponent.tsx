@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import Button from "./ui/Button";
 import { useRouter } from "next/navigation";
-import DangerButton from "./DangerButton";
+import DangerButton from "./ui/DangerButton";
 import { useAuth } from "@/context/AuthContext";
 
 const HeaderComponent = () => {

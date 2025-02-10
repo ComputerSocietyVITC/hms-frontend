@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/ui/Button";
-import DangerButton from "@/components/DangerButton";
+import DangerButton from "@/components/ui/DangerButton";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";

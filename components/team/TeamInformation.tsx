@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import DangerButton from "../DangerButton";
+import DangerButton from "../ui/DangerButton";
 import api from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";

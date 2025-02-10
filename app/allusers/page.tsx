@@ -1,7 +1,7 @@
 "use client";
 
 import api from "@/api";
-import DangerButton from "@/components/DangerButton";
+import DangerButton from "@/components/ui/DangerButton";
 import FooterSection from "@/components/FooterSection";
 import { TeamMemberListItemModified } from "@/components/TeamMemberListItemModified";
 import { useRouter } from "next/navigation";

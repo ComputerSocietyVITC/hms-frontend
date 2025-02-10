@@ -2,7 +2,7 @@
 
 import api from "@/api";
 import AllTeams from "@/components/allteams/AllTeams";
-import DangerButton from "@/components/DangerButton";
+import DangerButton from "@/components/ui/DangerButton";
 import SelectedTeamInfo from "@/components/allteams/SelectedTeamInfo";
 import axios from "axios";
 import { useRouter } from "next/navigation";

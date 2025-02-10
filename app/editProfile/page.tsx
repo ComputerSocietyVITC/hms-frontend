@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import api from "@/api";
 import axios from "axios";
-import DangerButton from "@/components/DangerButton";
+import DangerButton from "@/components/ui/DangerButton";
 
 const EditProfile = () => {
   const [name, setName] = useState("");

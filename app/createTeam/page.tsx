@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from "react";
 import InputField from "@/components/ui/InputField";
 import Button from "@/components/ui/Button";
-import DangerButton from "@/components/DangerButton";
+import DangerButton from "@/components/ui/DangerButton";
 import { useRouter } from "next/navigation";
 import api from "@/api";
 import { useAuth } from "@/context/AuthContext";

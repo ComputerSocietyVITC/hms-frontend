@@ -6,7 +6,7 @@ import FooterSection from "@/components/FooterSection";
 import HeaderComponent from "@/components/HeaderComponent";
 import UserCard from "@/components/user/UserCard";
 import UserInformation from "@/components/user/UserInformation";
-import DangerButton from "@/components/DangerButton";
+import DangerButton from "@/components/ui/DangerButton";
 import axios from "axios";
 
 type User = {
