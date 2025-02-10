@@ -5,6 +5,7 @@ import Button from "./Button";
 import { useRouter } from "next/navigation";
 import DangerButton from "./DangerButton";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
 const HeaderComponent = () => {
   const { user, getUser } = useAuth();
@@ -15,39 +16,43 @@ const HeaderComponent = () => {
     }
   }, []);
 
+  useEffect(() => {
+    router.prefetch("/admincontrols");
+    router.prefetch("/team");
+    router.prefetch("/joinTeam");
+    router.prefetch("/user");
+    router.prefetch("/login");
+  }, []);
+
   const router = useRouter();
 
   return (
     <header className="flex justify-between items-center w-full bg-[#121212] text-white py-3 px-6 border-b border-gray-700">
-      <div
-        className="text-lg font-bold hover:cursor-pointer"
-        onClick={() => router.push("/")}
-      >
+      <Link className="text-lg font-bold" href="/">
         IEEE CS VITC / HMS
-      </div>
+      </Link>
       <div className="flex space-x-2">
         {user && (user.role === "ADMIN" || user.role === "SUPER_ADMIN") && (
-          <Button
-            buttonText="Go to Admin Controls"
-            onClick={() => router.push("/admincontrols")}
-          />
+          <Link href="/admincontrols">
+            <Button buttonText="Go to Admin Controls" onClick={() => {}} />
+          </Link>
         )}
         {user &&
           user.role !== "ADMIN" &&
           user.role !== "SUPER_ADMIN" &&
           (user.teamId ? (
-            <Button
-              buttonText="View Team"
-              onClick={() => router.push("/team")}
-            />
+            <Link href="/team">
+              <Button buttonText="View Team" onClick={() => {}} />
+            </Link>
           ) : (
-            <Button
-              buttonText="Join Team"
-              onClick={() => router.push("/joinTeam")}
-            />
+            <Link href="/joinTeam">
+              <Button buttonText="Join Team" onClick={() => {}} />
+            </Link>
           ))}
 
-        <Button buttonText="Profile" onClick={() => router.push("/user")} />
+        <Link href="/user">
+          <Button buttonText="Profile" onClick={() => {}} />
+        </Link>
         <DangerButton
           buttonText="Logout"
           onClick={() => {
