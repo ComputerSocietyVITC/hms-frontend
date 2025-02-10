@@ -96,9 +96,25 @@ export default function Page() {
     setSelectedTeamInfo(teamData);
   };
 
+  const handleTeamDelete = async (deletedTeamId: string) => {
+    try {
+      await api.delete(`/team/${deletedTeamId}`);
+
+      setTeams((prevTeams) =>
+        prevTeams.filter((team) => team.id !== deletedTeamId)
+      );
+
+      setSelectedTeamInfo((prevSelected) =>
+        prevSelected?.id === deletedTeamId ? null : prevSelected
+      );
+    } catch (error) {
+      console.error("Error deleting team:", error);
+    }
+  };
+
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
         <div
           className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
           role="alert"
@@ -111,15 +127,15 @@ export default function Page() {
   }
 
   return (
-    <div className="flex flex-col h-screen">
-      <header className="flex justify-between items-center w-full bg-white py-3 px-6 border-b border-b-[#D9D9D9]">
+    <div className="flex flex-col h-screen bg-[#09090b] text-white">
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <div className="text-lg font-bold">Hackathon Teams</div>
         <DangerButton
           buttonText="Go Back"
           onClick={() => router.push("/admincontrols")}
         />
       </header>
-      <div className="flex-grow w-full flex flex-row gap-4 p-4 bg-[#F3F4F6]">
+      <div className="flex-grow w-full flex flex-row gap-4 p-4 bg-[#09090b]">
         <AllTeams
           teams={teams}
           onClickUpdate={handleTeamClick}
@@ -128,9 +144,7 @@ export default function Page() {
         {selectedTeamInfo && (
           <SelectedTeamInfo
             selectedTeamInfo={selectedTeamInfo}
-            onTeamDelete={() => {
-              window.location.reload();
-            }}
+            onTeamDelete={handleTeamDelete}
           />
         )}
       </div>
