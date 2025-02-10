@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@/components/Button";
 import InputField from "@/components/InputField";
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/api";
 import axios from "axios";
@@ -14,9 +13,7 @@ const LoginComponent = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-
   const [isMounted, setIsMounted] = useState(false);
-
   const { user, loading } = useAuth();
 
   useEffect(() => {
@@ -31,18 +28,15 @@ const LoginComponent = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+      <div className="flex justify-center items-center h-screen bg-[#0A0A0A]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
       </div>
     );
   }
 
   const handleSubmit = async () => {
     try {
-      const response = await api.post("/auth/login", {
-        email,
-        password,
-      });
+      const response = await api.post("/auth/login", { email, password });
 
       if (response.status === 200) {
         if (isMounted) {
@@ -50,7 +44,6 @@ const LoginComponent = () => {
         }
         router.push("/");
       }
-
       setError("");
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
@@ -78,20 +71,25 @@ const LoginComponent = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-[#F3F4F6]">
-      <div className="flex flex-col p-4 border rounded-lg bg-white h-auto w-96 border-[#D6D6D6]">
+    <div className="flex items-center justify-center h-screen bg-[#09090b]">
+      <div className="flex flex-col p-6 border rounded-lg bg-[#121212] text-white h-auto w-96 border-[#303030] shadow-lg">
+        <p className="font-black text-3xl">Welcome back</p>
+        <p className="text-sm text-gray-400">
+          Enter your credentials to access your account
+        </p>
         <InputField
           label="Email"
           type="email"
           placeholder="Enter your email"
-          onTextChange={(value) => setEmail(value)}
+          onTextChange={setEmail}
           text={email}
+          customStyle="mt-4"
         />
         <InputField
           label="Password"
           type="password"
           placeholder="Enter your password"
-          onTextChange={(value) => setPassword(value)}
+          onTextChange={setPassword}
           text={password}
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSubmit();
@@ -102,13 +100,13 @@ const LoginComponent = () => {
         <Button
           buttonText="Sign In"
           onClick={handleSubmit}
-          customStyle="w-full mt-6"
+          customStyle="w-full mt-6 bg-[#1E1E1E] hover:bg-[#292929] border border-[#404040] text-white font-semibold py-2 rounded-md"
         />
-        <p className="mt-4 text-center block">
+        <p className="mt-4 text-center text-gray-400">
           Do not have an account?{" "}
           <a
             onClick={() => (window.location.href = "/register")}
-            className="font-bold cursor-pointer hover:underline"
+            className="font-bold text-white cursor-pointer hover:underline"
           >
             Register
           </a>
