@@ -10,7 +10,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({
   buttonText,
   onClick,
-  customStyle = "",
+  customStyle,
   disabled,
 }) => {
   return (

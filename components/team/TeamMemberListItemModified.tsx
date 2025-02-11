@@ -4,6 +4,7 @@ import api from "@/api";
 import axios from "axios";
 import Button from "../ui/Button";
 import Link from "next/link";
+import PositiveButton from "../ui/PositiveButton";
 
 export type TeamMemberListItemModifiedProps = {
   githubId: string | null;
@@ -91,11 +92,7 @@ export const TeamMemberListItemModified = ({
           <Button buttonText="View Profile" onClick={() => {}} />
         </Link>
         <Link href={`/promoteUser/${userId}`} target="_blank">
-          <Button
-            buttonText="Promote User"
-            customStyle="bg-[#16A34A] hover:bg-[#15803D]"
-            onClick={() => {}}
-          />
+          <PositiveButton buttonText="Promote User" onClick={() => {}} />
         </Link>
         <DangerButton
           buttonText="Delete User"

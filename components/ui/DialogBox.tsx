@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import Button from "./Button";
 import DangerButton from "./DangerButton";
+import PositiveButton from "./PositiveButton";
 
 interface DialogBoxProps {
   isOpen: boolean;
@@ -45,11 +46,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
         <div className="mt-6 flex justify-end space-x-3">
           <Button buttonText="Cancel" onClick={onCancel} />
           {positive ? (
-            <Button
-              buttonText="Confirm"
-              customStyle="bg-[#16A34A] hover:bg-[#15803D]"
-              onClick={onConfirm}
-            />
+            <PositiveButton buttonText="Confirm" onClick={onConfirm} />
           ) : (
             <DangerButton buttonText="Confirm" onClick={onConfirm} />
           )}

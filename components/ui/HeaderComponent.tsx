@@ -70,6 +70,7 @@ const HeaderComponent = () => {
         isOpen={isDialogOpen}
         title="Confirm Logout"
         message="Are you sure you want to log out?"
+        positive={false}
         onConfirm={handleLogout}
         onCancel={() => setIsDialogOpen(false)}
       />
