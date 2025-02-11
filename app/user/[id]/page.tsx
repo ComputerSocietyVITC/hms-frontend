@@ -8,6 +8,8 @@ import UserCard from "@/components/user/UserCard";
 import UserInformation from "@/components/user/UserInformation";
 import DangerButton from "@/components/ui/DangerButton";
 import axios from "axios";
+import Link from "next/link";
+import Button from "@/components/ui/Button";
 
 type User = {
   id: string;
@@ -125,7 +127,7 @@ const Profile = ({ params }: ProfileProps) => {
           createdAt={user.createdAt}
           name={user.name}
           college={user.college}
-          github={user.github || "https://github.com/example"}
+          github={user.github}
           isLeader={user.isLeader}
           teamName={team || ""}
           customStyle="w-[1/4]"
@@ -141,6 +143,15 @@ const Profile = ({ params }: ProfileProps) => {
             adminView={true}
             customStyle="w-[3/4]"
           />
+          {user && user.teamId && (
+            <Link href={`/team/${user.teamId}`} target="_blank">
+              <Button
+                buttonText="View Team"
+                onClick={() => {}}
+                customStyle="w-full"
+              />
+            </Link>
+          )}
           <DangerButton
             buttonText="Delete User"
             onClick={() => {
