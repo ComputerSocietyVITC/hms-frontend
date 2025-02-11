@@ -65,13 +65,19 @@ export const TeamMemberListItemModified = ({
       className={`${className} flex items-center justify-between p-5 rounded-lg bg-[#121212] border border-gray-700`}
     >
       <div className="flex items-center gap-4">
-        <Image
-          src={avatarSrc}
-          alt={avatarAlt || "team-member-pfp"}
-          height={48}
-          width={48}
-          className="size-12 rounded-full border border-gray-600"
-        />
+        {avatarSrc ? (
+          <Image
+            src={avatarSrc}
+            alt={avatarAlt || "team-member-pfp"}
+            height={48}
+            width={48}
+            className="size-12 rounded-full border border-gray-600"
+          />
+        ) : (
+          <div className="size-12 flex items-center justify-center rounded-full bg-gray-700 text-white font-bold text-lg border border-gray-600">
+            {name.charAt(0).toUpperCase()}
+          </div>
+        )}
         <div className="flex flex-col justify-center">
           <h1 className="font-semibold text-lg">{name}</h1>
           <span className="text-sm text-gray-400">

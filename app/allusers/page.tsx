@@ -142,10 +142,7 @@ const Page = () => {
               githubId={user.github}
               name={user.name}
               teamName={teamNames[user.teamId || ""] || "No Team"}
-              avatarSrc={
-                (user.github && `${user.github}.png`) ||
-                "https://github.com/example.png"
-              }
+              avatarSrc={(user.github && `${user.github}.png`) || ""}
               userId={user.id}
               onDelete={handleUserDelete}
             />
