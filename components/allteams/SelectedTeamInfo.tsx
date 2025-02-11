@@ -3,6 +3,8 @@
 import React from "react";
 import { TeamMemberListItem } from "@/components/team/TeamMemberListItem";
 import DangerButton from "../ui/DangerButton";
+import Button from "../ui/Button";
+import Link from "next/link";
 
 interface Evaluation {
   id: string;
@@ -147,7 +149,10 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
         )}
       </div>
 
-      <div className="mt-6 flex justify-end">
+      <div className="mt-6 flex justify-end gap-4">
+        <Link href={`team/${selectedTeamInfo.id}`} target="_blank">
+          <Button buttonText="View Team" onClick={() => {}} />
+        </Link>
         <DangerButton
           buttonText="Delete Team"
           onClick={handleTeamDelete}

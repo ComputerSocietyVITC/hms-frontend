@@ -60,7 +60,7 @@ const TeamInformation = ({
   };
 
   return (
-    <div className="relative rounded-lg border border-gray-700 bg-[#121212] text-white p-6 w-full">
+    <div className="relative rounded-lg border border-gray-700 bg-[#121212] text-white p-6 w-full min-h-[40vh]">
       <h1 className="text-2xl font-extrabold pb-4 border-b border-gray-600">
         Team Information
       </h1>
