@@ -10,6 +10,8 @@ import DangerButton from "@/components/ui/DangerButton";
 import axios from "axios";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
+import DialogBox from "@/components/ui/DialogBox";
+import { useRouter } from "next/navigation";
 
 type User = {
   id: string;
@@ -35,6 +37,11 @@ const Profile = ({ params }: ProfileProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [team, setTeam] = useState<string | null>(null);
+  const [isDeleteUserDialogOpen, setIsDeleteUserDialogOpen] = useState(false);
+  const [isRemoveFromTeamDialogOpen, setIsRemoveFromTeamDialogOpen] =
+    useState(false);
+
+  const router = useRouter();
 
   const getUser = async () => {
     try {
@@ -60,12 +67,12 @@ const Profile = ({ params }: ProfileProps) => {
     }
   };
 
-  const handleClick = async () => {
+  const handleDelete = async () => {
     try {
       const response = await api.delete(`/user/${resolvedParams.id}`);
 
       if (response.status === 201) {
-        window.location.reload();
+        router.push("/allusers");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -85,6 +92,40 @@ const Profile = ({ params }: ProfileProps) => {
           }
         } else {
           console.log("Please check your network connection and try again.");
+        }
+      }
+    }
+  };
+
+  const handleRemove = async () => {
+    if (user?.teamId) {
+      try {
+        const response = await api.delete(`/team/${user.teamId}/remove`);
+
+        console.log(response);
+
+        if (response.status === 201) {
+          window.location.reload();
+        }
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          if (error.response) {
+            if (error.response.status === 403) {
+              console.log(
+                "You do not have sufficient permissions to perform this action."
+              );
+            } else if (error.response.status === 404) {
+              console.log("User not found.");
+            } else if (error.response.status === 500) {
+              console.log("Internal Server Error");
+            } else {
+              console.log(
+                "An unexpected error occurred. Please try again later."
+              );
+            }
+          } else {
+            console.log("Please check your network connection and try again.");
+          }
         }
       }
     }
@@ -144,24 +185,47 @@ const Profile = ({ params }: ProfileProps) => {
             customStyle="w-[3/4]"
           />
           {user && user.teamId && (
-            <Link href={`/team/${user.teamId}`} target="_blank">
-              <Button
-                buttonText="View Team"
-                onClick={() => {}}
-                customStyle="w-full"
+            <div className="grid grid-cols-2 gap-4">
+              <Link href={`/team/${user.teamId}`} target="_blank">
+                <Button
+                  buttonText="View Team"
+                  onClick={() => {}}
+                  customStyle="w-full"
+                />
+              </Link>
+              <DangerButton
+                buttonText="Remove from Team"
+                onClick={() => setIsRemoveFromTeamDialogOpen(true)}
+                primary={false}
               />
-            </Link>
+            </div>
           )}
           <DangerButton
             buttonText="Delete User"
-            onClick={() => {
-              handleClick();
-            }}
-            primary={false}
+            onClick={() => setIsDeleteUserDialogOpen(true)}
+            primary={true}
           />
         </div>
       </div>
       <FooterSection />
+
+      <DialogBox
+        isOpen={isDeleteUserDialogOpen}
+        title="Confirm Delete"
+        message={`Are you sure you want to delete the user ${user.name}?`}
+        positive={false}
+        onConfirm={handleDelete}
+        onCancel={() => setIsDeleteUserDialogOpen(false)}
+      />
+
+      <DialogBox
+        isOpen={isRemoveFromTeamDialogOpen}
+        title="Confirm Remove"
+        message={`Are you sure you want to remove the user ${user.name} from their team ${team}?`}
+        positive={false}
+        onConfirm={handleRemove}
+        onCancel={() => setIsRemoveFromTeamDialogOpen(false)}
+      />
     </div>
   );
 };
