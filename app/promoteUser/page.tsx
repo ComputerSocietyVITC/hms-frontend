@@ -9,10 +9,12 @@ import api from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import Link from "next/link";
+import DialogBox from "@/components/ui/DialogBox";
 
 type UserRole = "SUPER_ADMIN" | "ADMIN" | "EVALUATOR" | "USER";
 
 const PromoteUserPage: React.FC = () => {
+  const [isPromoteDialogOpen, setIsPromoteDialogOpen] = useState(false);
   const { user, getUser } = useAuth();
   const router = useRouter();
 
@@ -52,6 +54,8 @@ const PromoteUserPage: React.FC = () => {
           setError("Failed to connect to the server.");
         }
       }
+
+      setIsPromoteDialogOpen(false);
     }
   };
 
@@ -106,15 +110,24 @@ const PromoteUserPage: React.FC = () => {
             </select>
           </div>
 
-          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
           <Button
             buttonText="Promote User"
             customStyle="w-full mt-6"
-            onClick={handleSubmit}
+            onClick={() => setIsPromoteDialogOpen(true)}
           />
         </div>
       </main>
+
+      <DialogBox
+        isOpen={isPromoteDialogOpen}
+        title="Confirm Promote"
+        message="Are you sure you want to promote the user?"
+        positive={true}
+        onConfirm={handleSubmit}
+        onCancel={() => setIsPromoteDialogOpen(false)}
+      />
     </div>
   );
 };

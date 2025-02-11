@@ -3,6 +3,7 @@
 import api from "@/api";
 import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
+import DialogBox from "@/components/ui/DialogBox";
 import InputField from "@/components/ui/InputField";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
@@ -17,6 +18,7 @@ const DynamicPromoteUser = ({
 }: {
   params: Promise<{ userId: string }>;
 }) => {
+  const [isPromoteDialogOpen, setIsPromoteDialogOpen] = useState(false);
   const { user, getUser } = useAuth();
   const router = useRouter();
 
@@ -131,16 +133,25 @@ const DynamicPromoteUser = ({
             </select>
           </div>
 
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
           <Button
             buttonText={loading ? "Promoting..." : "Promote User"}
             customStyle="w-full mt-6"
-            onClick={promoteUser}
+            onClick={() => setIsPromoteDialogOpen(true)}
             disabled={loading}
           />
         </div>
       </main>
+
+      <DialogBox
+        isOpen={isPromoteDialogOpen}
+        title="Confirm Promote"
+        message="Are you sure you want to promote the user?"
+        positive={true}
+        onConfirm={promoteUser}
+        onCancel={() => setIsPromoteDialogOpen(false)}
+      />
     </div>
   );
 };
