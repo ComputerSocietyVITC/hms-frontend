@@ -98,15 +98,24 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
         <div>
           <h3 className="text-xl font-semibold text-gray-300">Team Members</h3>
           <ul className="mt-2 space-y-3">
-            {selectedTeamInfo.members.map((member) => (
-              <TeamMemberListItem
-                key={member.id}
-                name={member.isLeader ? `${member.name} (Leader)` : member.name}
-                githubId={extractGitHubUsername(member.github)}
-                avatarSrc={`https://github.com/${extractGitHubUsername(member.github)}.png`}
-                userId={member.id}
-              />
-            ))}
+            {selectedTeamInfo.members.map((member) => {
+              const githubUsername = extractGitHubUsername(member.github);
+              return (
+                <TeamMemberListItem
+                  key={member.id}
+                  name={
+                    member.isLeader ? `${member.name} (Leader)` : member.name
+                  }
+                  githubId={githubUsername}
+                  avatarSrc={
+                    githubUsername !== "GitHub ID not set"
+                      ? `https://github.com/${githubUsername}.png`
+                      : ""
+                  }
+                  userId={member.id}
+                />
+              );
+            })}
           </ul>
         </div>
 
