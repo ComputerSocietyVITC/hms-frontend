@@ -62,10 +62,6 @@ const ProjectInformation = ({
             </p>
           ) : (
             <>
-              {" "}
-              <p className="text-lg text-gray-300 text-center">
-                Your team does not have a project.
-              </p>
               {canCreateProject ? (
                 <Link href="/newproject">
                   <Button
@@ -75,9 +71,12 @@ const ProjectInformation = ({
                   />
                 </Link>
               ) : (
-                <p className="text-gray-300 text-center">
-                  Ask your team leader to create a project.
-                </p>
+                <span>
+                  <p className="text-gray-300 text-center">
+                    Your team does not have a project.
+                  </p>
+                  <p>Ask your team leader to create a project.</p>
+                </span>
               )}
             </>
           )}

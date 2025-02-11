@@ -52,8 +52,8 @@ const HeaderComponent = () => {
               <Button buttonText="View Team" onClick={() => {}} />
             </Link>
           ) : (
-            <Link href="/joinTeam">
-              <Button buttonText="Join Team" onClick={() => {}} />
+            <Link href="/createTeam">
+              <Button buttonText="Create Team" onClick={() => {}} />
             </Link>
           ))}
 

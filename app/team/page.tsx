@@ -155,6 +155,7 @@ const TeamPage = () => {
               })) || []
             }
             nonClickable={true}
+            teamId={response.id}
           />
           <ProjectInformation project={project} teamId={response.id} />
         </div>
