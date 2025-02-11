@@ -154,6 +154,7 @@ const TeamPage = () => {
                 avatarSrc: (member.github && `${member.github}.png`) || "",
               })) || []
             }
+            nonClickable={true}
           />
           <ProjectInformation project={project} teamId={response.id} />
         </div>
