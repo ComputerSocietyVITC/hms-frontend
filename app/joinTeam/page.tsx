@@ -28,6 +28,7 @@ const JoinTeamPage: React.FC = () => {
     if (user?.teamId) {
       router.push("/team");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const getErrorMessage = (status: number): string => {

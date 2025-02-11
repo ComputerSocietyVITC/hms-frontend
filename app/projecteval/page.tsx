@@ -4,14 +4,12 @@ import React, { useState } from "react";
 import InputField from "@/components/ui/InputField";
 import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
-import { useRouter } from "next/navigation";
 import api from "@/api";
 import Link from "next/link";
 
 const EvaluateProjectPage: React.FC = () => {
   const [projectId, setProjectId] = useState("");
   const [score, setScore] = useState<number | "">("");
-  const router = useRouter();
 
   const handleSubmit = async () => {
     if (score === "" || score < 0) {

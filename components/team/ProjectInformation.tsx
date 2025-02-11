@@ -43,6 +43,7 @@ const ProjectInformation = ({
     if (!user) {
       getUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const canCreateProject = user?.isLeader && user?.teamId === teamId;
