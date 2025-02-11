@@ -6,6 +6,7 @@ import api from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import DialogBox from "../ui/DialogBox";
 
 interface TeamInformationProps {
   teamName: string;
@@ -28,6 +29,7 @@ const TeamInformation = ({
 }: TeamInformationProps) => {
   const { user } = useAuth();
   const [error, setError] = useState("");
+  const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
 
   const router = useRouter();
 
@@ -92,11 +94,20 @@ const TeamInformation = ({
         <div className="absolute bottom-4 mt-6">
           <DangerButton
             buttonText="Leave Team"
-            onClick={leaveTeam}
+            onClick={() => setIsLeaveDialogOpen(true)}
             primary={false}
           />
         </div>
       )}
+
+      <DialogBox
+        isOpen={isLeaveDialogOpen}
+        title="Confirm Leave"
+        message={`Are you sure you want to leave the team ${teamName}?`}
+        positive={false}
+        onConfirm={leaveTeam}
+        onCancel={() => setIsLeaveDialogOpen(false)}
+      />
     </div>
   );
 };
