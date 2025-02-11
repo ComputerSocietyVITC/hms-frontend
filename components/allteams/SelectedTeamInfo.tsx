@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { TeamMemberListItem } from "@/components/team/TeamMemberListItem";
 import DangerButton from "../ui/DangerButton";
 import Button from "../ui/Button";
 import Link from "next/link";
+import DialogBox from "../ui/DialogBox";
 
 interface Evaluation {
   id: string;
@@ -60,6 +61,8 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
   selectedTeamInfo,
   onTeamDelete,
 }) => {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
   const extractGitHubUsername = (url: string | null | undefined): string => {
     if (!url) return "GitHub ID not set";
 
@@ -164,10 +167,19 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
         </Link>
         <DangerButton
           buttonText="Delete Team"
-          onClick={handleTeamDelete}
+          onClick={() => setIsDeleteDialogOpen(true)}
           primary={false}
         />
       </div>
+
+      <DialogBox
+        isOpen={isDeleteDialogOpen}
+        title="Confirm Delete"
+        message={`Are you sure you want to delete the team ${selectedTeamInfo.name}?`}
+        positive={false}
+        onConfirm={handleTeamDelete}
+        onCancel={() => setIsDeleteDialogOpen(false)}
+      />
     </div>
   );
 };

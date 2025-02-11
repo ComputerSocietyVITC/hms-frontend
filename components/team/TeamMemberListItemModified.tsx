@@ -5,6 +5,8 @@ import axios from "axios";
 import Button from "../ui/Button";
 import Link from "next/link";
 import PositiveButton from "../ui/PositiveButton";
+import DialogBox from "../ui/DialogBox";
+import { useState } from "react";
 
 export type TeamMemberListItemModifiedProps = {
   githubId: string | null;
@@ -28,6 +30,8 @@ export const TeamMemberListItemModified = ({
   onDelete,
   ...props
 }: TeamMemberListItemModifiedProps) => {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
   const handleClick = async () => {
     onDelete(userId);
 
@@ -96,10 +100,19 @@ export const TeamMemberListItemModified = ({
         </Link>
         <DangerButton
           buttonText="Delete User"
-          onClick={handleClick}
+          onClick={() => setIsDeleteDialogOpen(true)}
           primary={false}
         />
       </div>
+
+      <DialogBox
+        isOpen={isDeleteDialogOpen}
+        title="Confirm Delete User"
+        message={`Are you sure you want to delete the user ${name}?`}
+        positive={false}
+        onConfirm={handleClick}
+        onCancel={() => setIsDeleteDialogOpen(false)}
+      />
     </div>
   );
 };
