@@ -1,15 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import { useRouter } from "next/navigation";
 import DangerButton from "./DangerButton";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import DialogBox from "./DialogBox";
 
 const HeaderComponent = () => {
   const { user, getUser } = useAuth();
+  const router = useRouter();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -25,7 +28,10 @@ const HeaderComponent = () => {
     router.prefetch("/login");
   }, []);
 
-  const router = useRouter();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/login");
+  };
 
   return (
     <header className="flex justify-between items-center w-full bg-[#121212] text-white py-3 px-6 border-b border-gray-700">
@@ -56,12 +62,17 @@ const HeaderComponent = () => {
         </Link>
         <DangerButton
           buttonText="Logout"
-          onClick={() => {
-            localStorage.removeItem("token");
-            router.push("/login");
-          }}
+          onClick={() => setIsDialogOpen(true)}
         />
       </div>
+
+      <DialogBox
+        isOpen={isDialogOpen}
+        title="Confirm Logout"
+        message="Are you sure you want to log out?"
+        onConfirm={handleLogout}
+        onCancel={() => setIsDialogOpen(false)}
+      />
     </header>
   );
 };
