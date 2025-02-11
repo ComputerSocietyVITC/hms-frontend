@@ -31,6 +31,7 @@ const TeamInformation = ({
   const [error, setError] = useState("");
   const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
 
+  const { getUser } = useAuth();
   const router = useRouter();
 
   const leaveTeam = async () => {
@@ -38,6 +39,8 @@ const TeamInformation = ({
       const response = await api.delete(`/team/leave`);
 
       if (response.status === 201) {
+        await getUser();
+
         router.push("/joinTeam");
       }
     } catch (error: unknown) {
@@ -91,7 +94,7 @@ const TeamInformation = ({
       </div>
 
       {user?.teamId === teamId && (
-        <div className="absolute bottom-4 mt-6">
+        <div className="absolute bottom-6 mt-6">
           <DangerButton
             buttonText="Leave Team"
             onClick={() => setIsLeaveDialogOpen(true)}

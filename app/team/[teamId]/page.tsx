@@ -152,6 +152,7 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
               avatarSrc: (member.github && `${member.github}.png`) || "",
               userId: member.id,
             }))}
+            displayInviteButton={false}
           />
           <ProjectInformation project={response.project} teamId={response.id} />
         </div>
