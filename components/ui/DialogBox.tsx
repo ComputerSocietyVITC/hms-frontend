@@ -8,6 +8,7 @@ interface DialogBoxProps {
   isOpen: boolean;
   title: string;
   message: string;
+  positive: boolean;
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -16,6 +17,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   isOpen,
   title,
   message,
+  positive,
   onConfirm,
   onCancel,
 }) => {
@@ -42,7 +44,15 @@ const DialogBox: React.FC<DialogBoxProps> = ({
         <p className="text-gray-400">{message}</p>
         <div className="mt-6 flex justify-end space-x-3">
           <Button buttonText="Cancel" onClick={onCancel} />
-          <DangerButton buttonText="Confirm" onClick={onConfirm} />
+          {positive ? (
+            <Button
+              buttonText="Confirm"
+              customStyle="bg-[#16A34A] hover:bg-[#15803D]"
+              onClick={onConfirm}
+            />
+          ) : (
+            <DangerButton buttonText="Confirm" onClick={onConfirm} />
+          )}
         </div>
       </div>
     </div>
