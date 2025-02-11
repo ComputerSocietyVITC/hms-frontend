@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "@/components/ui/InputField";
 import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
@@ -9,14 +9,26 @@ import api from "@/api";
 import axios from "axios";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import DialogBox from "@/components/ui/DialogBox";
 
 const JoinTeamPage: React.FC = () => {
   const [teamID, setTeamID] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isJoinDialogOpen, setIsJoinDialogOpen] = useState(false);
   const router = useRouter();
 
-  const { getUser } = useAuth();
+  const { user, getUser } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+
+    if (user?.teamId) {
+      router.push("/team");
+    }
+  }, [user]);
 
   const getErrorMessage = (status: number): string => {
     switch (status) {
@@ -64,10 +76,6 @@ const JoinTeamPage: React.FC = () => {
     }
   };
 
-  const handleSubmit = () => {
-    joinTeam();
-  };
-
   return (
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
       <header className="flex justify-between items-center w-full bg-[#121212] text-white py-3 px-6 border-b border-gray-700">
@@ -99,7 +107,7 @@ const JoinTeamPage: React.FC = () => {
 
           <Button
             buttonText={isLoading ? "Joining..." : "Join Team"}
-            onClick={handleSubmit}
+            onClick={() => setIsJoinDialogOpen(true)}
             customStyle="w-full mt-4"
             disabled={isLoading}
           />
@@ -119,6 +127,15 @@ const JoinTeamPage: React.FC = () => {
           </p>
         </div>
       </main>
+
+      <DialogBox
+        isOpen={isJoinDialogOpen}
+        title="Confirm Join"
+        message="Are you sure you want to join the team?"
+        positive={true}
+        onConfirm={joinTeam}
+        onCancel={() => setIsJoinDialogOpen(false)}
+      />
     </div>
   );
 };
