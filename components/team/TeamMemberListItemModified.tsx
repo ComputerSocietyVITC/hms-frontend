@@ -93,8 +93,8 @@ export const TeamMemberListItemModified = ({
         <Link href={`/promoteUser/${userId}`} target="_blank">
           <Button
             buttonText="Promote User"
+            customStyle="bg-[#16A34A] hover:bg-[#15803D]"
             onClick={() => {}}
-            customStyle="bg-[#16A34A] text-white font-semibold px-4 py-2 rounded-md hover:bg-[#15803D] transition-all"
           />
         </Link>
         <DangerButton

@@ -55,7 +55,7 @@ const Profile = () => {
           createdAt={user.createdAt}
           name={user.name}
           college={user.college}
-          github={user.github || "https://github.com/example"}
+          github={user.github}
           isLeader={user.isLeader}
           teamName={team || ""}
           customStyle="w-[1/4]"

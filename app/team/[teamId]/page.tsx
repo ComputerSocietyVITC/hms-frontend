@@ -149,9 +149,7 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
             list={response.members.map((member) => ({
               name: member.name,
               githubId: member.github || "",
-              avatarSrc: member.imageId
-                ? `/api/images/${member.imageId}`
-                : "/avatar.png",
+              avatarSrc: (member.github && `${member.github}.png`) || "",
               userId: member.id,
             }))}
           />

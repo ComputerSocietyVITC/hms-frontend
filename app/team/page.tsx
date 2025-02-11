@@ -151,9 +151,7 @@ const TeamPage = () => {
               response.members?.map((member) => ({
                 name: member.name || "Unknown Member",
                 githubId: member.github || "",
-                avatarSrc: member.imageId
-                  ? `/api/images/${member.imageId}`
-                  : "/avatar.png",
+                avatarSrc: (member.github && `${member.github}.png`) || "",
               })) || []
             }
           />
