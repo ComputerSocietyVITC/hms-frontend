@@ -157,7 +157,7 @@ const TeamPage = () => {
               })) || []
             }
           />
-          <ProjectInformation project={project} />
+          <ProjectInformation project={project} teamId={response.id} />
         </div>
         <div className="flex flex-row gap-8">
           <RecentCommits list={[]} />

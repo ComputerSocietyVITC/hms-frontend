@@ -32,8 +32,10 @@ const options: Intl.DateTimeFormatOptions = {
 
 const ProjectInformation = ({
   project,
+  teamId,
 }: {
   project: ProjectInformationInterface | null;
+  teamId: string;
 }) => {
   const { user, getUser } = useAuth();
 
@@ -43,6 +45,9 @@ const ProjectInformation = ({
     }
   }, []);
 
+  const canCreateProject = user?.isLeader && user?.teamId === teamId;
+  const notFromTeam = user?.teamId !== teamId;
+
   return (
     <div className="rounded-lg border border-gray-700 bg-[#121212] text-white p-6 w-full">
       <h1 className="text-2xl font-extrabold pb-4 border-b border-gray-600">
@@ -51,21 +56,30 @@ const ProjectInformation = ({
 
       {!project ? (
         <div className="flex flex-col w-full py-20 items-center justify-center">
-          <p className="text-lg text-gray-300 text-center">
-            Your team does not have a project.
-          </p>
-          {user?.isLeader ? (
-            <Link href="/newproject">
-              <Button
-                customStyle="mt-4 w-full bg-blue-600 hover:bg-blue-500"
-                buttonText="Create a new project"
-                onClick={() => {}}
-              />
-            </Link>
-          ) : (
-            <p className="text-gray-300 text-center">
-              Ask your team leader to create a project.
+          {notFromTeam ? (
+            <p className="text-lg text-gray-300 text-center">
+              This team does not have a project.
             </p>
+          ) : (
+            <>
+              {" "}
+              <p className="text-lg text-gray-300 text-center">
+                Your team does not have a project.
+              </p>
+              {canCreateProject ? (
+                <Link href="/newproject">
+                  <Button
+                    customStyle="mt-4 w-full bg-blue-600 hover:bg-blue-500"
+                    buttonText="Create a new project"
+                    onClick={() => {}}
+                  />
+                </Link>
+              ) : (
+                <p className="text-gray-300 text-center">
+                  Ask your team leader to create a project.
+                </p>
+              )}
+            </>
           )}
         </div>
       ) : (

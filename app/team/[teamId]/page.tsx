@@ -155,7 +155,7 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
               userId: member.id,
             }))}
           />
-          <ProjectInformation project={response.project} />
+          <ProjectInformation project={response.project} teamId={response.id} />
         </div>
         <div className="flex flex-row gap-8">
           <RecentCommits list={[]} />
