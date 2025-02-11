@@ -8,7 +8,7 @@ interface UserCardProps {
   createdAt: string;
   name: string;
   college: string;
-  github: string;
+  github: string | null;
   isLeader: boolean;
   teamName: string;
   customStyle?: string;
@@ -23,37 +23,25 @@ const UserCard = ({
   teamName,
   customStyle,
 }: UserCardProps) => {
-  const info = [
-    { Icon: MapPin, Text: college },
-    {
-      Icon: GitHub,
-      Text: (
-        <Link
-          className="hover:text-gray-300"
-          href={github || "https://github.com/example"}
-          target="_blank"
-        >
-          {github && github.match(/github\.com\/([^/]+)/)?.[1]}
-        </Link>
-      ),
-    },
-    {
-      Icon: Calendar,
-      Text: `Joined ${new Date(createdAt).toLocaleString("default", { day: "numeric", month: "long", year: "numeric" })}`,
-    },
-  ];
+  const githubUsername = github?.match(/github\.com\/([^/]+)/)?.[1] || null;
 
   return (
     <div
       className={`flex flex-col p-8 rounded-lg border border-gray-700 bg-[#121212] text-white justify-center items-center w-fit h-fit my-auto ${customStyle}`}
     >
-      <Image
-        className="size-48 rounded-full"
-        width={1024}
-        height={1024}
-        src={`${github || "https://github.com/example"}.png`}
-        alt="profile_img"
-      />
+      {githubUsername ? (
+        <Image
+          className="size-48 rounded-full"
+          width={1024}
+          height={1024}
+          src={`https://github.com/${githubUsername}.png`}
+          alt="profile_img"
+        />
+      ) : (
+        <div className="size-48 flex items-center justify-center rounded-full bg-gray-700 text-white font-black text-6xl border border-gray-600">
+          {name.charAt(0).toUpperCase()}
+        </div>
+      )}
 
       <div className="flex flex-col text-center my-4">
         <h1 className="text-3xl font-black">{name}</h1>
@@ -63,12 +51,38 @@ const UserCard = ({
       </div>
 
       <div className="flex flex-col space-y-2 text-gray-300">
-        {info.map((v, index) => (
-          <div key={index} className="flex space-x-2">
-            <v.Icon className="size-6 text-gray-300" />
-            <span>{v.Text}</span>
+        <div className="flex space-x-2">
+          <MapPin className="size-6 text-gray-300" />
+          <span>{college}</span>
+        </div>
+        {githubUsername ? (
+          <div className="flex space-x-2">
+            <GitHub className="size-6 text-gray-300" />
+            <Link
+              className="hover:text-gray-300"
+              href={`https://github.com/${githubUsername}`}
+              target="_blank"
+            >
+              {githubUsername}
+            </Link>
           </div>
-        ))}
+        ) : (
+          <div className="flex space-x-2">
+            <GitHub className="size-6 text-gray-300" />
+            <span>No GitHub ID</span>
+          </div>
+        )}
+        <div className="flex space-x-2">
+          <Calendar className="size-6 text-gray-300" />
+          <span>
+            Joined{" "}
+            {new Date(createdAt).toLocaleString("default", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </span>
+        </div>
       </div>
     </div>
   );
