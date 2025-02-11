@@ -155,19 +155,7 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
               userId: member.id,
             }))}
           />
-          <ProjectInformation
-            projectName={response.project?.name || "No Project"}
-            projectDescription={
-              response.project?.description || "No Description"
-            }
-            createdOn={
-              response.project?.createdAt
-                ? new Date(response.project.createdAt)
-                : new Date()
-            }
-            currentScore={response.project?.evaluations?.[0]?.score || 0}
-            projectId={response.project?.id || "N/A"}
-          />
+          <ProjectInformation project={response.project} />
         </div>
         <div className="flex flex-row gap-8">
           <RecentCommits list={[]} />

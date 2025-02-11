@@ -157,15 +157,7 @@ const TeamPage = () => {
               })) || []
             }
           />
-          <ProjectInformation
-            projectName={project?.name || "No Project"}
-            projectDescription={project?.description || "No Description"}
-            createdOn={
-              project?.createdAt ? new Date(project.createdAt) : new Date()
-            }
-            currentScore={project?.evaluations?.[0]?.score ?? 0}
-            projectId={project?.id || "N/A"}
-          />
+          <ProjectInformation project={project} />
         </div>
         <div className="flex flex-row gap-8">
           <RecentCommits list={[]} />
