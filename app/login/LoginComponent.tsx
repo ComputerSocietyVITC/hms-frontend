@@ -15,10 +15,16 @@ const LoginComponent = () => {
   const [error, setError] = useState("");
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
-  const { user, loading } = useAuth();
+  const { user, getUser, loading } = useAuth();
 
   useEffect(() => {
     setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
   }, []);
 
   useEffect(() => {

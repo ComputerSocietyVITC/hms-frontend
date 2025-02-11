@@ -23,7 +23,17 @@ const JoinTeamPage: React.FC = () => {
   const [isJoinDialogOpen, setIsJoinDialogOpen] = useState(false);
   const router = useRouter();
 
-  const { getUser } = useAuth();
+  const { user, getUser } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+
+    if (user?.teamId) {
+      router.push("/team");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (teamId) {
@@ -74,10 +84,6 @@ const JoinTeamPage: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleSubmit = () => {
-    joinTeam();
   };
 
   return (
@@ -137,7 +143,7 @@ const JoinTeamPage: React.FC = () => {
         title="Confirm Join"
         message="Are you sure you want to join the team?"
         positive={true}
-        onConfirm={handleSubmit}
+        onConfirm={joinTeam}
         onCancel={() => setIsJoinDialogOpen(false)}
       />
     </div>

@@ -20,8 +20,14 @@ const Register = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const { user, loading } = useAuth();
+  const { user, getUser, loading } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+  }, []);
 
   useEffect(() => {
     if (user) {
