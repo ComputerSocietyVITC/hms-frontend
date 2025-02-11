@@ -3,6 +3,7 @@
 import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
@@ -42,21 +43,27 @@ const AdminControls = () => {
       </header>
       <div className="flex-grow flex items-center justify-center">
         <div className="flex flex-col gap-4 items-center">
-          <Button
-            buttonText="View All Teams"
-            onClick={() => router.push("/allteams")}
-            customStyle="w-[400px]"
-          />
-          <Button
-            buttonText="View All Users"
-            onClick={() => router.push("/allusers")}
-            customStyle="w-[400px]"
-          />
-          <Button
-            buttonText="Promote a User"
-            onClick={() => router.push("/promoteUser")}
-            customStyle="w-[400px]"
-          />
+          <Link href="/allteams">
+            <Button
+              buttonText="View All Teams"
+              onClick={() => {}}
+              customStyle="w-[400px]"
+            />
+          </Link>
+          <Link href="/allusers">
+            <Button
+              buttonText="View All Users"
+              onClick={() => {}}
+              customStyle="w-[400px]"
+            />
+          </Link>
+          <Link href="/promoteUser">
+            <Button
+              buttonText="Promote a User"
+              onClick={() => {}}
+              customStyle="w-[400px]"
+            />
+          </Link>
         </div>
       </div>
     </div>

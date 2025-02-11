@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import api from "@/api";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
 const LoginComponent = () => {
   const [email, setEmail] = useState("");
@@ -104,12 +105,12 @@ const LoginComponent = () => {
         />
         <p className="mt-4 text-center text-gray-400">
           Do not have an account?{" "}
-          <a
-            onClick={() => (window.location.href = "/register")}
+          <Link
+            href="/register"
             className="font-bold text-white cursor-pointer hover:underline"
           >
             Register
-          </a>
+          </Link>
         </p>
       </div>
     </div>

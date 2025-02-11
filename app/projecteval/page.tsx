@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
 import { useRouter } from "next/navigation";
 import api from "@/api";
+import Link from "next/link";
 
 const EvaluateProjectPage: React.FC = () => {
   const [projectId, setProjectId] = useState("");
@@ -36,7 +37,9 @@ const EvaluateProjectPage: React.FC = () => {
     <div className="bg-[#F3F4F6] w-full h-screen flex flex-col">
       <header className="w-full bg-white flex items-center justify-between px-6 py-3">
         <h1 className="text-lg font-medium">Evaluate a Project</h1>
-        <DangerButton buttonText="Cancel" onClick={() => router.push("/")} />
+        <Link href="/">
+          <DangerButton buttonText="Cancel" onClick={() => {}} />
+        </Link>
       </header>
 
       <main className="flex justify-center items-center flex-1">

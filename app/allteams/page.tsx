@@ -7,6 +7,7 @@ import SelectedTeamInfo from "@/components/allteams/SelectedTeamInfo";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 interface Evaluation {
   id: string;
@@ -130,10 +131,9 @@ export default function Page() {
     <div className="flex flex-col h-screen bg-[#09090b] text-white">
       <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <div className="text-lg font-bold">Hackathon Teams</div>
-        <DangerButton
-          buttonText="Go Back"
-          onClick={() => router.push("/admincontrols")}
-        />
+        <Link href="/admincontrols">
+          <DangerButton buttonText="Go Back" onClick={() => {}} />
+        </Link>
       </header>
       <div className="flex-grow w-full flex flex-row gap-4 p-4 bg-[#09090b]">
         <AllTeams

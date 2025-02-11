@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import api from "@/api";
 import axios from "axios";
 import DangerButton from "@/components/ui/DangerButton";
+import Link from "next/link";
 
 const EditProfile = () => {
   const [name, setName] = useState("");
@@ -103,10 +104,9 @@ const EditProfile = () => {
     <div className="flex flex-col h-screen bg-[#09090b] text-white">
       <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-4 border-b border-gray-700">
         <h1 className="text-lg font-bold">Edit your Profile</h1>
-        <DangerButton
-          buttonText="Cancel"
-          onClick={() => router.push("/user")}
-        />
+        <Link href="/user">
+          <DangerButton buttonText="Cancel" onClick={() => {}} />
+        </Link>
       </header>
 
       <main className="flex-grow flex items-center justify-center w-full">

@@ -7,6 +7,7 @@ import { TeamMemberListItemModified } from "@/components/team/TeamMemberListItem
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 
 interface Evaluation {
   id: string;
@@ -116,10 +117,9 @@ const Page = () => {
     <div className="flex flex-col h-screen bg-[#09090b] text-white">
       <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <h1 className="text-lg font-bold">All Users</h1>
-        <DangerButton
-          buttonText="Go Back"
-          onClick={() => router.push("/admincontrols")}
-        />
+        <Link href="/admincontrols">
+          <DangerButton buttonText="Go Back" onClick={() => {}} />
+        </Link>
       </header>
       <main className="flex-grow w-[95%] mx-auto py-8 bg-[#09090b]">
         <div className="flex flex-col">

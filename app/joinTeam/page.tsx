@@ -7,6 +7,7 @@ import DangerButton from "@/components/ui/DangerButton";
 import { useRouter } from "next/navigation";
 import api from "@/api";
 import axios from "axios";
+import Link from "next/link";
 
 const JoinTeamPage: React.FC = () => {
   const [teamID, setTeamID] = useState("");
@@ -66,7 +67,9 @@ const JoinTeamPage: React.FC = () => {
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
       <header className="flex justify-between items-center w-full bg-[#121212] text-white py-3 px-6 border-b border-gray-700">
         <h1 className="text-lg font-bold">Join a Team</h1>
-        <DangerButton buttonText="Cancel" onClick={() => router.push("/")} />
+        <Link href="/">
+          <DangerButton buttonText="Cancel" onClick={() => {}} />
+        </Link>
       </header>
 
       <main className="flex justify-center items-center flex-1">
@@ -102,12 +105,12 @@ const JoinTeamPage: React.FC = () => {
 
           <p className="mt-4 text-center block">
             Want to create a team?{" "}
-            <a
-              onClick={() => router.push("/createTeam")}
+            <Link
+              href="/createTeam"
               className="font-bold cursor-pointer hover:underline text-blue-400"
             >
               Create a Team
-            </a>
+            </Link>
           </p>
         </div>
       </main>

@@ -3,6 +3,7 @@ import DangerButton from "../ui/DangerButton";
 import api from "@/api";
 import axios from "axios";
 import Button from "../ui/Button";
+import Link from "next/link";
 
 export type TeamMemberListItemModifiedProps = {
   githubId: string | null;
@@ -80,10 +81,9 @@ export const TeamMemberListItemModified = ({
       </div>
 
       <div className="flex gap-3">
-        <Button
-          buttonText="View Profile"
-          onClick={() => (window.location.href = `/user/${userId}`)}
-        />
+        <Link href={`/user/${userId}`} target="_blank">
+          <Button buttonText="View Profile" onClick={() => {}} />
+        </Link>
         <DangerButton
           buttonText="Delete User"
           onClick={handleClick}

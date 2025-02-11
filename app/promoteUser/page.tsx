@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import api from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
+import Link from "next/link";
 
 type UserRole = "SUPER_ADMIN" | "ADMIN" | "EVALUATOR" | "USER";
 
@@ -66,10 +67,9 @@ const PromoteUserPage: React.FC = () => {
     <div className="bg-[#09090b] w-full h-screen flex flex-col">
       <header className="w-full bg-[#121212] text-white flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <h1 className="text-lg font-bold">Promote User</h1>
-        <DangerButton
-          buttonText="Go Back"
-          onClick={() => router.push("/admincontrols")}
-        />
+        <Link href="/admincontrols">
+          <DangerButton buttonText="Go Back" onClick={() => {}} />
+        </Link>
       </header>
 
       <main className="flex justify-center items-center flex-1">

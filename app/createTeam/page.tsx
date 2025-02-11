@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import api from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
+import Link from "next/link";
 
 const CreateTeamPage: React.FC = () => {
   const [name, setName] = useState("");
@@ -55,7 +56,9 @@ const CreateTeamPage: React.FC = () => {
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
       <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <h1 className="text-lg font-bold">Create a Team</h1>
-        <DangerButton buttonText="Cancel" onClick={() => router.push("/")} />
+        <Link href="/">
+          <DangerButton buttonText="Cancel" onClick={() => {}} />
+        </Link>
       </header>
 
       <main className="flex justify-center items-center flex-1">
@@ -96,12 +99,12 @@ const CreateTeamPage: React.FC = () => {
 
           <p className="mt-4 text-center block">
             Want to join a team?{" "}
-            <a
-              onClick={() => router.push("/joinTeam")}
+            <Link
+              href="/joinTeam"
               className="font-bold cursor-pointer hover:underline text-blue-400"
             >
               Join a Team
-            </a>
+            </Link>
           </p>
         </div>
       </main>

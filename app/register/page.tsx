@@ -7,6 +7,7 @@ import InputField from "@/components/ui/InputField";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -149,12 +150,12 @@ const Register = () => {
         />
         <p className="mt-4 text-center text-gray-400">
           Already have an account?{" "}
-          <a
-            onClick={() => (window.location.href = "/login")}
+          <Link
+            href="/login"
             className="font-bold text-white cursor-pointer hover:underline"
           >
             Login
-          </a>
+          </Link>
         </p>
       </div>
     </div>
