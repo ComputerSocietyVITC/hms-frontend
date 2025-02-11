@@ -8,12 +8,15 @@ import { useRouter } from "next/navigation";
 import api from "@/api";
 import axios from "axios";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const JoinTeamPage: React.FC = () => {
   const [teamID, setTeamID] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  const { getUser } = useAuth();
 
   const getErrorMessage = (status: number): string => {
     switch (status) {
@@ -43,6 +46,8 @@ const JoinTeamPage: React.FC = () => {
       const response = await api.post(`/team/${teamID}/join`);
 
       if (response.status === 201) {
+        await getUser();
+
         router.push("/team");
       }
     } catch (err: unknown) {
