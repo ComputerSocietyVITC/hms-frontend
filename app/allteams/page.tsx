@@ -5,7 +5,6 @@ import AllTeams from "@/components/allteams/AllTeams";
 import DangerButton from "@/components/ui/DangerButton";
 import SelectedTeamInfo from "@/components/allteams/SelectedTeamInfo";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -58,7 +57,7 @@ export default function Page() {
   const [selectedTeamInfo, setSelectedTeamInfo] = useState<Team | null>(null);
   const [teams2, setTeams] = useState<Team[]>([]);
   const [error, setError] = useState("");
-  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchTeams = async () => {
     try {
@@ -77,7 +76,7 @@ export default function Page() {
           } else if (error.response.status === 500) {
             setError("Internal Server Error. Please try again later.");
           } else {
-            setError("An unexpected error occured.");
+            setError("An unexpected error occurred.");
           }
         } else {
           setError("Please check your internet connection.");
@@ -90,7 +89,11 @@ export default function Page() {
     fetchTeams();
   }, []);
 
-  const teams = teams2.map(({ id, name }) => ({ id, name }));
+  const filteredTeams = teams2.filter((team) =>
+    team.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const teams = filteredTeams.map(({ id, name }) => ({ id, name }));
 
   const handleTeamClick = (teamId: string) => {
     const teamData = teams2.find((team) => team.id === teamId) || null;
@@ -131,6 +134,13 @@ export default function Page() {
     <div className="flex flex-col h-screen bg-[#09090b] text-white">
       <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <div className="text-lg font-bold">Hackathon Teams</div>
+        <input
+          type="text"
+          placeholder="Search teams..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+        />
         <Link href="/admincontrols">
           <DangerButton buttonText="Go Back" onClick={() => {}} />
         </Link>
