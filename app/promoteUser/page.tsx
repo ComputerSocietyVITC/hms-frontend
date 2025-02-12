@@ -54,16 +54,16 @@ const PromoteUserPage: React.FC = () => {
           setError("Failed to connect to the server.");
         }
       }
-
-      setIsPromoteDialogOpen(false);
     }
   };
 
   const handleSubmit = () => {
     if (!userID.trim()) {
       setError("Please enter a User ID");
+      setIsPromoteDialogOpen(false);
       return;
     }
+    setIsPromoteDialogOpen(false);
     promoteUser();
   };
 

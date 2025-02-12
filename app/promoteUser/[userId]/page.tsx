@@ -62,8 +62,11 @@ const DynamicPromoteUser = ({
   const promoteUser = async () => {
     if (!userID.trim()) {
       setError("Please enter a User ID");
+      setIsPromoteDialogOpen(false);
       return;
     }
+
+    setIsPromoteDialogOpen(false);
 
     try {
       setLoading(true);
