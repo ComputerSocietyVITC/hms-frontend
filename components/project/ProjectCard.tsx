@@ -39,7 +39,7 @@ const ProjectCard = ({
           className="size-48 rounded-full"
           width={1024}
           height={1024}
-          src={`https://github.com/${githubUsername}.png`}
+          src={`https://github.com/example.png`}
           alt="profile_img"
         />
       ) : (
