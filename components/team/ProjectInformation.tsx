@@ -64,7 +64,7 @@ const ProjectInformation = ({
           ) : (
             <>
               {canCreateProject ? (
-                <Link href="/newproject">
+                <Link href="/createproject">
                   <Button
                     customStyle="mt-4 w-full bg-blue-600 hover:bg-blue-500"
                     buttonText="Create a new project"
