@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Button from "../ui/Button";
 import DangerButton from "../ui/DangerButton";
+import axios from "axios";
 
 interface Evaluation {
   id: string;
@@ -30,6 +31,34 @@ export type ProjectListProps = {
 };
 
 const ProjectList = ({ projects, onDelete }: ProjectListProps) => {
+  const handleDelete = async (projectId: string) => {
+    onDelete(projectId);
+
+    try {
+      const response = await axios.delete(`/project/${projectId}`);
+
+      if (response.status !== 200) {
+        throw new Error("Failed to delete project");
+      }
+      console.log("Project deleted successfully.");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          if (error.response.status === 403) {
+            console.log("Forbidden. User does not have sufficient permissions.");
+          } else if (error.response.status === 404) {
+            console.log("Project not found.");
+          } else if (error.response.status === 500) {
+            console.log("Unexpected server error.");
+          } else {
+            console.log("An unexpected error occurred. Please try again later.");
+          }
+        } else {
+          console.log("Please check your network connection and try again.");
+        }
+      }
+    }
+  };
   return (
     <div className="flex flex-col gap-4">
       {projects.map((project) => (
@@ -57,7 +86,7 @@ const ProjectList = ({ projects, onDelete }: ProjectListProps) => {
             />
             <DangerButton
               buttonText="Delete Project"
-              onClick={() => onDelete(project.id)}
+              onClick={() => handleDelete(project.id)}
             />
           </div>
         </div>
