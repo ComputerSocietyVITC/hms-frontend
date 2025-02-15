@@ -121,11 +121,13 @@ const ProjectInformation = ({
       )}
 
       {project && (
-        <Button
-          buttonText="Edit Project Details"
-          customStyle="w-full bg-blue-600 hover:bg-blue-500 mt-4"
-          onClick={() => console.log("Editing project with ID: ", project.id)}
-        />
+        <Link href="/updateProject">
+          <Button
+            buttonText="Edit Project Details"
+            customStyle="w-full bg-blue-600 hover:bg-blue-500 mt-4"
+            onClick={() => {}}
+          />
+        </Link>
       )}
     </div>
   );
