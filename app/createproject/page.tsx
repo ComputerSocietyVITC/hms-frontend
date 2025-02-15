@@ -7,10 +7,13 @@ import DangerButton from "@/components/ui/DangerButton";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import api from "@/api";
+import axios from "axios";
 
 const CreateProjectPage: React.FC = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
 
   const router = useRouter();
   const { user, getUser } = useAuth();
@@ -28,8 +31,40 @@ const CreateProjectPage: React.FC = () => {
     }
   }, [user]);
 
-  const handleSubmit = () => {
-    console.log({ name, description });
+  const handleSubmit = async () => {
+    try {
+      const response = await api.post("/project", {
+        name,
+        description,
+        teamId: user?.teamId,
+      });
+
+      if (response.status === 201) {
+        await getUser();
+
+        router.push("/team");
+      }
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.response) {
+          switch (err.response.status) {
+            case 403:
+              setError(
+                "You do not have sufficient permissions to create a project."
+              );
+              break;
+            case 409:
+              setError("Your team has already created a project.");
+              break;
+            case 500:
+              setError("Internal server error. Please try again later.");
+              break;
+            default:
+              setError("An unexpected error occurred.");
+          }
+        }
+      }
+    }
   };
 
   return (
@@ -66,6 +101,8 @@ const CreateProjectPage: React.FC = () => {
             text={description}
             customStyle="mt-4"
           />
+
+          {error && <p className="text-red-500 mt-4">{error}</p>}
 
           <Button
             buttonText="Create Project"
