@@ -60,6 +60,7 @@ interface TeamResponse {
 const TeamPage = () => {
   const [response, setResponse] = useState<TeamResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [project, setProject] = useState<Project | null>(null);
   const [error, setError] = useState("");
 
   const { user, getUser } = useAuth();
@@ -76,6 +77,7 @@ const TeamPage = () => {
 
       if (res.status === 200 && res.data) {
         setResponse(res.data);
+        setProject(res.data.project);
       } else {
         setError("Failed to load team data.");
       }
@@ -133,7 +135,6 @@ const TeamPage = () => {
   }
 
   const leader = getLeader();
-  const project = response.project || null;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
