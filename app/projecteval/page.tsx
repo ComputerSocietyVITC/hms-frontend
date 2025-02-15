@@ -4,44 +4,62 @@ import React, { useState } from "react";
 import InputField from "@/components/ui/InputField";
 import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
-import api from "@/api";
+// import api from "@/api"; Uncomment this line when you start development
 import Link from "next/link";
 
 const EvaluateProjectPage: React.FC = () => {
   const [projectId, setProjectId] = useState("");
   const [score, setScore] = useState<number | "">("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async () => {
-    if (score === "" || score < 0) {
-      alert("Please enter a valid score.");
+    if (projectId === "") {
+      setError("Please enter a valid project ID.");
       return;
     }
 
-    try {
-      const response = await api.post("/evaluate-project", {
-        projectId,
-        score,
-      });
-
-      if (response.status === 200) {
-        console.log("Evaluation submitted:", response.data);
-      }
-    } catch (err) {
-      console.error("Error submitting evaluation:", err);
+    if (score === "" || score < 0 || score > 10) {
+      setError("Please enter a valid score.");
+      return;
     }
+
+    setError("");
+    console.log({ projectId, score });
+
+    // Rewrite this function with the correct API route and all the error codes
+
+    // try {
+    //   const response = await api.post("/evaluate-project", {
+    //     projectId,
+    //     score,
+    //   });
+
+    //   if (response.status === 200) {
+    //     console.log("Evaluation submitted:", response.data);
+    //   }
+    // } catch (err) {
+    //   console.error("Error submitting evaluation:", err);
+    // }
   };
 
   return (
-    <div className="bg-[#F3F4F6] w-full h-screen flex flex-col">
-      <header className="w-full bg-white flex items-center justify-between px-6 py-3">
-        <h1 className="text-lg font-medium">Evaluate a Project</h1>
+    <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
+        <h1 className="text-lg font-bold">Evaluate a Project</h1>
         <Link href="/">
           <DangerButton buttonText="Cancel" onClick={() => {}} />
         </Link>
       </header>
 
       <main className="flex justify-center items-center flex-1">
-        <div className="bg-white p-4 rounded-lg w-96 border border-[#D9D9D9]">
+        <div className="bg-[#121212] p-6 rounded-lg w-96 border border-gray-700 shadow-lg">
+          <div className="mb-4">
+            <h2 className="text-3xl font-black">Evaluate a Project</h2>
+            <p className="text-sm text-gray-400">
+              Enter the details to evaluate the project
+            </p>
+          </div>
+
           <InputField
             label="Project ID"
             type="text"
@@ -55,8 +73,11 @@ const EvaluateProjectPage: React.FC = () => {
             type="number"
             placeholder="Enter Score"
             onTextChange={(value) => setScore(value ? parseInt(value) : "")}
+            customStyle="mt-4"
             text={score.toString()}
           />
+
+          {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
 
           <Button
             buttonText="Submit Evaluation"
