@@ -6,11 +6,12 @@ import InputField from "@/components/ui/InputField";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import api from "@/api";
-import axios from "axios";
+// import axios from "axios";
 import DangerButton from "@/components/ui/DangerButton";
 import DialogBox from "@/components/ui/DialogBox";
 
 const UpdateProject = () => {
+  // const [projectId, setProjectId] = useState(""); Uncomment this line on development
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [repoUrl, setRepoUrl] = useState("");
@@ -18,32 +19,49 @@ const UpdateProject = () => {
   const [reportUrl, setReportUrl] = useState("");
   const [imageId, setImageId] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
 
-  const handleSubmit = () => {
-    console.log({
-      name: name || "(empty)",
-      description: description || "(empty)",
-      repoUrl: repoUrl || "(empty)",
-      demoUrl: demoUrl || "(empty)",
-      reportUrl: reportUrl || "(empty)",
-      imageId: imageId || "(empty)",
-    });
-
-    handleUpdateProject();
-  };
-
-  const { user, loading } = useAuth();
+  const { user, getUser, loading } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!loading && !user) {
       router.push("/login");
     }
   }, [user, loading, router]);
+
+  useEffect(() => {
+    const getProject = async () => {
+      if (user?.teamId) {
+        const response = await api.get(`/team/${user.teamId}`);
+
+        if (!response.data.project) {
+          router.push("/team");
+        }
+
+        if (response.data) {
+          // setProjectId(response.data.project.id || ""); Uncomment this line on development
+          setName(response.data.project.name || "");
+          setDescription(response.data.project.description || "");
+          setRepoUrl(response.data.project.repoUrl || "");
+          setDemoUrl(response.data.project.demoUrl || "");
+          setReportUrl(response.data.project.reportUrl || "");
+          setImageId(response.data.project.imageId || "");
+        }
+      }
+    };
+
+    getProject();
+  }, [router, user?.teamId]);
 
   if (loading || !user) {
     return (
@@ -54,41 +72,82 @@ const UpdateProject = () => {
   }
 
   const handleUpdateProject = async () => {
-    try {
-      const response = await api.post(`/project/update`, {
-        name,
-        description,
-        repoUrl,
-        demoUrl,
-        reportUrl,
-        imageId,
-      });
+    // Implement the update project functionality
+    // try {
+    //   const response = await api.post(`/project/update`, {
+    //     name,
+    //     description,
+    //     repoUrl,
+    //     demoUrl,
+    //     reportUrl,
+    //     imageId,
+    //   });
+    //   if (response.status === 200) {
+    //     router.push("/projects");
+    //   }
+    // } catch (error: unknown) {
+    //   if (axios.isAxiosError(error)) {
+    //     if (error.response) {
+    //       if (error.response.status === 403) {
+    //         setError(
+    //           "You do not have sufficient permissions to update this project."
+    //         );
+    //       } else if (error.response.status === 404) {
+    //         setError("Project not found. It may have been deleted.");
+    //       } else if (error.response.status === 500) {
+    //         setError("Internal Server Error. Please try again later.");
+    //       } else {
+    //         setError("An unexpected error occurred.");
+    //       }
+    //     } else {
+    //       setError(
+    //         "Failed to connect to the server. Check your internet connection."
+    //       );
+    //     }
+    //     setSuccess("");
+    //   }
+    // }
+  };
 
-      if (response.status === 200) {
-        router.push("/projects");
-      }
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          if (error.response.status === 403) {
-            setError(
-              "You do not have sufficient permissions to update this project.",
-            );
-          } else if (error.response.status === 404) {
-            setError("Project not found. It may have been deleted.");
-          } else if (error.response.status === 500) {
-            setError("Internal Server Error. Please try again later.");
-          } else {
-            setError("An unexpected error occurred.");
-          }
-        } else {
-          setError(
-            "Failed to connect to the server. Check your internet connection.",
-          );
-        }
-        setSuccess("");
-      }
+  const handleSubmit = () => {
+    if (!name) {
+      setError("Project name is required.");
+      setIsSaveDialogOpen(false);
+      return;
     }
+
+    if (!description) {
+      setError("Project description is required.");
+      setIsSaveDialogOpen(false);
+      return;
+    }
+
+    if (!repoUrl) {
+      setError("Repository URL is required.");
+      setIsSaveDialogOpen(false);
+      return;
+    }
+
+    if (!demoUrl) {
+      setError("Demo URL is required.");
+      setIsSaveDialogOpen(false);
+      return;
+    }
+
+    if (!reportUrl) {
+      setError("Report URL is required.");
+      setIsSaveDialogOpen(false);
+      return;
+    }
+
+    if (!imageId) {
+      setError("Image ID is required.");
+      setIsSaveDialogOpen(false);
+      return;
+    }
+
+    setError("");
+    handleUpdateProject();
   };
 
   return (
@@ -111,6 +170,7 @@ const UpdateProject = () => {
               onTextChange={setName}
               text={name}
             />
+
             <InputField
               label="Description"
               type="text"
@@ -118,6 +178,7 @@ const UpdateProject = () => {
               onTextChange={setDescription}
               text={description}
             />
+
             <InputField
               label="Repository URL"
               type="url"
@@ -125,6 +186,7 @@ const UpdateProject = () => {
               onTextChange={setRepoUrl}
               text={repoUrl}
             />
+
             <InputField
               label="Demo URL"
               type="url"
@@ -132,6 +194,7 @@ const UpdateProject = () => {
               onTextChange={setDemoUrl}
               text={demoUrl}
             />
+
             <InputField
               label="Report URL"
               type="url"
@@ -139,16 +202,18 @@ const UpdateProject = () => {
               onTextChange={setReportUrl}
               text={reportUrl}
             />
+
             <InputField
               label="Image ID"
               type="text"
-              placeholder="Enter image ID"
+              placeholder="Enter image ID (UUID)"
               onTextChange={setImageId}
               text={imageId}
             />
           </div>
+
           {error && <p className="text-red-500 mt-4">{error}</p>}
-          {success && <p className="text-green-500 mt-4">{success}</p>}
+
           <Button
             buttonText="Update Project"
             onClick={() => setIsSaveDialogOpen(true)}
@@ -162,7 +227,7 @@ const UpdateProject = () => {
         title="Confirm Cancel"
         message="Are you sure you want to cancel editing your project?"
         positive={false}
-        onConfirm={() => router.push("/dashboard")}
+        onConfirm={() => router.push("/project")}
         onCancel={() => setIsCancelDialogOpen(false)}
       />
 
