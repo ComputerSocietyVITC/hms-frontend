@@ -40,7 +40,7 @@ const Page = () => {
         updatedAt: new Date().toISOString(),
         name: "AI Diagnosis System",
         description: "A tool for automated medical diagnosis.",
-        imageId: "img1",
+        imageId: "",
         teamId: "team1",
         evaluations: [
           {
@@ -58,7 +58,7 @@ const Page = () => {
         updatedAt: new Date().toISOString(),
         name: "Smart Traffic Control",
         description: "An AI-powered traffic light optimization system.",
-        imageId: "img2",
+        imageId: "",
         teamId: "team2",
         evaluations: [],
       },
@@ -68,7 +68,7 @@ const Page = () => {
         updatedAt: new Date().toISOString(),
         name: "Blockchain Voting System",
         description: "A secure and transparent e-voting solution.",
-        imageId: "img3",
+        imageId: "",
         teamId: "team3",
         evaluations: [
           {
@@ -112,7 +112,10 @@ const Page = () => {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
+          role="alert"
+        >
           <strong className="font-bold">Error: </strong>
           <span className="block sm:inline">{error}</span>
         </div>
@@ -136,7 +139,10 @@ const Page = () => {
         </Link>
       </header>
       <main className="flex-grow w-[95%] mx-auto py-8 bg-[#09090b]">
-        <ProjectList projects={filteredProjects} onDelete={handleProjectDelete} />
+        <ProjectList
+          projects={filteredProjects}
+          onDelete={handleProjectDelete}
+        />
       </main>
       <FooterSection />
     </div>

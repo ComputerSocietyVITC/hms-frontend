@@ -1,9 +1,10 @@
-"use client";
-
-import React from "react";
-import Link from "next/link";
-import Button from "../ui/Button";
+import Image from "next/image";
 import DangerButton from "../ui/DangerButton";
+import Button from "../ui/Button";
+import Link from "next/link";
+import PositiveButton from "../ui/PositiveButton";
+import DialogBox from "../ui/DialogBox";
+import { useState } from "react";
 
 interface Evaluation {
   id: string;
@@ -30,36 +31,79 @@ export type ProjectListProps = {
 };
 
 const ProjectList = ({ projects, onDelete }: ProjectListProps) => {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
+    null
+  );
+
+  const handleClick = async (projectId: string) => {
+    onDelete(projectId);
+    setIsDeleteDialogOpen(false);
+  };
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       {projects.map((project) => (
         <div
           key={project.id}
-          className="p-4 bg-gray-800 rounded-lg shadow-md text-white flex justify-between items-center border border-gray-700"
+          className="flex items-center justify-between p-5 rounded-lg bg-[#121212] border border-gray-700"
         >
-          <div>
-            <h3 className="text-lg font-bold">{project.name}</h3>
-            <p className="text-sm text-gray-400">
-              Created At: {new Date(project.createdAt).toLocaleDateString()}
-            </p>
-            <p className="text-sm">
-              Status: {project.evaluations.length > 0 ? "Evaluated" : "Not Evaluated"}
-            </p>
+          <div className="flex items-center gap-4">
+            {project.imageId ? (
+              <Image
+                src={`/images/${project.imageId}`}
+                alt={project.name}
+                height={48}
+                width={48}
+                className="size-12 rounded-full border border-gray-600"
+              />
+            ) : (
+              <div className="size-12 flex items-center justify-center rounded-full bg-gray-700 text-white font-bold text-lg border border-gray-600">
+                {project.name.charAt(0).toUpperCase()}
+              </div>
+            )}
+            <div className="flex flex-col justify-center">
+              <h1 className="font-semibold text-lg">{project.name}</h1>
+              <span className="text-sm text-gray-400">
+                {project.evaluations.length > 0 ? "Evaluated" : "Not Evaluated"}{" "}
+                • Created At:{" "}
+                {new Date(project.createdAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}{" "}
+              </span>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <Link href={`/project/${project.id}`}>
+
+          <div className="flex gap-3">
+            <Link href={`/project/${project.id}`} target="_blank">
               <Button buttonText="View Project" onClick={() => {}} />
             </Link>
-            <Button
-              buttonText="Evaluate Project"
-              customStyle="bg-yellow-600 hover:bg-yellow-500"
-              onClick={() => console.log(`Evaluating project with ID: ${project.id}`)}
-            />
+            <Link href={`/evaluateProject/${project.id}`} target="_blank">
+              <PositiveButton
+                buttonText="Evaluate Project"
+                onClick={() => {}}
+              />
+            </Link>
             <DangerButton
               buttonText="Delete Project"
-              onClick={() => onDelete(project.id)}
+              onClick={() => {
+                setSelectedProjectId(project.id);
+                setIsDeleteDialogOpen(true);
+              }}
+              primary={false}
             />
           </div>
+
+          <DialogBox
+            isOpen={isDeleteDialogOpen && selectedProjectId === project.id}
+            title="Confirm Delete Project"
+            message={`Are you sure you want to delete the project ${project.name}?`}
+            positive={false}
+            onConfirm={() => handleClick(project.id)}
+            onCancel={() => setIsDeleteDialogOpen(false)}
+          />
         </div>
       ))}
     </div>
