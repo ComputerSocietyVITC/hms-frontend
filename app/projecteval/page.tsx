@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import InputField from "@/components/ui/InputField";
 import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
-// import api from "@/api"; Uncomment this line when you start development
+import api from "@/api";
 import Link from "next/link";
+import axios from "axios";
 
 const EvaluateProjectPage: React.FC = () => {
   const [projectId, setProjectId] = useState("");
@@ -26,20 +27,34 @@ const EvaluateProjectPage: React.FC = () => {
     setError("");
     console.log({ projectId, score });
 
-    // Rewrite this function with the correct API route and all the error codes
+    try {
+      const response = await api.post("/evaluate-project", {
+        projectId,
+        score,
+      });
 
-    // try {
-    //   const response = await api.post("/evaluate-project", {
-    //     projectId,
-    //     score,
-    //   });
-
-    //   if (response.status === 200) {
-    //     console.log("Evaluation submitted:", response.data);
-    //   }
-    // } catch (err) {
-    //   console.error("Error submitting evaluation:", err);
-    // }
+      if (response.status === 201) {
+        console.log("Evaluation submitted:", response.data);
+      }
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.response) {
+          if (err.response.status === 401) {
+            setError("Unauthorized. Please log in.");
+          } else if (err.response.status === 403) {
+            setError("You do not have sufficient permissions.");
+          } else if (err.response.status === 404) {
+            setError("Project not found.");
+          } else if (err.response.status === 500) {
+            setError("Internal Server Error. Please try again later.");
+          } else {
+            setError("An unexpected error occurred.");
+          }
+        } else {
+          setError("Failed to connect to the server.");
+        }
+      }
+    }
   };
 
   return (
