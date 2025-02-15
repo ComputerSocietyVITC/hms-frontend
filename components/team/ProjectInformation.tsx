@@ -109,10 +109,11 @@ const ProjectInformation = ({
                 Current Evaluation Score
               </span>
               <span className="text-lg font-semibold">
-                {project.evaluations.length > 0
-                  ? project.evaluations[0].score
-                  : "N/A"}{" "}
-                / 10
+                {project.evaluations
+                  ? project.evaluations.length > 0
+                    ? `${project.evaluations[0].score} / 10`
+                    : "N/A"
+                  : "N/A"}
               </span>
             </div>
           </div>
@@ -122,7 +123,7 @@ const ProjectInformation = ({
       {project && (
         <Button
           buttonText="Edit Project Details"
-          customStyle="w-full bg-blue-600 hover:bg-blue-500"
+          customStyle="w-full bg-blue-600 hover:bg-blue-500 mt-4"
           onClick={() => console.log("Editing project with ID: ", project.id)}
         />
       )}
