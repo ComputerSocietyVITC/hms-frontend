@@ -1,17 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import Button from "../ui/Button";
 import { useAuth } from "@/context/AuthContext";
-import Link from "next/link";
-
-interface Evaluation {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  projectId: string;
-  score: number;
-}
 
 interface ProjectInformationProps {
   description: string;

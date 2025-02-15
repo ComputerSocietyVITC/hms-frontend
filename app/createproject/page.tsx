@@ -29,6 +29,7 @@ const CreateProjectPage: React.FC = () => {
     } else if (!user.isLeader) {
       router.push("/team");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const handleSubmit = async () => {
