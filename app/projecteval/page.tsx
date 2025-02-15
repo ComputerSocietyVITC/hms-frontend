@@ -7,11 +7,13 @@ import DangerButton from "@/components/ui/DangerButton";
 import api from "@/api";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const EvaluateProjectPage: React.FC = () => {
   const [projectId, setProjectId] = useState("");
   const [score, setScore] = useState<number | "">("");
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async () => {
     if (projectId === "") {
@@ -35,6 +37,7 @@ const EvaluateProjectPage: React.FC = () => {
 
       if (response.status === 201) {
         console.log("Evaluation submitted:", response.data);
+        router.push("/allprojects");
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
