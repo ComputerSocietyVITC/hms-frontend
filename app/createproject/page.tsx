@@ -71,7 +71,7 @@ const CreateProjectPage: React.FC = () => {
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
       <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <h1 className="text-lg font-bold">Create a Project</h1>
-        <Link href="/">
+        <Link href="/team">
           <DangerButton buttonText="Cancel" onClick={() => {}} />
         </Link>
       </header>
