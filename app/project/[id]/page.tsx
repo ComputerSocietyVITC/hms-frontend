@@ -68,9 +68,6 @@ const Profile = ({ params }: Params) => {
       } catch (err: unknown) {
         if (axios.isAxiosError(err) && err.response) {
           switch (err.response.status) {
-            case 400:
-              setError("Bad Request. Please try again later.");
-              break;
             case 403:
               setError("Forbidden. User does not have sufficient permissions.");
               break;
