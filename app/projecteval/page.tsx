@@ -27,16 +27,14 @@ const EvaluateProjectPage: React.FC = () => {
     }
 
     setError("");
-    console.log({ projectId, score });
 
     try {
-      const response = await api.post("/evaluate-project", {
+      const response = await api.post("/evaluation", {
         projectId,
         score,
       });
 
       if (response.status === 201) {
-        console.log("Evaluation submitted:", response.data);
         router.push("/allprojects");
       }
     } catch (err: unknown) {
