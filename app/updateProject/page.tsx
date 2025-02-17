@@ -6,12 +6,12 @@ import InputField from "@/components/ui/InputField";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import api from "@/api";
-// import axios from "axios";
+import axios from "axios";
 import DangerButton from "@/components/ui/DangerButton";
 import DialogBox from "@/components/ui/DialogBox";
 
 const UpdateProject = () => {
-  // const [projectId, setProjectId] = useState(""); Uncomment this line on development
+  const [projectId, setProjectId] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [repoUrl, setRepoUrl] = useState("");
@@ -49,7 +49,7 @@ const UpdateProject = () => {
         }
 
         if (response.data) {
-          // setProjectId(response.data.project.id || ""); Uncomment this line on development
+          setProjectId(response.data.project.id || "");
           setName(response.data.project.name || "");
           setDescription(response.data.project.description || "");
           setRepoUrl(response.data.project.repoUrl || "");
@@ -72,41 +72,44 @@ const UpdateProject = () => {
   }
 
   const handleUpdateProject = async () => {
-    // Implement the update project functionality
-    // try {
-    //   const response = await api.post(`/project/update`, {
-    //     name,
-    //     description,
-    //     repoUrl,
-    //     demoUrl,
-    //     reportUrl,
-    //     imageId,
-    //   });
-    //   if (response.status === 200) {
-    //     router.push("/projects");
-    //   }
-    // } catch (error: unknown) {
-    //   if (axios.isAxiosError(error)) {
-    //     if (error.response) {
-    //       if (error.response.status === 403) {
-    //         setError(
-    //           "You do not have sufficient permissions to update this project."
-    //         );
-    //       } else if (error.response.status === 404) {
-    //         setError("Project not found. It may have been deleted.");
-    //       } else if (error.response.status === 500) {
-    //         setError("Internal Server Error. Please try again later.");
-    //       } else {
-    //         setError("An unexpected error occurred.");
-    //       }
-    //     } else {
-    //       setError(
-    //         "Failed to connect to the server. Check your internet connection."
-    //       );
-    //     }
-    //     setSuccess("");
-    //   }
-    // }
+    if (!projectId) {
+      setError("Project ID is missing.");
+      return;
+    }
+
+    try {
+      setError("");
+      const response = await api.post(`/project/${projectId}`, {
+        name,
+        description,
+        repoUrl,
+        demoUrl,
+        reportUrl,
+        imageId,
+      });
+
+      if (response.status === 201) {
+        router.push("/allprojects");
+      }
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.response) {
+          if (err.response.status === 403) {
+            setError(
+              "You do not have sufficient permissions to update this project.",
+            );
+          } else if (err.response.status === 404) {
+            setError("Project not found.");
+          } else if (err.response.status === 500) {
+            setError("Internal Server Error.");
+          } else {
+            setError("An unexpected error occurred.");
+          }
+        } else {
+          setError("Failed to connect to the server.");
+        }
+      }
+    }
   };
 
   const handleSubmit = () => {
