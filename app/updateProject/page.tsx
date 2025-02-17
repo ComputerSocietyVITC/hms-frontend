@@ -71,6 +71,14 @@ const UpdateProject = () => {
     );
   }
 
+  if (user && !user.isLeader) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-[#09090b] text-red-400">
+        You are not allowed to do this action.
+      </div>
+    );
+  }
+
   const handleUpdateProject = async () => {
     if (!projectId) {
       setError("Project ID is missing.");
@@ -96,7 +104,7 @@ const UpdateProject = () => {
         if (err.response) {
           if (err.response.status === 403) {
             setError(
-              "You do not have sufficient permissions to update this project.",
+              "You do not have sufficient permissions to update this project."
             );
           } else if (err.response.status === 404) {
             setError("Project not found.");
