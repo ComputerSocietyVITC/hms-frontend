@@ -60,6 +60,7 @@ const JoinTeamPage: React.FC = () => {
   const joinTeam = async () => {
     if (!teamID.trim()) {
       setError("Please enter a Team ID");
+      setIsJoinDialogOpen(false);
       return;
     }
 
@@ -84,6 +85,7 @@ const JoinTeamPage: React.FC = () => {
       }
     } finally {
       setIsLoading(false);
+      setIsJoinDialogOpen(false);
     }
   };
 
@@ -98,44 +100,23 @@ const JoinTeamPage: React.FC = () => {
 
       <main className="flex justify-center items-center flex-1">
         <div className="bg-[#121212] p-6 rounded-lg w-96 border border-gray-700 shadow-lg">
-          <div className="mb-4">
-            <h2 className="text-3xl font-black">Join a Team</h2>
+          <div className="mb-4 text-center">
+            <h2 className="text-3xl font-black">Join Team</h2>
             <p className="text-sm text-gray-400">
-              Enter a Team ID to join a team
+              Press join team to join the team with the invite link
             </p>
           </div>
 
-          <InputField
-            label="Team ID"
-            type="text"
-            placeholder="Enter Team ID"
-            onTextChange={(value) => {
-              setTeamID(value);
-              setError(null);
-            }}
-            text={teamID}
-          />
+          {error && (
+            <div className="mb-4 text-sm text-red-400 text-center">{error}</div>
+          )}
 
           <Button
             buttonText={isLoading ? "Joining..." : "Join Team"}
             onClick={() => setIsJoinDialogOpen(true)}
-            customStyle="w-full mt-4"
+            customStyle="w-full"
             disabled={isLoading}
           />
-
-          {error && (
-            <div className="mt-3 text-sm text-red-400 text-center">{error}</div>
-          )}
-
-          <p className="mt-4 text-center block">
-            Want to create a team?{" "}
-            <Link
-              href="/createTeam"
-              className="font-bold cursor-pointer hover:underline text-blue-400"
-            >
-              Create a Team
-            </Link>
-          </p>
         </div>
       </main>
 
