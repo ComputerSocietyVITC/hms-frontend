@@ -81,9 +81,7 @@ const JoinTeamPage: React.FC = () => {
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
       <header className="flex justify-between items-center w-full bg-[#121212] text-white py-3 px-6 border-b border-gray-700">
         <h1 className="text-lg font-bold">Join a Team</h1>
-        <Link href="/">
-          <DangerButton buttonText="Cancel" onClick={() => {}} />
-        </Link>
+        <DangerButton buttonText="Cancel" onClick={() => router.push("/")} />
       </header>
 
       <main className="flex justify-center items-center flex-1">

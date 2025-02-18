@@ -10,27 +10,82 @@ import Link from "next/link";
 import api from "@/api";
 import axios from "axios";
 
+interface Evaluation {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  projectId: string;
+  score: number;
+}
+
+interface Project {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+  description: string;
+  imageId: string;
+  teamId: string;
+  evaluations: Evaluation[];
+}
+
 const CreateProjectPage: React.FC = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
+  const [, setProject] = useState<Project | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
   const { user, getUser } = useAuth();
 
-  useEffect(() => {
-    if (!user) {
-      getUser();
-      return;
+  const getProject = async () => {
+    try {
+      const response = await api.get("/project");
+      if (response.status === 200) {
+        setProject(response.data);
+        return response.data;
+      }
+      return null;
+    } catch {
+      return null;
     }
+  };
 
-    if (!user.teamId) {
-      router.push("/createTeam");
-    } else if (!user.isLeader) {
-      router.push("/team");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  useEffect(() => {
+    const checkUserAndProject = async () => {
+      try {
+        setIsLoading(true);
+
+        if (!user) {
+          await getUser();
+          return;
+        }
+
+        if (!user.teamId) {
+          router.push("/createTeam");
+          return;
+        }
+
+        if (!user.isLeader) {
+          router.push("/team");
+          return;
+        }
+
+        const existingProject = await getProject();
+        if (existingProject) {
+          router.push("/project");
+          return;
+        }
+
+        setIsLoading(false);
+      } catch {
+        setIsLoading(false);
+      }
+    };
+
+    checkUserAndProject();
+  }, [user, getUser, router]);
 
   const handleSubmit = async () => {
     try {
@@ -42,7 +97,6 @@ const CreateProjectPage: React.FC = () => {
 
       if (response.status === 201) {
         await getUser();
-
         router.push("/team");
       }
     } catch (err: unknown) {
@@ -67,6 +121,14 @@ const CreateProjectPage: React.FC = () => {
       }
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="bg-[#09090b] w-full h-screen flex items-center justify-center">
+        <p className="text-white">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
