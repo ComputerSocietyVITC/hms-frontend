@@ -3,7 +3,6 @@
 import api from "@/api";
 import ContributionStats from "@/components/team/ContributionStats";
 import FooterSection from "@/components/ui/FooterSection";
-import HeaderComponent from "@/components/ui/HeaderComponent";
 import ProjectInformation from "@/components/team/ProjectInformation";
 import RecentCommits from "@/components/team/RecentCommits";
 import TeamInformation from "@/components/team/TeamInformation";
@@ -107,6 +106,44 @@ const TeamPage = () => {
     }
   };
 
+  const handleMemberRemove = async (userId: string) => {
+    if (!response?.id) return;
+
+    try {
+      await api.delete(`/team/remove`, {
+        data: {
+          userId: userId,
+        },
+      });
+
+      setResponse((prevResponse) => {
+        if (!prevResponse) return null;
+
+        return {
+          ...prevResponse,
+          members: prevResponse.members.filter(
+            (member) => member.id !== userId
+          ),
+        };
+      });
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        switch (error.response.status) {
+          case 403:
+            throw new Error("You are not authorized to remove team members.");
+          case 500:
+            throw new Error("Internal Server Error. Please try again later.");
+          default:
+            throw new Error("Failed to remove team member. Please try again.");
+        }
+      } else {
+        throw new Error(
+          "An unexpected error occurred. Please try again later."
+        );
+      }
+    }
+  };
+
   useEffect(() => {
     if (!user) {
       getUser();
@@ -156,7 +193,8 @@ const TeamPage = () => {
           <TeamMemberList
             list={
               response.members?.map((member) => ({
-                name: member.name || "Unknown Member",
+                userId: member.id,
+                name: member.name,
                 githubId: member.github || "",
                 avatarSrc: (member.github && `${member.github}.png`) || "",
               })) || []
@@ -164,6 +202,9 @@ const TeamPage = () => {
             nonClickable={true}
             displayInviteButton={user?.isLeader}
             teamId={response.id}
+            displayRemoveButton={user?.isLeader}
+            currentUserId={user?.id || ""}
+            onMemberRemove={handleMemberRemove}
           />
           <ProjectInformation project={project} teamId={response.id} />
         </div>

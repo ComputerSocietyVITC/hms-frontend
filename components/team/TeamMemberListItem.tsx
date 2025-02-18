@@ -1,5 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import DialogBox from "../ui/DialogBox";
+import { useState } from "react";
+import DangerButton from "../ui/DangerButton";
 
 export type TeamMemberListItemProps = {
   githubId: string | null;
@@ -8,6 +11,9 @@ export type TeamMemberListItemProps = {
   userId?: string;
   avatarAlt?: string;
   nonClickable?: boolean;
+  leaderView?: boolean;
+  currentUserId: string;
+  removeMember?: (userId: string) => Promise<void>;
   className?: string;
 };
 
@@ -18,14 +24,37 @@ export const TeamMemberListItem = ({
   userId,
   avatarAlt,
   nonClickable,
+  leaderView,
+  currentUserId,
+  removeMember,
   className,
   ...props
 }: TeamMemberListItemProps) => {
-  const content = (
-    <div
-      {...props}
-      className={`${className} flex items-center space-x-4 p-2 rounded-md hover:bg-neutral-900 cursor-pointer transition-all`}
-    >
+  const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
+
+  const handleRemoveClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsRemoveDialogOpen(true);
+  };
+
+  const handleRemoveMember = async () => {
+    if (!userId || !removeMember) return;
+
+    try {
+      setIsRemoving(true);
+      await removeMember(userId);
+      setIsRemoveDialogOpen(false);
+    } catch (error) {
+      console.error("Failed to remove member:", error);
+    } finally {
+      setIsRemoving(false);
+    }
+  };
+
+  const memberInfo = (
+    <div className="flex flex-row space-x-4">
       {avatarSrc ? (
         <Image
           src={avatarSrc}
@@ -40,7 +69,9 @@ export const TeamMemberListItem = ({
         </div>
       )}
       <div className="flex flex-col justify-center">
-        <h1 className="font-bold text-lg md:text-xl">{name}</h1>
+        <h1 className="font-bold text-lg md:text-xl">
+          {userId === currentUserId ? `${name} (You)` : name}
+        </h1>
         <span className="text-sm md:text-base text-gray-400">
           {githubId || "No GitHub ID"}
         </span>
@@ -48,11 +79,47 @@ export const TeamMemberListItem = ({
     </div>
   );
 
-  return nonClickable ? (
-    content
-  ) : (
-    <Link href={`/user/${userId}`} target="_blank">
-      {content}
-    </Link>
+  const removeButton = leaderView && (
+    <div onClick={handleRemoveClick}>
+      <DangerButton
+        buttonText={isRemoving ? "Removing..." : "Remove"}
+        onClick={() => {}}
+        disabled={isRemoving}
+      />
+    </div>
+  );
+
+  const content = (
+    <div
+      {...props}
+      className={`${className} flex items-center justify-between p-2 rounded-md hover:bg-neutral-900 ${
+        !nonClickable ? "cursor-pointer" : ""
+      } transition-all`}
+    >
+      {memberInfo}
+      {userId !== currentUserId && removeButton}
+    </div>
+  );
+
+  return (
+    <div>
+      {nonClickable ? (
+        content
+      ) : (
+        <Link href={`/user/${userId}`} target="_blank">
+          {content}
+        </Link>
+      )}
+      {leaderView && (
+        <DialogBox
+          isOpen={isRemoveDialogOpen}
+          title="Confirm Remove"
+          message={`Are you sure you want to remove the user ${name} from the team?`}
+          positive={false}
+          onConfirm={handleRemoveMember}
+          onCancel={() => setIsRemoveDialogOpen(false)}
+        />
+      )}
+    </div>
   );
 };

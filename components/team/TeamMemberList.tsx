@@ -10,16 +10,26 @@
 import { useState } from "react";
 import CopyLinkDialog from "../ui/CopyLinkDialog";
 import PositiveButton from "../ui/PositiveButton";
-import {
-  TeamMemberListItem,
-  TeamMemberListItemProps,
-} from "./TeamMemberListItem";
+import { TeamMemberListItem } from "./TeamMemberListItem";
+
+interface TeamMemberList {
+  githubId: string | null;
+  name: string;
+  avatarSrc: string;
+  userId?: string;
+  avatarAlt?: string;
+  nonClickable?: boolean;
+  className?: string;
+}
 
 type TeamMemberListProps = {
   teamId?: string;
-  list: TeamMemberListItemProps[];
+  list: TeamMemberList[];
   nonClickable?: boolean;
   displayInviteButton?: boolean;
+  displayRemoveButton?: boolean;
+  currentUserId: string;
+  onMemberRemove?: (userId: string) => Promise<void>;
   className?: string;
 };
 
@@ -28,6 +38,9 @@ const TeamMemberList = ({
   list,
   nonClickable,
   displayInviteButton = true,
+  displayRemoveButton,
+  currentUserId,
+  onMemberRemove,
   className,
   ...props
 }: TeamMemberListProps) => {
@@ -47,7 +60,14 @@ const TeamMemberList = ({
 
       <div className="flex flex-col mt-3 max-h-96 overflow-y-auto space-y-2">
         {list.map((v, index) => (
-          <TeamMemberListItem key={index} {...v} nonClickable={nonClickable} />
+          <TeamMemberListItem
+            key={index}
+            {...v}
+            nonClickable={nonClickable}
+            leaderView={displayRemoveButton}
+            currentUserId={currentUserId}
+            removeMember={onMemberRemove}
+          />
         ))}
       </div>
 
