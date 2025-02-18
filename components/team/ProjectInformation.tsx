@@ -120,10 +120,10 @@ const ProjectInformation = ({
         </div>
       )}
 
-      {project && user?.isLeader && (
-        <Link href="/updateProject">
+      {project && (
+        <Link href="/project">
           <Button
-            buttonText="Edit Project Details"
+            buttonText="View Project"
             customStyle="w-full bg-blue-600 hover:bg-blue-500 mt-4"
             onClick={() => {}}
           />
