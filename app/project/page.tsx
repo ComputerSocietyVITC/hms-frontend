@@ -5,6 +5,7 @@ import api from "@/api";
 import ProjectCard from "@/components/project/ProjectCard";
 import ProjectInformation from "@/components/project/ProjectInformation";
 import Button from "@/components/ui/Button";
+import DangerButton from "@/components/ui/DangerButton";
 import FooterSection from "@/components/ui/FooterSection";
 import HeaderComponent from "@/components/ui/HeaderComponent";
 import { useAuth } from "@/context/AuthContext";
@@ -82,7 +83,10 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-      <HeaderComponent />
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-4 border-b border-gray-700">
+        <h1 className="text-lg font-bold">Your Project</h1>
+        <DangerButton buttonText="Go Back" onClick={() => router.push("/")} />
+      </header>
       <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-10">
         <ProjectCard
           createdAt={

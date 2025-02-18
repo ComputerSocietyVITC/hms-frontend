@@ -69,7 +69,7 @@ const HeaderComponent = () => {
   };
 
   return (
-    <header className="flex justify-between items-center w-full bg-[#121212] text-white py-3 px-6 border-b border-gray-700">
+    <header className="flex justify-between items-center w-full bg-[#121212] text-white py-4 px-6 border-b border-gray-700">
       <Link className="text-lg font-bold" href="/">
         IEEE CS VITC / HMS
       </Link>
