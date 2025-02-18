@@ -7,7 +7,6 @@ import ProjectInformation from "@/components/project/ProjectInformation";
 import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
 import FooterSection from "@/components/ui/FooterSection";
-import HeaderComponent from "@/components/ui/HeaderComponent";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
