@@ -58,7 +58,6 @@ const HeaderComponent = () => {
   useEffect(() => {
     router.prefetch("/admincontrols");
     router.prefetch("/team");
-    router.prefetch("/joinTeam");
     router.prefetch("/user");
     router.prefetch("/login");
   }, []);

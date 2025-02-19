@@ -41,7 +41,7 @@ const TeamInformation = ({
       if (response.status === 201) {
         await getUser();
 
-        router.push("/joinTeam");
+        router.push("/");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
