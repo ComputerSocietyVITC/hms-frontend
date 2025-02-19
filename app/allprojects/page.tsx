@@ -5,6 +5,8 @@ import FooterSection from "@/components/ui/FooterSection";
 import React, { useEffect, useState } from "react";
 import ProjectList from "@/components/team/ProjectList";
 import Link from "next/link";
+import api from "@/api";
+import axios from "axios";
 
 interface Evaluation {
   id: string;
@@ -30,61 +32,40 @@ const Page = () => {
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [error] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const getAllProjects = async () => {
+    try {
+      const response = await api.get("/project/all");
+
+      if (response.status === 200) {
+        setProjects(response.data);
+        setFilteredProjects(response.data);
+      }
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.response) {
+          switch (err.response.status) {
+            case 403:
+              setError(
+                "You do not have sufficient permissions to view projects."
+              );
+              break;
+            case 500:
+              setError("Internal server error. Please try again later.");
+              break;
+            default:
+              setError("An unexpected error occurred.");
+          }
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const projectsList: Project[] = [
-      {
-        id: "1",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        name: "AI Diagnosis System",
-        description: "A tool for automated medical diagnosis.",
-        imageId: "",
-        teamId: "team1",
-        evaluations: [
-          {
-            id: "eval1",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            projectId: "1",
-            score: 85,
-          },
-        ],
-      },
-      {
-        id: "2",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        name: "Smart Traffic Control",
-        description: "An AI-powered traffic light optimization system.",
-        imageId: "",
-        teamId: "team2",
-        evaluations: [],
-      },
-      {
-        id: "3",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        name: "Blockchain Voting System",
-        description: "A secure and transparent e-voting solution.",
-        imageId: "",
-        teamId: "team3",
-        evaluations: [
-          {
-            id: "eval2",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            projectId: "3",
-            score: 92,
-          },
-        ],
-      },
-    ];
-
-    setProjects(projectsList);
-    setFilteredProjects(projectsList);
-    setIsLoading(false);
+    getAllProjects();
   }, []);
 
   useEffect(() => {
