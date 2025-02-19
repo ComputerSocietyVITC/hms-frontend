@@ -55,11 +55,13 @@ interface Team {
 interface SelectedTeamInfoProps {
   selectedTeamInfo: Team;
   onTeamDelete: (id: string) => void;
+  onCloseClick: () => void;
 }
 
 const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
   selectedTeamInfo,
   onTeamDelete,
+  onCloseClick,
 }) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -77,7 +79,12 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
   };
 
   return (
-    <div className="p-6 border border-gray-700 rounded-lg bg-[#121212] text-white flex-[3] h-fit shadow-lg">
+    <div className="relative p-6 border border-gray-700 rounded-lg bg-[#121212] text-white flex-[3] h-fit shadow-lg">
+      <DangerButton
+        buttonText="Close"
+        onClick={onCloseClick}
+        className="absolute right-6 top-4"
+      />
       {selectedTeamInfo.project && (
         <div className="mb-6">
           <h2 className="text-3xl font-bold text-gray-200">
@@ -116,6 +123,7 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
                       : ""
                   }
                   userId={member.id}
+                  currentUserId={""}
                 />
               );
             })}
@@ -152,9 +160,11 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
               </p>
               <p>
                 <span className="font-semibold text-gray-300">
-                  Current Evaluation:
+                  Current Evaluation Score:
                 </span>{" "}
-                {selectedTeamInfo.project.evaluations[0]?.score || "N/A"} / 10
+                {(selectedTeamInfo.project.evaluations &&
+                  `${selectedTeamInfo.project.evaluations[0]?.score} / 10`) ||
+                  "N/A"}
               </p>
             </div>
           </div>
@@ -162,6 +172,9 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
+        <Link href={`project/${selectedTeamInfo.project.id}`} target="_blank">
+          <Button buttonText="View Project" onClick={() => {}} />
+        </Link>
         <Link href={`team/${selectedTeamInfo.id}`} target="_blank">
           <Button buttonText="View Team" onClick={() => {}} />
         </Link>

@@ -138,7 +138,10 @@ export default function Page() {
           type="text"
           placeholder="Search teams..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSelectedTeamInfo(null);
+            setSearchTerm(e.target.value);
+          }}
           className="px-3 py-1 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring focus:ring-gray-500"
         />
         <Link href="/admincontrols">
@@ -155,6 +158,7 @@ export default function Page() {
           <SelectedTeamInfo
             selectedTeamInfo={selectedTeamInfo}
             onTeamDelete={handleTeamDelete}
+            onCloseClick={() => setSelectedTeamInfo(null)}
           />
         )}
       </div>
