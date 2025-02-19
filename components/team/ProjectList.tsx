@@ -6,6 +6,7 @@ import PositiveButton from "../ui/PositiveButton";
 import axios from "axios";
 import DialogBox from "../ui/DialogBox";
 import { useState } from "react";
+import api from "@/api";
 
 interface Evaluation {
   id: string;
@@ -40,31 +41,33 @@ const ProjectList = ({ projects, onDelete }: ProjectListProps) => {
   const handleClick = async (projectId: string) => {
     onDelete(projectId);
     setIsDeleteDialogOpen(false);
+
     try {
-      const response = await axios.delete(`/project/${projectId}`);
+      const response = await api.delete(`/project/${projectId}`);
 
       if (response.status !== 200) {
         throw new Error("Failed to delete project");
       }
-      console.log("Project deleted successfully.");
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           if (error.response.status === 403) {
-            console.log(
+            throw new Error(
               "Forbidden. User does not have sufficient permissions."
             );
           } else if (error.response.status === 404) {
-            console.log("Project not found.");
+            throw new Error("Project not found.");
           } else if (error.response.status === 500) {
-            console.log("Unexpected server error.");
+            throw new Error("Unexpected server error.");
           } else {
-            console.log(
+            throw new Error(
               "An unexpected error occurred. Please try again later."
             );
           }
         } else {
-          console.log("Please check your network connection and try again.");
+          throw new Error(
+            "Please check your network connection and try again."
+          );
         }
       }
     }

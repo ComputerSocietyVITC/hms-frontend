@@ -96,8 +96,8 @@ const UpdateProject = () => {
         imageId,
       });
 
-      if (response.status === 201) {
-        router.push("/allprojects");
+      if (response.status === 200) {
+        router.push("/project");
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
