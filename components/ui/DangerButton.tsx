@@ -8,6 +8,7 @@ interface DangerButtonProps {
   textColor?: string;
   borderColor?: string;
   disabled?: boolean;
+  className?: string;
 }
 
 const DangerButton: React.FC<DangerButtonProps> = ({
@@ -18,6 +19,7 @@ const DangerButton: React.FC<DangerButtonProps> = ({
   textColor,
   borderColor,
   disabled,
+  className,
 }) => {
   const baseClasses =
     "rounded-lg px-4 py-2 text-base font-medium transition-all";
@@ -30,7 +32,7 @@ const DangerButton: React.FC<DangerButtonProps> = ({
 
   return (
     <button
-      className={`${baseClasses} ${primaryClasses} ${primary ? "" : "hover:bg-opacity-30"} disabled:opacity-50`}
+      className={`${baseClasses} ${primaryClasses} ${primary ? "" : "hover:bg-opacity-30"} ${className} disabled:opacity-50`}
       onClick={onClick}
       disabled={disabled}
     >
