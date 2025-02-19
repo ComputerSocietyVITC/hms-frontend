@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import api from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
-import Link from "next/link";
 
 const CreateTeamPage: React.FC = () => {
   const [name, setName] = useState("");
@@ -17,7 +16,7 @@ const CreateTeamPage: React.FC = () => {
   const [error, setError] = useState("");
 
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, getUser } = useAuth();
 
   useEffect(() => {
     if (user?.teamId) {
@@ -30,6 +29,8 @@ const CreateTeamPage: React.FC = () => {
       const response = await api.put("/team", { name: name, imageId: imageId });
 
       if (response.status === 201) {
+        await getUser();
+
         router.push("/team");
       }
     } catch (err: unknown) {
