@@ -16,6 +16,8 @@ export type TeamMemberListItemModifiedProps = {
   avatarAlt?: string;
   className?: string;
   userId: string;
+  userRole: string;
+  currentUserId: string | undefined;
   onDelete: (userId: string) => void;
 };
 
@@ -27,6 +29,8 @@ export const TeamMemberListItemModified = ({
   avatarAlt,
   className,
   userId,
+  userRole,
+  currentUserId,
   onDelete,
   ...props
 }: TeamMemberListItemModifiedProps) => {
@@ -64,6 +68,19 @@ export const TeamMemberListItemModified = ({
     }
   };
 
+  const getRoleMessage = (role: string) => {
+    switch (role) {
+      case "SUPER_ADMIN":
+        return "We never touch grass 🙂‍↕️🤚🏻";
+      case "ADMIN":
+        return "We are in an identity crisis 🔮";
+      case "EVALUATOR":
+        return "We will fail you 🕊️";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div
       {...props}
@@ -84,26 +101,31 @@ export const TeamMemberListItemModified = ({
           </div>
         )}
         <div className="flex flex-col justify-center">
-          <h1 className="font-semibold text-lg">{name}</h1>
+          <h1 className="font-semibold text-lg">
+            {name + (userId === currentUserId ? " (You)" : "")}
+          </h1>
           <span className="text-sm text-gray-400">
-            {githubId || "No GitHub"} • {teamName || "No Team"}
+            {githubId || "No GitHub"} • {teamName || "No Team"}{" "}
+            {userRole !== "USER" && `• ${getRoleMessage(userRole)}`}
           </span>
         </div>
       </div>
 
-      <div className="flex gap-3">
-        <Link href={`/user/${userId}`} target="_blank">
-          <Button buttonText="View Profile" onClick={() => {}} />
-        </Link>
-        <Link href={`/promoteUser/${userId}`} target="_blank">
-          <PositiveButton buttonText="Promote User" onClick={() => {}} />
-        </Link>
-        <DangerButton
-          buttonText="Delete User"
-          onClick={() => setIsDeleteDialogOpen(true)}
-          primary={false}
-        />
-      </div>
+      {userId !== currentUserId && (
+        <div className="flex gap-3">
+          <Link href={`/user/${userId}`} target="_blank">
+            <Button buttonText="View Profile" onClick={() => {}} />
+          </Link>
+          <Link href={`/promoteUser/${userId}`} target="_blank">
+            <PositiveButton buttonText="Promote User" onClick={() => {}} />
+          </Link>
+          <DangerButton
+            buttonText="Delete User"
+            onClick={() => setIsDeleteDialogOpen(true)}
+            primary={false}
+          />
+        </div>
+      )}
 
       <DialogBox
         isOpen={isDeleteDialogOpen}

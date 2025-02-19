@@ -7,6 +7,7 @@ import { TeamMemberListItemModified } from "@/components/team/TeamMemberListItem
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 interface Evaluation {
   id: string;
@@ -42,6 +43,15 @@ const Page = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { user, getUser } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -136,14 +146,18 @@ const Page = () => {
       </header>
       <main className="flex-grow w-[95%] mx-auto py-8 bg-[#09090b]">
         <div className="flex flex-col">
-          {filteredUsers.map((user) => (
+          {filteredUsers.map((filteredUser) => (
             <TeamMemberListItemModified
-              key={user.id}
-              githubId={user.github}
-              name={user.name}
-              teamName={teamNames[user.teamId || ""] || "No Team"}
-              avatarSrc={(user.github && `${user.github}.png`) || ""}
-              userId={user.id}
+              key={filteredUser.id}
+              githubId={filteredUser.github}
+              name={filteredUser.name}
+              teamName={teamNames[filteredUser.teamId || ""] || "No Team"}
+              avatarSrc={
+                (filteredUser.github && `${filteredUser.github}.png`) || ""
+              }
+              userId={filteredUser.id}
+              currentUserId={user?.id}
+              userRole={filteredUser.role}
               onDelete={handleUserDelete}
             />
           ))}
