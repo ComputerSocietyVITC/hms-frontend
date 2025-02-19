@@ -22,7 +22,7 @@ const EditProfile = () => {
   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
 
-  const imageId = "123e4567-e89b-12d3-a456-426614174000";
+  const imageId = "123e4567-e89b-12d3-a456-426614174222";
 
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -100,6 +100,8 @@ const EditProfile = () => {
         }
         setSuccess("");
       }
+    } finally {
+      setIsSaveDialogOpen(false);
     }
   };
 
