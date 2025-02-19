@@ -37,9 +37,7 @@ const ProjectInformation = ({
           </p>
         )}
         {adminView && (
-          <p className="text-sm text-gray-400">
-            Below are the user&apos;s details
-          </p>
+          <p className="text-sm text-gray-400">Below are the project details</p>
         )}
       </div>
       <div className="grid grid-cols-2 gap-4">

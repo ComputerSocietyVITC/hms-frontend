@@ -4,10 +4,8 @@
 import api from "@/api";
 import ProjectCard from "@/components/project/ProjectCard";
 import ProjectInformation from "@/components/project/ProjectInformation";
-import Button from "@/components/ui/Button";
 import FooterSection from "@/components/ui/FooterSection";
 import HeaderComponent from "@/components/ui/HeaderComponent";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect, use } from "react";
 import { useAuth } from "@/context/AuthContext";
@@ -148,19 +146,11 @@ const Profile = ({ params }: Params) => {
         />
         <div className="ml-8 my-auto">
           <ProjectInformation
+            adminView={true}
             teamName={project?.team?.name || "Not in a team"}
             description={project?.description || "No description"}
             customStyle="w-[3/4]"
           />
-          {user?.isLeader && (
-            <Link href="/updateProject">
-              <Button
-                buttonText="Update Project"
-                customStyle="mt-6 bg-blue-600 hover:bg-blue-500 text-white w-full"
-                onClick={() => {}}
-              />
-            </Link>
-          )}
         </div>
       </div>
       <FooterSection />

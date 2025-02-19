@@ -121,7 +121,10 @@ const ProjectInformation = ({
       )}
 
       {project && (
-        <Link href="/project">
+        <Link
+          href={`${user?.role === "USER" ? "/project" : `/project/${project.id}`}`}
+          target={`${user?.role === "USER" ? "" : "_blank"}`}
+        >
           <Button
             buttonText="View Project"
             customStyle="w-full bg-blue-600 hover:bg-blue-500 mt-4"

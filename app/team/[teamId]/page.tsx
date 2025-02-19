@@ -153,6 +153,7 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
               userId: member.id,
             }))}
             displayInviteButton={false}
+            currentUserId={""}
           />
           <ProjectInformation project={response.project} teamId={response.id} />
         </div>
