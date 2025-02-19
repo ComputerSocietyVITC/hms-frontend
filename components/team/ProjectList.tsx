@@ -51,13 +51,17 @@ const ProjectList = ({ projects, onDelete }: ProjectListProps) => {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           if (error.response.status === 403) {
-            console.log("Forbidden. User does not have sufficient permissions.");
+            console.log(
+              "Forbidden. User does not have sufficient permissions."
+            );
           } else if (error.response.status === 404) {
             console.log("Project not found.");
           } else if (error.response.status === 500) {
             console.log("Unexpected server error.");
           } else {
-            console.log("An unexpected error occurred. Please try again later.");
+            console.log(
+              "An unexpected error occurred. Please try again later."
+            );
           }
         } else {
           console.log("Please check your network connection and try again.");
@@ -90,7 +94,9 @@ const ProjectList = ({ projects, onDelete }: ProjectListProps) => {
             <div className="flex flex-col justify-center">
               <h1 className="font-semibold text-lg">{project.name}</h1>
               <span className="text-sm text-gray-400">
-                {project.evaluations.length > 0 ? "Evaluated" : "Not Evaluated"}{" "}
+                {project.evaluations && project.evaluations.length > 0
+                  ? "Evaluated"
+                  : "Not Evaluated"}{" "}
                 • Created At:{" "}
                 {new Date(project.createdAt).toLocaleDateString("en-US", {
                   year: "numeric",

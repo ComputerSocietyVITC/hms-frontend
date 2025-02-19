@@ -57,9 +57,9 @@ const AdminControls = () => {
               customStyle="w-[400px]"
             />
           </Link>
-          <Link href="/promoteUser">
+          <Link href="/allprojects">
             <Button
-              buttonText="Promote a User"
+              buttonText="View All Projects"
               onClick={() => {}}
               customStyle="w-[400px]"
             />
