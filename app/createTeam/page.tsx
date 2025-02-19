@@ -94,16 +94,6 @@ const CreateTeamPage: React.FC = () => {
             onClick={handleSubmit}
             customStyle="w-full mt-4"
           />
-
-          <p className="mt-4 text-center block">
-            Want to join a team?{" "}
-            <Link
-              href="/joinTeam"
-              className="font-bold cursor-pointer hover:underline text-blue-400"
-            >
-              Join a Team
-            </Link>
-          </p>
         </div>
       </main>
     </div>
