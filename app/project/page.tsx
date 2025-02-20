@@ -11,25 +11,7 @@ import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-
-interface Evaluation {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  projectId: string;
-  score: number;
-}
-
-interface Project {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  name: string;
-  description: string;
-  imageId: string;
-  teamId: string;
-  evaluations: Evaluation[];
-}
+import { Project } from "@/types";
 
 const Profile = () => {
   const { user, loading, getUser } = useAuth();

@@ -7,25 +7,7 @@ import axios from "axios";
 import DialogBox from "../ui/DialogBox";
 import { useState } from "react";
 import api from "@/api";
-
-interface Evaluation {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  projectId: string;
-  score: number;
-}
-
-interface Project {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  name: string;
-  description: string;
-  imageId: string;
-  teamId: string;
-  evaluations: Evaluation[];
-}
+import { Project } from "@/types";
 
 export type ProjectListProps = {
   projects: Project[];

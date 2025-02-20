@@ -8,31 +8,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-
-interface Evaluation {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  projectId: string;
-  score: number;
-}
-
-interface User {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  authId: string;
-  name: string;
-  role: string;
-  regNum: string;
-  phone: string;
-  college: string;
-  github: string;
-  imageId: string | null;
-  isLeader: boolean;
-  teamId: string | null;
-  evaluations: Evaluation[];
-}
+import { User } from "@/types";
 
 const Page = () => {
   const [users, setUsers] = useState<User[]>([]);

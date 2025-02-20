@@ -4,22 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import api from "@/api";
 import { useRouter, usePathname } from "next/navigation";
 import axios from "axios";
-
-interface User {
-  authId: string;
-  college: string;
-  createdAt: string;
-  github: string | null;
-  id: string;
-  imageId: string | null;
-  isLeader: boolean;
-  name: string;
-  phone: string;
-  regNum: string;
-  role: "ADMIN" | "EVALUATOR" | "SUPER_ADMIN" | "USER";
-  teamId: string | null;
-  updatedAt: string;
-}
+import { User } from "@/types";
 
 interface AuthContextType {
   user: User | null;

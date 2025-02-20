@@ -4,25 +4,7 @@ import React, { useEffect } from "react";
 import Button from "../ui/Button";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-
-interface Evaluation {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  projectId: string;
-  score: number;
-}
-
-interface ProjectInformationInterface {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  name: string;
-  description: string;
-  imageId: string;
-  teamId: string;
-  evaluations: Evaluation[];
-}
+import { Project } from "@/types";
 
 const options: Intl.DateTimeFormatOptions = {
   year: "numeric",
@@ -34,7 +16,7 @@ const ProjectInformation = ({
   project,
   teamId,
 }: {
-  project: ProjectInformationInterface | null;
+  project: Project | null;
   teamId: string;
 }) => {
   const { user, getUser } = useAuth();

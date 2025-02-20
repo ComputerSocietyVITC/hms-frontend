@@ -11,54 +11,10 @@ import TeamInformation from "@/components/team/TeamInformation";
 import TeamMemberList from "@/components/team/TeamMemberList";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
-interface TeamMember {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  authId: string;
-  name: string;
-  role: string;
-  regNum: string;
-  phone: string;
-  college: string;
-  github: string | null;
-  imageId: string | null;
-  isLeader: boolean;
-  teamId: string;
-}
-
-interface Evaluation {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  projectId: string;
-  score: number;
-}
-
-interface Project {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  name: string;
-  description: string;
-  imageId: string;
-  teamId: string;
-  evaluations: Evaluation[];
-}
-
-interface TeamResponse {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  name: string;
-  imageId: string;
-  members: TeamMember[];
-  project: Project;
-}
+import { Team, User } from "@/types";
 
 const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
-  const [response, setResponse] = useState<TeamResponse | null>(null);
+  const [response, setResponse] = useState<Team | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -71,7 +27,7 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
         return;
       }
 
-      const res = await api.get<TeamResponse>(`/team/${teamId}`);
+      const res = await api.get<Team>(`/team/${teamId}`);
 
       if (res.status === 200) {
         setResponse(res.data);
@@ -142,7 +98,7 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
           <TeamInformation
             teamName={response.name}
             createdOn={new Date(response.createdAt)}
-            teamLeader={(getLeader() as TeamMember).name || "Unknown Leader"}
+            teamLeader={(getLeader() as User).name || "Unknown Leader"}
             teamId={response.id}
           />
           <TeamMemberList

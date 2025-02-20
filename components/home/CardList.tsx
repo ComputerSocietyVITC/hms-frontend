@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "../ui/Card";
 import api from "@/api";
-
-interface Project {
-  id: string;
-  name: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  imageId: string | null;
-  teamId: string;
-}
+import { Project } from "@/types";
 
 const CardList: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);

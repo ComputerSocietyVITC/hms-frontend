@@ -6,51 +6,7 @@ import DangerButton from "../ui/DangerButton";
 import Button from "../ui/Button";
 import Link from "next/link";
 import DialogBox from "../ui/DialogBox";
-
-interface Evaluation {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  projectId: string;
-  score: number;
-}
-
-interface Project {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  name: string;
-  description: string;
-  imageId: string;
-  teamId: string;
-  evaluations: Evaluation[];
-}
-
-interface Member {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  authId: string;
-  name: string;
-  role: string;
-  regNum: string;
-  phone: string;
-  college: string;
-  github: string;
-  imageId: string;
-  isLeader: boolean;
-  teamId: string;
-}
-
-interface Team {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  name: string;
-  imageId: string;
-  members: Member[];
-  project: Project;
-}
+import { Team } from "@/types";
 
 interface SelectedTeamInfoProps {
   selectedTeamInfo: Team;

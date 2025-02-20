@@ -12,7 +12,7 @@ import CopyLinkDialog from "../ui/CopyLinkDialog";
 import PositiveButton from "../ui/PositiveButton";
 import { TeamMemberListItem } from "./TeamMemberListItem";
 
-interface TeamMemberList {
+interface TeamMember {
   githubId: string | null;
   name: string;
   avatarSrc: string;
@@ -24,7 +24,7 @@ interface TeamMemberList {
 
 type TeamMemberListProps = {
   teamId?: string;
-  list: TeamMemberList[];
+  list: TeamMember[];
   nonClickable?: boolean;
   displayInviteButton?: boolean;
   displayRemoveButton?: boolean;
@@ -45,11 +45,13 @@ const TeamMemberList = ({
   ...props
 }: TeamMemberListProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const inviteLink = `${window.location.origin}/joinTeam/${teamId}`;
+  const inviteLink = teamId
+    ? `${window.location.origin}/joinTeam/${teamId}`
+    : "";
 
   return (
     <div
-      className={`relative flex flex-col p-5 rounded-lg border border-gray-700 bg-[#121212] text-white w-full ${className}`}
+      className={`relative flex flex-col p-5 rounded-lg border border-gray-700 bg-[#121212] text-white w-full ${className ?? ""}`}
       {...props}
     >
       <div className="flex border-b border-gray-600 items-center justify-between">
@@ -59,10 +61,10 @@ const TeamMemberList = ({
       </div>
 
       <div className="flex flex-col mt-3 max-h-96 overflow-y-auto space-y-2">
-        {list.map((v, index) => (
+        {list.map((member) => (
           <TeamMemberListItem
-            key={index}
-            {...v}
+            key={member.userId || member.githubId || member.name} // Better key strategy
+            {...member}
             nonClickable={nonClickable}
             leaderView={displayRemoveButton}
             currentUserId={currentUserId}
@@ -71,12 +73,14 @@ const TeamMemberList = ({
         ))}
       </div>
 
-      {displayInviteButton && (
-        <PositiveButton
-          buttonText="Invite"
-          onClick={() => setDialogOpen(true)}
-          customStyle="absolute bottom-6 z-10"
-        />
+      {displayInviteButton && teamId && (
+        <div className="mt-4 flex justify-center">
+          <PositiveButton
+            buttonText="Invite"
+            onClick={() => setDialogOpen(true)}
+            customStyle="w-full"
+          />
+        </div>
       )}
 
       <CopyLinkDialog

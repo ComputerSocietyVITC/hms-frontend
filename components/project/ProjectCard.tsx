@@ -1,15 +1,8 @@
+import { Evaluation } from "@/types";
 import { HistoryIcon, ZapIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { Calendar } from "react-feather";
-
-interface Evaluation {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  projectId: string;
-  score: number;
-}
 
 interface ProjectCardProps {
   createdAt: string;

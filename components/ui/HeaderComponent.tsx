@@ -9,25 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import DialogBox from "./DialogBox";
 import api from "@/api";
-
-interface Evaluation {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  projectId: string;
-  score: number;
-}
-
-interface Project {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  name: string;
-  description: string;
-  imageId: string;
-  teamId: string;
-  evaluations: Evaluation[];
-}
+import { Project } from "@/types";
 
 const HeaderComponent = () => {
   const { user, getUser } = useAuth();
