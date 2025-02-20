@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import React, { useState, useEffect, use } from "react";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
+import Link from "next/link";
+import PositiveButton from "@/components/ui/PositiveButton";
 
 interface Evaluation {
   id: string;
@@ -144,13 +146,20 @@ const Profile = ({ params }: Params) => {
           teamName={project?.team?.name || ""}
           customStyle="w-[1/4]"
         />
-        <div className="ml-8 my-auto">
+        <div className="ml-8 flex flex-col gap-4 my-auto">
           <ProjectInformation
             adminView={true}
             teamName={project?.team?.name || "Not in a team"}
             description={project?.description || "No description"}
             customStyle="w-[3/4]"
           />
+          <Link href={`/evaluate/${project?.id}`} target="_blank">
+            <PositiveButton
+              buttonText="Evaluate Project"
+              customStyle="w-full"
+              onClick={() => {}}
+            />
+          </Link>
         </div>
       </div>
       <FooterSection />
