@@ -5,21 +5,13 @@ import DangerButton from "@/components/ui/DangerButton";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 
 const AdminControls = () => {
-  const { user, getUser } = useAuth();
-
-  useEffect(() => {
-    if (!user) {
-      getUser();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  const { userRole, loading } = useAuth();
   const router = useRouter();
 
-  if (!user) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-[#09090b]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-300" />
@@ -27,7 +19,7 @@ const AdminControls = () => {
     );
   }
 
-  if (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN") {
+  if (userRole !== "ADMIN" && userRole !== "SUPER_ADMIN") {
     return (
       <div className="flex items-center justify-center h-screen bg-[#09090b] text-red-400">
         You do not have the permissions to view this page
