@@ -12,19 +12,8 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import DialogBox from "@/components/ui/DialogBox";
 import { useRouter } from "next/navigation";
-
-type User = {
-  id: string;
-  createdAt: string;
-  name: string;
-  college: string;
-  teamName: string;
-  github: string | null;
-  isLeader: boolean;
-  regNum: string;
-  teamId?: string;
-  phone: string;
-};
+import { User } from "@/types";
+import { useAuth } from "@/context/AuthContext";
 
 type ProfileProps = {
   params: Promise<{
@@ -34,20 +23,29 @@ type ProfileProps = {
 
 const Profile = ({ params }: ProfileProps) => {
   const resolvedParams = use(params);
-  const [user, setUser] = useState<User | null>(null);
+  const [visitedUser, setVisitedUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [team, setTeam] = useState<string | null>(null);
   const [isDeleteUserDialogOpen, setIsDeleteUserDialogOpen] = useState(false);
   const [isRemoveFromTeamDialogOpen, setIsRemoveFromTeamDialogOpen] =
     useState(false);
 
+  const { user, getUser } = useAuth();
+
   const router = useRouter();
 
-  const getUser = async () => {
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const getVisitedUser = async () => {
     try {
       const response = await api.get(`/user/${resolvedParams.id}`);
       if (response.status === 200) {
-        setUser(response.data);
+        setVisitedUser(response.data);
       }
     } catch (error) {
       console.error("Error fetching user:", error);
@@ -57,9 +55,9 @@ const Profile = ({ params }: ProfileProps) => {
   };
 
   const getTeam = async () => {
-    if (user && user.teamId) {
+    if (visitedUser && visitedUser.teamId) {
       try {
-        const response = await api.get(`/team/${user.teamId}`);
+        const response = await api.get(`/team/${visitedUser.teamId}`);
         setTeam(response.data.name);
       } catch (error) {
         console.error("Error fetching team:", error);
@@ -98,9 +96,9 @@ const Profile = ({ params }: ProfileProps) => {
   };
 
   const handleRemove = async () => {
-    if (user?.teamId) {
+    if (visitedUser?.teamId) {
       try {
-        const response = await api.delete(`/team/${user.teamId}/remove`);
+        const response = await api.delete(`/team/${visitedUser.teamId}/remove`);
 
         console.log(response);
 
@@ -132,16 +130,16 @@ const Profile = ({ params }: ProfileProps) => {
   };
 
   useEffect(() => {
-    getUser();
+    getVisitedUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedParams.id]);
 
   useEffect(() => {
-    if (user) {
+    if (visitedUser) {
       getTeam();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [visitedUser]);
 
   if (loading) {
     return (
@@ -151,7 +149,7 @@ const Profile = ({ params }: ProfileProps) => {
     );
   }
 
-  if (!user) {
+  if (!visitedUser) {
     return (
       <div className="flex justify-center items-center h-screen bg-[#121212] text-white text-lg font-semibold">
         User not found
@@ -164,47 +162,58 @@ const Profile = ({ params }: ProfileProps) => {
       <HeaderComponent />
       <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-10">
         <UserCard
-          id={user.id}
-          createdAt={user.createdAt}
-          name={user.name}
-          college={user.college}
-          github={user.github}
-          isLeader={user.isLeader}
+          id={visitedUser.id}
+          createdAt={visitedUser.createdAt}
+          name={visitedUser.name}
+          college={visitedUser.college}
+          github={visitedUser.github}
+          isLeader={visitedUser.isLeader}
           teamName={team || ""}
           customStyle="w-[1/4]"
         />
         <div className="ml-8 flex flex-col my-auto gap-4">
           <UserInformation
-            registrationNumber={user.regNum}
+            registrationNumber={visitedUser.regNum}
             teamName={team || "Not in a team"}
-            collegeName={user.college}
-            phoneNumber={user.phone}
-            userId={user.id}
-            githubId={user.github}
+            collegeName={visitedUser.college}
+            phoneNumber={visitedUser.phone}
+            userId={visitedUser.id}
+            githubId={visitedUser.github}
             adminView={true}
             customStyle="w-[3/4]"
           />
-          {user && user.teamId && (
-            <div className="grid grid-cols-2 gap-4">
-              <Link href={`/team/${user.teamId}`} target="_blank">
-                <Button
-                  buttonText="View Team"
-                  onClick={() => {}}
-                  customStyle="w-full"
+          {user?.role === "EVALUATOR" && (
+            <Link href={`/team/${visitedUser.teamId}`} target="_blank">
+              <Button
+                buttonText="View Team"
+                onClick={() => {}}
+                customStyle="w-full"
+              />
+            </Link>
+          )}
+          {user?.role !== "EVALUATOR" && visitedUser && visitedUser.teamId && (
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                <Link href={`/team/${visitedUser.teamId}`} target="_blank">
+                  <Button
+                    buttonText="View Team"
+                    onClick={() => {}}
+                    customStyle="w-full"
+                  />
+                </Link>
+                <DangerButton
+                  buttonText="Remove from Team"
+                  onClick={() => setIsRemoveFromTeamDialogOpen(true)}
+                  primary={false}
                 />
-              </Link>
+              </div>
               <DangerButton
-                buttonText="Remove from Team"
-                onClick={() => setIsRemoveFromTeamDialogOpen(true)}
-                primary={false}
+                buttonText="Delete User"
+                onClick={() => setIsDeleteUserDialogOpen(true)}
+                primary={true}
               />
             </div>
           )}
-          <DangerButton
-            buttonText="Delete User"
-            onClick={() => setIsDeleteUserDialogOpen(true)}
-            primary={true}
-          />
         </div>
       </div>
       <FooterSection />
@@ -212,7 +221,7 @@ const Profile = ({ params }: ProfileProps) => {
       <DialogBox
         isOpen={isDeleteUserDialogOpen}
         title="Confirm Delete"
-        message={`Are you sure you want to delete the user ${user.name}?`}
+        message={`Are you sure you want to delete the user ${visitedUser.name}?`}
         positive={false}
         onConfirm={handleDelete}
         onCancel={() => setIsDeleteUserDialogOpen(false)}
@@ -221,7 +230,7 @@ const Profile = ({ params }: ProfileProps) => {
       <DialogBox
         isOpen={isRemoveFromTeamDialogOpen}
         title="Confirm Remove"
-        message={`Are you sure you want to remove the user ${user.name} from their team ${team}?`}
+        message={`Are you sure you want to remove the user ${visitedUser.name} from their team ${team}?`}
         positive={false}
         onConfirm={handleRemove}
         onCancel={() => setIsRemoveFromTeamDialogOpen(false)}
