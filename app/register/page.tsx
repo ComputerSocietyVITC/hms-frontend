@@ -144,6 +144,9 @@ const Register = () => {
             type="password"
             placeholder="Enter your password"
             onTextChange={setPassword}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSubmit();
+            }}
             text={password}
           />
         </div>
