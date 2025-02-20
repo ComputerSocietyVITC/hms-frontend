@@ -114,7 +114,7 @@ const ProjectList = ({ projects, onDelete }: ProjectListProps) => {
             <Link href={`/project/${project.id}`} target="_blank">
               <Button buttonText="View Project" onClick={() => {}} />
             </Link>
-            <Link href={`/evaluateProject/${project.id}`} target="_blank">
+            <Link href={`/evaluate/${project.id}`} target="_blank">
               <PositiveButton
                 buttonText="Evaluate Project"
                 onClick={() => {}}
