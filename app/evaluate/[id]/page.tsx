@@ -28,6 +28,7 @@ const EvaluateProjectPage = ({ params }: Params) => {
 
   useEffect(() => {
     if (!user) getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const id = use(params).id;
