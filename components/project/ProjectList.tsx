@@ -11,10 +11,15 @@ import { Project } from "@/types";
 
 export type ProjectListProps = {
   projects: Project[];
+  evaluatorView?: boolean;
   onDelete: (projectId: string) => void;
 };
 
-const ProjectList = ({ projects, onDelete }: ProjectListProps) => {
+const ProjectList = ({
+  projects,
+  evaluatorView = false,
+  onDelete,
+}: ProjectListProps) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
     null
@@ -102,14 +107,16 @@ const ProjectList = ({ projects, onDelete }: ProjectListProps) => {
                 onClick={() => {}}
               />
             </Link>
-            <DangerButton
-              buttonText="Delete Project"
-              onClick={() => {
-                setSelectedProjectId(project.id);
-                setIsDeleteDialogOpen(true);
-              }}
-              primary={false}
-            />
+            {!evaluatorView && (
+              <DangerButton
+                buttonText="Delete Project"
+                onClick={() => {
+                  setSelectedProjectId(project.id);
+                  setIsDeleteDialogOpen(true);
+                }}
+                primary={false}
+              />
+            )}
           </div>
 
           <DialogBox
