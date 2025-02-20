@@ -8,12 +8,22 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Team } from "@/types";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Page() {
   const [selectedTeamInfo, setSelectedTeamInfo] = useState<Team | null>(null);
   const [teams2, setTeams] = useState<Team[]>([]);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+
+  const { user, getUser } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fetchTeams = async () => {
     try {
@@ -100,7 +110,9 @@ export default function Page() {
           }}
           className="px-3 py-1 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring focus:ring-gray-500"
         />
-        <Link href="/admincontrols">
+        <Link
+          href={`${user?.role === "EVALUATOR" ? "/evaluatorcontrols" : "/admincontrols"}`}
+        >
           <DangerButton buttonText="Go Back" onClick={() => {}} />
         </Link>
       </header>
@@ -113,6 +125,7 @@ export default function Page() {
         {selectedTeamInfo && (
           <SelectedTeamInfo
             selectedTeamInfo={selectedTeamInfo}
+            evaluatorMode={user?.role === "EVALUATOR"}
             onTeamDelete={handleTeamDelete}
             onCloseClick={() => setSelectedTeamInfo(null)}
           />

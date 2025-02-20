@@ -3,11 +3,12 @@
 import DangerButton from "@/components/ui/DangerButton";
 import FooterSection from "@/components/ui/FooterSection";
 import React, { useEffect, useState } from "react";
-import ProjectList from "@/components/team/ProjectList";
+import ProjectList from "@/components/project/ProjectList";
 import Link from "next/link";
 import api from "@/api";
 import axios from "axios";
 import { Project } from "@/types";
+import { useAuth } from "@/context/AuthContext";
 
 const Page = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -15,6 +16,15 @@ const Page = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { user, getUser } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getAllProjects = async () => {
     try {
@@ -97,13 +107,16 @@ const Page = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="px-3 py-1 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring focus:ring-gray-500"
         />
-        <Link href="/admincontrols">
+        <Link
+          href={`${user?.role === "EVALUATOR" ? "/evaluatorcontrols" : "/admincontrols"}`}
+        >
           <DangerButton buttonText="Go Back" onClick={() => {}} />
         </Link>
       </header>
       <main className="flex-grow w-[95%] mx-auto py-8 bg-[#09090b]">
         <ProjectList
           projects={filteredProjects}
+          evaluatorView={user?.role === "EVALUATOR"}
           onDelete={handleProjectDelete}
         />
       </main>

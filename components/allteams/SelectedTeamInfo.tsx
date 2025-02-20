@@ -10,12 +10,14 @@ import { Team } from "@/types";
 
 interface SelectedTeamInfoProps {
   selectedTeamInfo: Team;
+  evaluatorMode?: boolean;
   onTeamDelete: (id: string) => void;
   onCloseClick: () => void;
 }
 
 const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
   selectedTeamInfo,
+  evaluatorMode = false,
   onTeamDelete,
   onCloseClick,
 }) => {
@@ -136,11 +138,13 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
         <Link href={`team/${selectedTeamInfo.id}`} target="_blank">
           <Button buttonText="View Team" onClick={() => {}} />
         </Link>
-        <DangerButton
-          buttonText="Delete Team"
-          onClick={() => setIsDeleteDialogOpen(true)}
-          primary={false}
-        />
+        {!evaluatorMode && (
+          <DangerButton
+            buttonText="Delete Team"
+            onClick={() => setIsDeleteDialogOpen(true)}
+            primary={false}
+          />
+        )}
       </div>
 
       <DialogBox
