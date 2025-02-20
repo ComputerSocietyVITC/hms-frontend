@@ -81,7 +81,7 @@ const HeaderComponent = () => {
 
         {user && user.role === "EVALUATOR" && (
           <Link href="/evaluatorcontrols">
-            <Button buttonText="Go to Admin Controls" onClick={() => {}} />
+            <Button buttonText="Go to Evaluator Controls" onClick={() => {}} />
           </Link>
         )}
 
