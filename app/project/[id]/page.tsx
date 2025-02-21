@@ -51,15 +51,18 @@ const Profile = ({ params }: Params) => {
   const { user, loading, getUser } = useAuth();
   const [project, setProject] = useState<Project | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [evaluationList, setEvaluationList] = useState<Evaluation[] | null>();
   const router = useRouter();
 
   const id = use(params).id;
+
   const getProject = async () => {
     if (id) {
       try {
         const response = await api.get(`/project/${id}`);
         if (response.status === 200) {
           setProject(response.data);
+          getProjectEvaluations(response.data.id);
         }
 
         if (!response.data) {
@@ -87,6 +90,36 @@ const Profile = ({ params }: Params) => {
     }
   };
 
+  const getProjectEvaluations = async (projectId: string) => {
+    try {
+      const response = await api.get(`/evaluation/${projectId}`);
+
+      if (response.status === 200) {
+        setEvaluationList(response.data);
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          switch (error.response.status) {
+            case 403:
+              setError(
+                "You do not have sufficient permissions to view evaluations."
+              );
+              break;
+            case 404:
+              setError("Project ID not found");
+              break;
+            case 500:
+              setError("Internal server error. Please try again later.");
+              break;
+            default:
+              setError("An unexpected error occurred.");
+          }
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     if (!user) {
       getUser();
@@ -95,6 +128,8 @@ const Profile = ({ params }: Params) => {
 
   useEffect(() => {
     getProject();
+
+    if (project?.id) getProjectEvaluations(project.id);
   }, [id]);
 
   const formatDate = (dateString: string) => {
@@ -142,7 +177,7 @@ const Profile = ({ params }: Params) => {
           }
           name={project?.name || ""}
           imageId={project?.imageId || ""}
-          evaluations={project?.evaluations || []}
+          evaluations={evaluationList || []}
           teamName={project?.team?.name || ""}
           customStyle="w-[1/4]"
         />
