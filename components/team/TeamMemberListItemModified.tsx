@@ -7,6 +7,7 @@ import Link from "next/link";
 import PositiveButton from "../ui/PositiveButton";
 import DialogBox from "../ui/DialogBox";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export type TeamMemberListItemModifiedProps = {
   githubId: string | null;
@@ -84,7 +85,10 @@ export const TeamMemberListItemModified = ({
   return (
     <div
       {...props}
-      className={`${className} flex items-center justify-between p-5 rounded-lg bg-[#121212] border border-gray-700`}
+      className={cn(
+        "flex items-center justify-between p-5 rounded-lg bg-[#121212] border border-gray-700",
+        className
+      )}
     >
       <div className="flex items-center gap-4">
         {avatarSrc ? (

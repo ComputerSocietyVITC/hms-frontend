@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 /**
@@ -45,7 +46,7 @@ const CommitListItem = ({
   const timeSinceCommit = getTimeSince(new Date(timeStamp));
 
   return (
-    <div {...props} className={`flex flex-col py-2 ${className}`}>
+    <div {...props} className={cn("flex flex-col py-2", className)}>
       <div className="flex items-start px-4 space-x-4">
         <Image
           width={28}

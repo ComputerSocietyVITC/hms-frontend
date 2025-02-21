@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { cn } from "@/lib/utils";
 
 interface ProjectInformationProps {
   description: string;
@@ -26,7 +27,10 @@ const ProjectInformation = ({
 
   return (
     <div
-      className={`w-full flex flex-col my-auto h-auto border border-gray-700 p-6 rounded-md bg-[#121212] text-white ${customStyle}`}
+      className={cn(
+        `w-full flex flex-col my-auto h-auto border border-gray-700 p-6 rounded-md bg-[#121212] text-white`,
+        customStyle
+      )}
     >
       <div className="mb-4">
         {adminView || <h2 className="text-3xl font-black">Your Project</h2>}

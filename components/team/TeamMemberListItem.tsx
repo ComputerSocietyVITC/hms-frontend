@@ -3,6 +3,7 @@ import Link from "next/link";
 import DialogBox from "../ui/DialogBox";
 import { useState } from "react";
 import DangerButton from "../ui/DangerButton";
+import { cn } from "@/lib/utils";
 
 export type TeamMemberListItemProps = {
   githubId: string | null;
@@ -92,9 +93,13 @@ export const TeamMemberListItem = ({
   const content = (
     <div
       {...props}
-      className={`${className} flex items-center justify-between p-2 rounded-md hover:bg-neutral-900 ${
-        !nonClickable ? "cursor-pointer" : ""
-      } transition-all`}
+      className={cn(
+        "flex items-center justify-between p-2",
+        "rounded-md hover:bg-neutral-900",
+        "transition-all",
+        !nonClickable && "cursor-pointer",
+        className
+      )}
     >
       {memberInfo}
       {userId !== currentUserId && removeButton}

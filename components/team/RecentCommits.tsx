@@ -7,6 +7,7 @@
     ]} />
  */
 
+import { cn } from "@/lib/utils";
 import CommitListItem, { CommitListItemProps } from "./CommitListItem";
 
 type RecentCommitsProps = {
@@ -17,7 +18,10 @@ type RecentCommitsProps = {
 const RecentCommits = ({ list, className, ...props }: RecentCommitsProps) => {
   return (
     <div
-      className={`flex flex-col p-3 md:p-4 rounded-lg border border-gray-700 bg-[#121212] text-white w-full ${className}`}
+      className={cn(
+        "flex flex-col p-3 md:p-4 rounded-lg border border-gray-700 bg-[#121212] text-white w-full",
+        className
+      )}
       {...props}
     >
       <h1 className="text-2xl font-extrabold pb-4 border-b border-gray-600">

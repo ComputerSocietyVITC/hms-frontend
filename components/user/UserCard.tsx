@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -27,7 +28,10 @@ const UserCard = ({
 
   return (
     <div
-      className={`flex flex-col p-8 rounded-lg border border-gray-700 bg-[#121212] text-white justify-center items-center w-fit h-fit my-auto ${customStyle}`}
+      className={cn(
+        `flex flex-col p-8 rounded-lg border border-gray-700 bg-[#121212] text-white justify-center items-center w-fit h-fit my-auto`,
+        customStyle
+      )}
     >
       {githubUsername ? (
         <Image

@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Evaluation } from "@/types";
 import { HistoryIcon, ZapIcon } from "lucide-react";
 import Image from "next/image";
@@ -25,7 +26,10 @@ const ProjectCard = ({
 }: ProjectCardProps) => {
   return (
     <div
-      className={`flex flex-col p-8 rounded-lg border border-gray-700 bg-[#121212] text-white justify-center items-center w-fit h-fit my-auto ${customStyle}`}
+      className={cn(
+        `flex flex-col p-8 rounded-lg border border-gray-700 bg-[#121212] text-white justify-center items-center w-fit h-fit my-auto`,
+        customStyle
+      )}
     >
       {imageId ? (
         <Image

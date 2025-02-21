@@ -11,6 +11,7 @@ import { useState } from "react";
 import CopyLinkDialog from "../ui/CopyLinkDialog";
 import PositiveButton from "../ui/PositiveButton";
 import { TeamMemberListItem } from "./TeamMemberListItem";
+import { cn } from "@/lib/utils";
 
 interface TeamMember {
   githubId: string | null;
@@ -51,7 +52,10 @@ const TeamMemberList = ({
 
   return (
     <div
-      className={`relative flex flex-col p-5 rounded-lg border border-gray-700 bg-[#121212] text-white w-full ${className ?? ""}`}
+      className={cn(
+        "relative flex flex-col p-5 rounded-lg border border-gray-700 bg-[#121212] text-white w-full",
+        className
+      )}
       {...props}
     >
       <div className="flex border-b border-gray-600 items-center justify-between">

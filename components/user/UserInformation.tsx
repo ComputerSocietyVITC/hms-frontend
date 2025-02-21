@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import Button from "../ui/Button";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface UserInformationProps {
   registrationNumber: string;
@@ -36,7 +37,10 @@ const UserInformation = ({
 
   return (
     <div
-      className={`w-full flex flex-col my-auto h-auto border border-gray-700 p-6 rounded-md bg-[#121212] text-white ${customStyle}`}
+      className={cn(
+        `w-full flex flex-col my-auto h-auto border border-gray-700 p-6 rounded-md bg-[#121212] text-white`,
+        customStyle
+      )}
     >
       <div className="mb-4">
         {adminView || <h2 className="text-3xl font-black">Your Details</h2>}

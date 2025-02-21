@@ -1,5 +1,6 @@
 import React from "react";
 import Input from "./Input";
+import { cn } from "@/lib/utils";
 
 interface InputFieldProps {
   label: string;
@@ -24,7 +25,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   return (
     <div
-      className={`flex flex-col text-[#EAEAEA] ${customStyle}`}
+      className={cn(`flex flex-col text-[#EAEAEA]`, customStyle)}
       onKeyDown={onKeyDown}
     >
       <label className="mb-2 font-bold">{label}</label>
