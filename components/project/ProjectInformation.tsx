@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils";
 interface ProjectInformationProps {
   description: string;
   teamName: string;
+  repoUrl?: string;
+  demoUrl?: string;
+  reportUrl?: string;
   adminView?: boolean;
   customStyle?: string;
 }
@@ -14,6 +17,9 @@ interface ProjectInformationProps {
 const ProjectInformation = ({
   description,
   teamName,
+  repoUrl,
+  demoUrl,
+  reportUrl,
   adminView = false,
   customStyle,
 }: ProjectInformationProps) => {
@@ -54,6 +60,22 @@ const ProjectInformation = ({
         <div className="flex flex-col">
           <p className="font-bold">Description</p>
           <p className="text-gray-400">{description}</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="flex flex-col">
+          <p className="font-bold">Repository URL</p>
+          <p className="text-gray-400">{repoUrl || "No repository URL yet"}</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="flex flex-col">
+          <p className="font-bold">Demo URL</p>
+          <p className="text-gray-400">{demoUrl || "No demo URL yet"}</p>
+        </div>
+        <div className="flex flex-col">
+          <p className="font-bold">Report URL</p>
+          <p className="text-gray-400">{reportUrl || "No report URL yet"}</p>
         </div>
       </div>
     </div>
