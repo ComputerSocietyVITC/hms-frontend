@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -12,37 +11,33 @@ import api from "@/api";
 import { Project } from "@/types";
 
 const HeaderComponent = () => {
-  const { user, getUser } = useAuth();
+  const { user, userRole } = useAuth();
   const [project, setProject] = useState<Project | null>(null);
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (!user) {
-      getUser();
-    }
-  }, []);
-
-  useEffect(() => {
     const getProject = async () => {
-      try {
-        const response = await api.get("/project");
+      if (userRole === "USER") {
+        try {
+          const response = await api.get("/project");
 
-        if (response.status === 200) {
-          setProject(response.data);
-        }
-      } catch {}
+          if (response.status === 200) {
+            setProject(response.data);
+          }
+        } catch {}
+      }
     };
 
     getProject();
-  }, []);
+  }, [userRole]);
 
   useEffect(() => {
     router.prefetch("/admincontrols");
     router.prefetch("/team");
     router.prefetch("/user");
     router.prefetch("/login");
-  }, []);
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -55,20 +50,20 @@ const HeaderComponent = () => {
         IEEE CS VITC / HMS
       </Link>
       <div className="flex space-x-2">
-        {user && (user.role === "ADMIN" || user.role === "SUPER_ADMIN") && (
+        {(userRole === "ADMIN" || userRole === "SUPER_ADMIN") && (
           <Link href="/admincontrols">
             <Button buttonText="Go to Admin Controls" onClick={() => {}} />
           </Link>
         )}
 
-        {user && user.role === "EVALUATOR" && (
+        {userRole === "EVALUATOR" && (
           <Link href="/evaluatorcontrols">
             <Button buttonText="Go to Evaluator Controls" onClick={() => {}} />
           </Link>
         )}
 
         {user &&
-          user.role === "USER" &&
+          userRole === "USER" &&
           user.teamId &&
           (project ? (
             <Link href="/project">
@@ -83,7 +78,7 @@ const HeaderComponent = () => {
           ))}
 
         {user &&
-          user.role === "USER" &&
+          userRole === "USER" &&
           (user.teamId ? (
             <Link href="/team">
               <Button buttonText="View Team" onClick={() => {}} />
