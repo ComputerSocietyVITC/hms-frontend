@@ -5,7 +5,7 @@ import Link from "next/link";
 import PositiveButton from "../ui/PositiveButton";
 import axios from "axios";
 import DialogBox from "../ui/DialogBox";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import api from "@/api";
 import { Project } from "@/types";
 
@@ -13,6 +13,10 @@ export type ProjectListProps = {
   projects: Project[];
   evaluatorView?: boolean;
   onDelete: (projectId: string) => void;
+};
+
+type EvaluationStatusMap = {
+  [key: string]: boolean;
 };
 
 const ProjectList = ({
@@ -24,6 +28,88 @@ const ProjectList = ({
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
     null
   );
+  const [evaluationStatuses, setEvaluationStatuses] =
+    useState<EvaluationStatusMap>({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchEvaluationStatuses = useCallback(async () => {
+    const hasAllStatuses = projects.every(
+      (project) => project.id in evaluationStatuses
+    );
+    if (hasAllStatuses) return;
+
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const projectsToFetch = projects.filter(
+        (project) => !(project.id in evaluationStatuses)
+      );
+
+      const statusMap = { ...evaluationStatuses };
+
+      await Promise.all(
+        projectsToFetch.map(async (project) => {
+          try {
+            const response = await api.get(`/evaluation/${project.id}`);
+            statusMap[project.id] = response.data.length > 0;
+          } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+              if (error.response) {
+                switch (error.response.status) {
+                  case 403:
+                    setError(
+                      "Forbidden. User does not have sufficient permissions."
+                    );
+                    break;
+                  case 404:
+                    setError("Evaluation not found.");
+                    break;
+                  case 500:
+                    setError("Unexpected server error.");
+                    break;
+                  default:
+                    setError(
+                      "An unexpected error occurred. Please try again later."
+                    );
+                    break;
+                }
+              }
+            }
+            statusMap[project.id] = false;
+          }
+        })
+      );
+
+      setEvaluationStatuses(statusMap);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          switch (error.response.status) {
+            case 403:
+              setError("Forbidden. User does not have sufficient permissions.");
+              break;
+            case 404:
+              setError("Evaluation not found.");
+              break;
+            case 500:
+              setError("Unexpected server error.");
+              break;
+            default:
+              setError("An unexpected error occurred. Please try again later.");
+              break;
+          }
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [projects, evaluationStatuses]);
+
+  useEffect(() => {
+    fetchEvaluationStatuses();
+  }, [fetchEvaluationStatuses]);
 
   const handleClick = async (projectId: string) => {
     onDelete(projectId);
@@ -60,6 +146,20 @@ const ProjectList = ({
     }
   };
 
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
+          role="alert"
+        >
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col">
       {projects.map((project) => (
@@ -84,15 +184,21 @@ const ProjectList = ({
             <div className="flex flex-col justify-center">
               <h1 className="font-semibold text-lg">{project.name}</h1>
               <span className="text-sm text-gray-400">
-                {project.evaluations && project.evaluations.length > 0
-                  ? "Evaluated"
-                  : "Not Evaluated"}{" "}
-                • Created At:{" "}
-                {new Date(project.createdAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}{" "}
+                {isLoading ? (
+                  "Loading evaluation status..."
+                ) : (
+                  <>
+                    {evaluationStatuses[project.id]
+                      ? "Evaluated"
+                      : "Not Evaluated"}{" "}
+                    • Created At:{" "}
+                    {new Date(project.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}{" "}
+                  </>
+                )}
               </span>
             </div>
           </div>

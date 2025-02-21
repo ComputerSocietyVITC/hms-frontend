@@ -78,11 +78,10 @@ const TeamMemberList = ({
       </div>
 
       {displayInviteButton && teamId && (
-        <div className="mt-4 flex justify-center">
+        <div className="absolute flex justify-start bottom-6 left-6 z-10">
           <PositiveButton
             buttonText="Invite"
             onClick={() => setDialogOpen(true)}
-            customStyle="w-full"
           />
         </div>
       )}
