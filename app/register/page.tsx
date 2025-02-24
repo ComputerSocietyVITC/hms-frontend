@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Loading from "@/components/ui/Loading";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -20,27 +20,17 @@ const Register = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const { user, getUser, loading } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    if (!user) {
-      getUser();
-    }
-  }, []);
 
   useEffect(() => {
     if (user) {
       router.push("/");
     }
-  }, [user]);
+  }, [user, loading, router]);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#0A0A0A]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
-      </div>
-    );
+    return <Loading />;
   }
 
   const handleSubmit = async () => {

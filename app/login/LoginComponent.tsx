@@ -8,6 +8,7 @@ import api from "@/api";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import Loading from "@/components/ui/Loading";
 
 const LoginComponent = () => {
   const [email, setEmail] = useState("");
@@ -15,30 +16,20 @@ const LoginComponent = () => {
   const [error, setError] = useState("");
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
-  const { user, getUser, loading } = useAuth();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   useEffect(() => {
-    if (!user) {
-      getUser();
-    }
-  }, []);
-
-  useEffect(() => {
     if (user) {
       router.push("/");
     }
-  }, [user]);
+  }, [user, loading, router]);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#0A0A0A]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
-      </div>
-    );
+    return <Loading />;
   }
 
   const handleSubmit = async () => {
