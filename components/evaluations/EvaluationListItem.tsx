@@ -9,12 +9,14 @@ import { formatDistanceToNowStrict } from "date-fns";
 interface EvaluationListItemProps {
   evaluation: Evaluation;
   onDelete: (id: string) => Promise<void>;
+  canDelete: boolean;
   className?: string;
 }
 
 const EvaluationListItem = ({
   evaluation,
   onDelete,
+  canDelete = true,
   className,
 }: EvaluationListItemProps) => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
@@ -101,12 +103,13 @@ const EvaluationListItem = ({
         </div>
       </div>
 
-      <DangerButton
-        onClick={() => setIsConfirmDialogOpen(true)}
-        buttonText={isDeleting ? "Deleting..." : "Delete"}
-        disabled={isDeleting}
-        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-      />
+      {canDelete && (
+        <DangerButton
+          onClick={() => setIsConfirmDialogOpen(true)}
+          buttonText={isDeleting ? "Deleting..." : "Delete"}
+          disabled={isDeleting}
+        />
+      )}
 
       <DialogBox
         isOpen={isConfirmDialogOpen}

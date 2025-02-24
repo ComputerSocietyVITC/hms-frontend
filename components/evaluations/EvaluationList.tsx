@@ -7,11 +7,15 @@ import axios from "axios";
 import Error from "../ui/Error";
 
 interface EvaluationListProps {
+  projectId: string;
+  currentUserId: string;
   evaluations: Evaluation[] | [];
   className?: string;
 }
 
 const EvaluationList = ({
+  projectId,
+  currentUserId,
   evaluations: initialEvaluations,
   className,
 }: EvaluationListProps) => {
@@ -21,7 +25,7 @@ const EvaluationList = ({
 
   const handleDeleteEvaluation = async (id: string) => {
     try {
-      const response = await api.delete(`/evaluation/${id}`);
+      const response = await api.delete(`/evaluation/${projectId}`);
 
       if (response.status === 200) {
         setEvaluations(
@@ -69,6 +73,7 @@ const EvaluationList = ({
               key={evaluation.id}
               evaluation={evaluation}
               onDelete={handleDeleteEvaluation}
+              canDelete={evaluation.userId === currentUserId}
             />
           ))
         )}
