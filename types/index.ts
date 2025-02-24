@@ -30,6 +30,7 @@ export interface Evaluation {
   updatedAt: string;
   projectId: string;
   score: number;
+  userId: string;
 }
 
 export interface Project {

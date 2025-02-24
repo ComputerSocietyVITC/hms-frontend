@@ -21,6 +21,7 @@ interface Evaluation {
   updatedAt: string;
   projectId: string;
   score: number;
+  userId: string;
 }
 
 interface Team {
@@ -50,7 +51,7 @@ interface Props {
 }
 
 const Profile = ({ params }: Props) => {
-  const { user, loading, getUser } = useAuth();
+  const { user, userId, loading, getUser } = useAuth();
   const [project, setProject] = useState<Project | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [evaluationList, setEvaluationList] = useState<Evaluation[] | null>();
@@ -190,7 +191,13 @@ const Profile = ({ params }: Props) => {
           </Link>
         </div>
       </div>
-      {evaluationList && <EvaluationList evaluations={evaluationList} />}
+      {evaluationList && (
+        <EvaluationList
+          projectId={project?.id || ""}
+          currentUserId={userId || ""}
+          evaluations={evaluationList}
+        />
+      )}
       <FooterSection />
     </div>
   );
