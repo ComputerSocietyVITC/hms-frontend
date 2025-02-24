@@ -2,29 +2,12 @@
 
 import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
-import Error from "@/components/ui/Error";
-import Loading from "@/components/ui/Loading";
-import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 const AdminControls = () => {
-  const { userRole, loading } = useAuth();
   const router = useRouter();
-
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (userRole !== "ADMIN" && userRole !== "SUPER_ADMIN") {
-    return (
-      <Error
-        error="You do not have the permissions to view this page"
-        type="unauthorized"
-      />
-    );
-  }
 
   return (
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
