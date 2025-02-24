@@ -9,6 +9,8 @@ import api from "@/api";
 import axios from "axios";
 import DangerButton from "@/components/ui/DangerButton";
 import DialogBox from "@/components/ui/DialogBox";
+import { v4 } from "uuid";
+import Loading from "@/components/ui/Loading";
 
 const EditProfile = () => {
   const [name, setName] = useState("");
@@ -22,7 +24,7 @@ const EditProfile = () => {
   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
 
-  const imageId = "123e4567-e89b-12d3-a456-426614174222";
+  const imageId = v4();
 
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -37,18 +39,8 @@ const EditProfile = () => {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push("/login");
-    }
-  }, [user, loading, router]);
-
   if (loading || !user) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#121212]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
-      </div>
-    );
+    return <Loading />;
   }
 
   const handleSubmit = async () => {

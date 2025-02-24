@@ -25,7 +25,8 @@
     "react-feather": "^2.0.10",
     "react-hot-toast": "^2.5.1",
     "tailwind-merge": "^2.6.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.3",
