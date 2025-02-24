@@ -32,7 +32,7 @@ const Profile = ({ params }: ProfileProps) => {
   const [isRemoveFromTeamDialogOpen, setIsRemoveFromTeamDialogOpen] =
     useState(false);
 
-  const { user, getUser } = useAuth();
+  const { user, getUser, userRole } = useAuth();
 
   const router = useRouter();
 
@@ -178,7 +178,7 @@ const Profile = ({ params }: ProfileProps) => {
             adminView={true}
             customStyle="w-[3/4]"
           />
-          {user?.role === "EVALUATOR" && (
+          {userRole === "EVALUATOR" && (
             <Link href={`/team/${visitedUser.teamId}`} target="_blank">
               <Button
                 buttonText="View Team"
@@ -187,29 +187,31 @@ const Profile = ({ params }: ProfileProps) => {
               />
             </Link>
           )}
-          {user?.role !== "EVALUATOR" && visitedUser && visitedUser.teamId && (
-            <div className="flex flex-col gap-4">
-              <div className="grid grid-cols-2 gap-4">
-                <Link href={`/team/${visitedUser.teamId}`} target="_blank">
-                  <Button
-                    buttonText="View Team"
-                    onClick={() => {}}
-                    customStyle="w-full"
+          {(userRole === "ADMIN" || userRole === "SUPER_ADMIN") &&
+            visitedUser &&
+            visitedUser.teamId && (
+              <div className="flex flex-col gap-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <Link href={`/team/${visitedUser.teamId}`} target="_blank">
+                    <Button
+                      buttonText="View Team"
+                      onClick={() => {}}
+                      customStyle="w-full"
+                    />
+                  </Link>
+                  <DangerButton
+                    buttonText="Remove from Team"
+                    onClick={() => setIsRemoveFromTeamDialogOpen(true)}
+                    primary={false}
                   />
-                </Link>
+                </div>
                 <DangerButton
-                  buttonText="Remove from Team"
-                  onClick={() => setIsRemoveFromTeamDialogOpen(true)}
-                  primary={false}
+                  buttonText="Delete User"
+                  onClick={() => setIsDeleteUserDialogOpen(true)}
+                  primary={true}
                 />
               </div>
-              <DangerButton
-                buttonText="Delete User"
-                onClick={() => setIsDeleteUserDialogOpen(true)}
-                primary={true}
-              />
-            </div>
-          )}
+            )}
         </div>
       </div>
       <FooterSection />
