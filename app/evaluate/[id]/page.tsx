@@ -82,21 +82,6 @@ const EvaluateProjectPage = ({ params }: Params) => {
     }
   };
 
-  if (user?.role === "ADMIN" || user?.role === "USER") {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-        <div
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
-          role="alert"
-        >
-          <strong className="font-bold">
-            You are not authorized to view this page.
-          </strong>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
       <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
