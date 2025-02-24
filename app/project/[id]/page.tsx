@@ -12,6 +12,8 @@ import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import Link from "next/link";
 import PositiveButton from "@/components/ui/PositiveButton";
+import Loading from "@/components/ui/Loading";
+import Error from "@/components/ui/Error";
 
 interface Evaluation {
   id: string;
@@ -142,22 +144,11 @@ const Profile = ({ params }: Params) => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#121212]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-red-400">
-        <div className="bg-red-800 text-white px-4 py-3 rounded border border-red-500">
-          <strong className="font-bold">Error: </strong>
-          <span className="block sm:inline">{error}</span>
-        </div>
-      </div>
-    );
+    return <Error error={error} />;
   }
 
   return (

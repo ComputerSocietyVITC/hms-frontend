@@ -9,14 +9,17 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Team } from "@/types";
 import { useAuth } from "@/context/AuthContext";
+import Loading from "@/components/ui/Loading";
+import Error from "@/components/ui/Error";
 
 export default function Page() {
   const [selectedTeamInfo, setSelectedTeamInfo] = useState<Team | null>(null);
   const [teams2, setTeams] = useState<Team[]>([]);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [unauthorizedUser, setUnauthorizedUser] = useState(false);
 
-  const { user, getUser } = useAuth();
+  const { user, getUser, loading } = useAuth();
 
   useEffect(() => {
     if (!user) {
@@ -39,6 +42,7 @@ export default function Page() {
             setError(
               "You do not have sufficient permissions to perform this action."
             );
+            setUnauthorizedUser(true);
           } else if (error.response.status === 500) {
             setError("Internal Server Error. Please try again later.");
           } else {
@@ -82,17 +86,16 @@ export default function Page() {
     }
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-        <div
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
-          role="alert"
-        >
-          <strong className="font-bold">Error: </strong>
-          <span className="block sm:inline">{error}</span>
-        </div>
-      </div>
+      <Error
+        error={error}
+        type={unauthorizedUser ? "unauthorized" : "generic"}
+      />
     );
   }
 

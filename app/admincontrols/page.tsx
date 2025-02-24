@@ -2,6 +2,8 @@
 
 import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,18 +14,15 @@ const AdminControls = () => {
   const router = useRouter();
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-[#09090b]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-300" />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (userRole !== "ADMIN" && userRole !== "SUPER_ADMIN") {
     return (
-      <div className="flex items-center justify-center h-screen bg-[#09090b] text-red-400">
-        You do not have the permissions to view this page
-      </div>
+      <Error
+        error="You do not have the permissions to view this page"
+        type="unauthorized"
+      />
     );
   }
 

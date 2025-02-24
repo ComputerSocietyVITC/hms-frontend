@@ -12,6 +12,8 @@ import TeamMemberList from "@/components/team/TeamMemberList";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Team, User } from "@/types";
+import Loading from "@/components/ui/Loading";
+import Error from "@/components/ui/Error";
 
 const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
   const [response, setResponse] = useState<Team | null>(null);
@@ -64,22 +66,11 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#09090b]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-300" />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-red-400">
-        <div className="bg-red-800 text-white px-4 py-3 rounded border border-red-500">
-          <strong className="font-bold">Error: </strong>
-          <span className="block sm:inline">{error}</span>
-        </div>
-      </div>
-    );
+    return <Error error={error} />;
   }
 
   if (!response) {

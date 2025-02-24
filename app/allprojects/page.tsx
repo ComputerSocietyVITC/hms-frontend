@@ -9,6 +9,8 @@ import api from "@/api";
 import axios from "axios";
 import { Project } from "@/types";
 import { useAuth } from "@/context/AuthContext";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 
 const Page = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -16,6 +18,7 @@ const Page = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [unauthorizedError, setUnauthorizedError] = useState(false);
 
   const { user, getUser } = useAuth();
 
@@ -42,6 +45,7 @@ const Page = () => {
               setError(
                 "You do not have sufficient permissions to view projects."
               );
+              setUnauthorizedError(true);
               break;
             case 500:
               setError("Internal server error. Please try again later.");
@@ -75,24 +79,15 @@ const Page = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#09090b]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-        <div
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
-          role="alert"
-        >
-          <strong className="font-bold">Error: </strong>
-          <span className="block sm:inline">{error}</span>
-        </div>
-      </div>
+      <Error
+        error={error}
+        type={unauthorizedError ? "unauthorized" : "generic"}
+      />
     );
   }
 

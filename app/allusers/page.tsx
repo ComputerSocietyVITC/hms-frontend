@@ -9,6 +9,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { User } from "@/types";
+import Error from "@/components/ui/Error";
 
 const Page = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -36,12 +37,23 @@ const Page = () => {
         const response = await api.get("/user/all");
         setUsers(response.data);
         setFilteredUsers(response.data);
-      } catch (err) {
-        setError(
-          axios.isAxiosError(err) && err.response
-            ? err.response.data?.message || "An unexpected error occurred."
-            : "Failed to connect to the server."
-        );
+      } catch (err: unknown) {
+        if (axios.isAxiosError(err)) {
+          if (err.response) {
+            switch (err.response.status) {
+              case 403:
+                setError(
+                  "You do not have sufficient permissions to view users."
+                );
+                break;
+              case 500:
+                setError("Internal server error. Please try again later.");
+                break;
+              default:
+                setError("An unexpected error occurred.");
+            }
+          }
+        }
       } finally {
         setIsLoading(false);
       }
@@ -92,17 +104,7 @@ const Page = () => {
   }
 
   if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-        <div
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
-          role="alert"
-        >
-          <strong className="font-bold">Error: </strong>
-          <span className="block sm:inline">{error}</span>
-        </div>
-      </div>
-    );
+    return <Error type="unauthorized" error={error} />;
   }
 
   return (
