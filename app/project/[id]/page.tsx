@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import api from "@/api";
@@ -14,6 +13,7 @@ import Link from "next/link";
 import PositiveButton from "@/components/ui/PositiveButton";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
+import EvaluationList from "@/components/evaluations/EvaluationList";
 
 interface Evaluation {
   id: string;
@@ -43,80 +43,44 @@ interface Project {
   evaluations: Evaluation[];
 }
 
-interface Params {
+interface Props {
   params: Promise<{
     id: string;
   }>;
 }
 
-const Profile = ({ params }: Params) => {
+const Profile = ({ params }: Props) => {
   const { user, loading, getUser } = useAuth();
   const [project, setProject] = useState<Project | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [evaluationList, setEvaluationList] = useState<Evaluation[] | null>();
   const router = useRouter();
 
-  const id = use(params).id;
-
-  const getProject = async () => {
-    if (id) {
-      try {
-        const response = await api.get(`/project/${id}`);
-        if (response.status === 200) {
-          setProject(response.data);
-          getProjectEvaluations(response.data.id);
-        }
-
-        if (!response.data) {
-          router.push("/");
-        }
-      } catch (err: unknown) {
-        if (axios.isAxiosError(err) && err.response) {
-          switch (err.response.status) {
-            case 403:
-              setError("Forbidden. User does not have sufficient permissions.");
-              break;
-            case 404:
-              setError("Project not found.");
-              break;
-            case 500:
-              setError("Unexpected Server Error.");
-              break;
-            default:
-              setError("An unexpected error occurred. Please try again later.");
-          }
-        } else {
-          setError("An unexpected error occurred. Please try again later.");
-        }
-      }
-    }
-  };
+  const { id } = use(params);
 
   const getProjectEvaluations = async (projectId: string) => {
     try {
       const response = await api.get(`/evaluation/${projectId}`);
 
       if (response.status === 200) {
-        setEvaluationList(response.data);
+        setEvaluationList(response.data.length > 0 ? response.data : []);
       }
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          switch (error.response.status) {
-            case 403:
-              setError(
-                "You do not have sufficient permissions to view evaluations."
-              );
-              break;
-            case 404:
-              setError("Project ID not found");
-              break;
-            case 500:
-              setError("Internal server error. Please try again later.");
-              break;
-            default:
-              setError("An unexpected error occurred.");
-          }
+      if (axios.isAxiosError(error) && error.response) {
+        switch (error.response.status) {
+          case 403:
+            setError(
+              "You do not have sufficient permissions to view evaluations."
+            );
+            break;
+          case 404:
+            setError("Project ID not found");
+            break;
+          case 500:
+            setError("Internal server error. Please try again later.");
+            break;
+          default:
+            setError("An unexpected error occurred.");
         }
       }
     }
@@ -126,13 +90,51 @@ const Profile = ({ params }: Params) => {
     if (!user) {
       getUser();
     }
-  }, [user]);
+  }, [user, getUser]);
 
   useEffect(() => {
-    getProject();
+    if (id) {
+      const getProject = async () => {
+        if (!id) return;
 
-    if (project?.id) getProjectEvaluations(project.id);
-  }, [id]);
+        try {
+          const response = await api.get(`/project/${id}`);
+          if (response.status === 200) {
+            setProject(response.data);
+            await getProjectEvaluations(response.data.id);
+          }
+
+          if (!response.data) {
+            router.push("/");
+          }
+        } catch (err: unknown) {
+          if (axios.isAxiosError(err) && err.response) {
+            switch (err.response.status) {
+              case 403:
+                setError(
+                  "Forbidden. User does not have sufficient permissions."
+                );
+                break;
+              case 404:
+                setError("Project not found.");
+                break;
+              case 500:
+                setError("Unexpected Server Error.");
+                break;
+              default:
+                setError(
+                  "An unexpected error occurred. Please try again later."
+                );
+            }
+          } else {
+            setError("An unexpected error occurred. Please try again later.");
+          }
+        }
+      };
+
+      getProject();
+    }
+  }, [id, router]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -154,7 +156,7 @@ const Profile = ({ params }: Params) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
       <HeaderComponent />
-      <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-10">
+      <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-16">
         <ProjectCard
           createdAt={
             project?.createdAt
@@ -188,6 +190,7 @@ const Profile = ({ params }: Params) => {
           </Link>
         </div>
       </div>
+      {evaluationList && <EvaluationList evaluations={evaluationList} />}
       <FooterSection />
     </div>
   );
