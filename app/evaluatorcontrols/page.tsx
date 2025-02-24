@@ -2,13 +2,14 @@
 
 import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
+import Loading from "@/components/ui/Loading";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 const AdminControls = () => {
-  const { user, getUser } = useAuth();
+  const { user, loading, getUser } = useAuth();
 
   useEffect(() => {
     if (!user) {
@@ -19,20 +20,8 @@ const AdminControls = () => {
 
   const router = useRouter();
 
-  if (!user) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-[#09090b]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-300" />
-      </div>
-    );
-  }
-
-  if (user.role === "USER") {
-    return (
-      <div className="flex items-center justify-center h-screen bg-[#09090b] text-red-400">
-        You do not have the permissions to view this page
-      </div>
-    );
+  if (loading) {
+    return <Loading />;
   }
 
   return (
