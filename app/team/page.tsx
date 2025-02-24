@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import DangerButton from "@/components/ui/DangerButton";
 import { useRouter } from "next/navigation";
 import { Team, Project } from "@/types";
+import Loading from "@/components/ui/Loading";
 
 const TeamPage = () => {
   const [response, setResponse] = useState<Team | null>(null);
@@ -115,11 +116,7 @@ const TeamPage = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#09090b]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-300" />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error || !response) {

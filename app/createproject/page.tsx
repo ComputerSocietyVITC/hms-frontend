@@ -10,6 +10,7 @@ import Link from "next/link";
 import api from "@/api";
 import axios from "axios";
 import { Project } from "@/types";
+import Loading from "@/components/ui/Loading";
 
 const CreateProjectPage: React.FC = () => {
   const [name, setName] = useState("");
@@ -105,11 +106,7 @@ const CreateProjectPage: React.FC = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="bg-[#09090b] w-full h-screen flex items-center justify-center">
-        <p className="text-white">Loading...</p>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

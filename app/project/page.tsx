@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { Project } from "@/types";
+import Loading from "@/components/ui/Loading";
 
 const Profile = () => {
   const { user, loading, getUser } = useAuth();
@@ -55,11 +56,7 @@ const Profile = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#121212]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

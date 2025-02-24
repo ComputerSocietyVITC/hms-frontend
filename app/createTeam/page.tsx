@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import api from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
+import Loading from "@/components/ui/Loading";
 
 const CreateTeamPage: React.FC = () => {
   const [name, setName] = useState("");
@@ -16,7 +17,7 @@ const CreateTeamPage: React.FC = () => {
   const [error, setError] = useState("");
 
   const router = useRouter();
-  const { user, getUser } = useAuth();
+  const { user, loading, getUser } = useAuth();
 
   useEffect(() => {
     if (user?.teamId) {
@@ -52,6 +53,10 @@ const CreateTeamPage: React.FC = () => {
       }
     }
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">

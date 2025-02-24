@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { User } from "@/types";
 import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 
 const Page = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -96,11 +97,7 @@ const Page = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#09090b]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {

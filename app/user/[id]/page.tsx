@@ -14,6 +14,8 @@ import DialogBox from "@/components/ui/DialogBox";
 import { useRouter } from "next/navigation";
 import { User } from "@/types";
 import { useAuth } from "@/context/AuthContext";
+import Loading from "@/components/ui/Loading";
+import Error from "@/components/ui/Error";
 
 type ProfileProps = {
   params: Promise<{
@@ -142,18 +144,12 @@ const Profile = ({ params }: ProfileProps) => {
   }, [visitedUser]);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#121212]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!visitedUser) {
     return (
-      <div className="flex justify-center items-center h-screen bg-[#121212] text-white text-lg font-semibold">
-        User not found
-      </div>
+      <Error error="User not found. Please check the URL and try again." />
     );
   }
 

@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
 import DialogBox from "@/components/ui/DialogBox";
 import InputField from "@/components/ui/InputField";
+import Loading from "@/components/ui/Loading";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import Link from "next/link";
@@ -96,6 +97,10 @@ const DynamicPromoteUser = ({
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="bg-[#09090b] w-full h-screen flex flex-col">

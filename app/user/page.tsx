@@ -3,7 +3,9 @@
 
 import api from "@/api";
 import DangerButton from "@/components/ui/DangerButton";
+import Error from "@/components/ui/Error";
 import FooterSection from "@/components/ui/FooterSection";
+import Loading from "@/components/ui/Loading";
 import UserCard from "@/components/user/UserCard";
 import UserInformation from "@/components/user/UserInformation";
 import { useAuth } from "@/context/AuthContext";
@@ -33,18 +35,12 @@ const Profile = () => {
   }, [user]);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#121212]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!user) {
     return (
-      <div className="flex justify-center items-center h-screen bg-[#121212] text-white">
-        User not found
-      </div>
+      <Error error="You are not logged in. Please log in to view your profile." />
     );
   }
 

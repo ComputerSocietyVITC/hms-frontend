@@ -9,6 +9,8 @@ import api from "@/api";
 import axios from "axios";
 import DangerButton from "@/components/ui/DangerButton";
 import DialogBox from "@/components/ui/DialogBox";
+import Loading from "@/components/ui/Loading";
+import Error from "@/components/ui/Error";
 
 const UpdateProject = () => {
   const [projectId, setProjectId] = useState("");
@@ -64,18 +66,12 @@ const UpdateProject = () => {
   }, [router, user?.teamId]);
 
   if (loading || !user) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#121212]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-400" />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (user && !user.isLeader) {
     return (
-      <div className="flex justify-center items-center h-screen bg-[#09090b] text-red-400">
-        You are not allowed to do this action.
-      </div>
+      <Error error="You are not allowed to update projects. Only team leaders can update projects." />
     );
   }
 
