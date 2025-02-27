@@ -4,7 +4,6 @@ import api from "@/api";
 import ProjectCard from "@/components/project/ProjectCard";
 import ProjectInformation from "@/components/project/ProjectInformation";
 import FooterSection from "@/components/ui/FooterSection";
-import HeaderComponent from "@/components/ui/HeaderComponent";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect, use } from "react";
 import { useAuth } from "@/context/AuthContext";

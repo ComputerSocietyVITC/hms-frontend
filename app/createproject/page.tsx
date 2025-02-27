@@ -6,7 +6,6 @@ import Button from "@/components/ui/Button";
 import DangerButton from "@/components/ui/DangerButton";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import Link from "next/link";
 import api from "@/api";
 import axios from "axios";
 import Loading from "@/components/ui/Loading";
