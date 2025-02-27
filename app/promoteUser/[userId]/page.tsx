@@ -8,7 +8,6 @@ import InputField from "@/components/ui/InputField";
 import Loading from "@/components/ui/Loading";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
@@ -60,6 +59,20 @@ const DynamicPromoteUser = ({
     fetchUser();
   }, [params]);
 
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const promoteUser = async () => {
     if (!userID.trim()) {
       setError("Please enter a User ID");
@@ -106,9 +119,7 @@ const DynamicPromoteUser = ({
     <div className="bg-[#09090b] w-full h-screen flex flex-col">
       <header className="w-full bg-[#121212] text-white flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <h1 className="text-lg font-bold">Promote User</h1>
-        <Link href="/admincontrols">
-          <DangerButton buttonText="Go Back" onClick={() => {}} />
-        </Link>
+        <DangerButton buttonText="Go Back" onClick={handleBack} />
       </header>
 
       <main className="flex justify-center items-center flex-1">

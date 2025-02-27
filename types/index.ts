@@ -5,6 +5,7 @@ export interface User {
   github: string | null;
   id: string;
   imageId: string | null;
+  mimeType: string | null;
   isLeader: boolean;
   name: string;
   phone: string;
@@ -20,6 +21,7 @@ export interface Team {
   updatedAt: string;
   name: string;
   imageId: string;
+  mimeType: string;
   members: User[];
   project: Project;
 }
@@ -40,6 +42,7 @@ export interface Project {
   name: string;
   description: string;
   imageId: string;
+  mimeType: string;
   teamId: string;
   evaluations: Evaluation[];
 }

@@ -9,8 +9,8 @@ import api from "@/api";
 import axios from "axios";
 import DangerButton from "@/components/ui/DangerButton";
 import DialogBox from "@/components/ui/DialogBox";
-import { v4 } from "uuid";
 import Loading from "@/components/ui/Loading";
+import FileUploader from "@/components/files/FileUpload";
 
 const EditProfile = () => {
   const [name, setName] = useState("");
@@ -18,15 +18,15 @@ const EditProfile = () => {
   const [phone, setPhone] = useState("");
   const [college, setCollege] = useState("");
   const [github, setGithub] = useState("");
+  const [imageId, setImageId] = useState("");
+  const [mimeType, setMimeType] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
 
-  const imageId = v4();
-
-  const { user, loading } = useAuth();
+  const { user, userId, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -43,8 +43,31 @@ const EditProfile = () => {
     return <Loading />;
   }
 
+  const handleUploadSuccess = (fileUrl: string) => {
+    setImageId(fileUrl.split(".")[0]);
+    setMimeType(fileUrl.split(".")[1]);
+  };
+
+  const handleUploadError = (error: Error) => {
+    setError("Error uploading file: " + error.message);
+  };
+
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const handleSubmit = async () => {
-    if (!name || !regNum || !phone || !college || !github) {
+    if (!name || !regNum || !phone || !college || !github || !imageId) {
       setError("All fields are required. Please fill in all the fields.");
       setSuccess("");
       return;
@@ -63,13 +86,14 @@ const EditProfile = () => {
     }
 
     try {
-      const response = await api.post(`/user/${user.id}`, {
+      const response = await api.post(`/user/${userId}`, {
         name,
         regNum,
         phone,
         college,
         github,
         imageId,
+        mimeType,
       });
 
       if (response.status === 201) {
@@ -151,6 +175,20 @@ const EditProfile = () => {
               onTextChange={setGithub}
               text={github}
             />
+            <FileUploader
+              label="Team Image"
+              accept="image/*"
+              darkMode={true}
+              onUploadSuccess={handleUploadSuccess}
+              onUploadError={handleUploadError}
+              uploadEndpoint="/api/upload"
+              buttonText={{
+                select: "Select Image",
+                change: "Change Image",
+                upload: "Upload",
+                uploading: "Uploading...",
+              }}
+            />
           </div>
           {error && <p className="text-red-500 mt-4">{error}</p>}
           {success && <p className="text-green-500 mt-4">{success}</p>}
@@ -158,6 +196,9 @@ const EditProfile = () => {
             buttonText="Update Profile"
             onClick={() => setIsSaveDialogOpen(true)}
             customStyle="w-full mt-6 bg-blue-600 hover:bg-blue-500 text-white"
+            disabled={
+              !name || !regNum || !phone || !college || !github || !imageId
+            }
           />
         </div>
       </main>
@@ -167,7 +208,7 @@ const EditProfile = () => {
         title="Confirm Cancel"
         message="Are you sure you want to cancel editing your profile?"
         positive={false}
-        onConfirm={() => router.push("/user")}
+        onConfirm={handleBack}
         onCancel={() => setIsCancelDialogOpen(false)}
       />
 

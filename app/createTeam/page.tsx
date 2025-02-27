@@ -10,10 +10,12 @@ import api from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import Loading from "@/components/ui/Loading";
+import FileUploader from "@/components/files/FileUpload";
 
 const CreateTeamPage: React.FC = () => {
   const [name, setName] = useState("");
   const [imageId, setImageID] = useState("");
+  const [mimeType, setMimeType] = useState("");
   const [error, setError] = useState("");
 
   const router = useRouter();
@@ -25,9 +27,36 @@ const CreateTeamPage: React.FC = () => {
     }
   }, [user]);
 
+  const handleUploadSuccess = (fileUrl: string) => {
+    setImageID(fileUrl.split(".")[0]);
+    setMimeType(fileUrl.split(".")[1]);
+  };
+
+  const handleUploadError = (error: Error) => {
+    setError("Error uploading file: " + error.message);
+  };
+
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const handleSubmit = async () => {
     try {
-      const response = await api.put("/team", { name: name, imageId: imageId });
+      const response = await api.put("/team", {
+        name: name,
+        imageId: imageId,
+        mimeType: mimeType,
+      });
 
       if (response.status === 201) {
         await getUser();
@@ -62,7 +91,7 @@ const CreateTeamPage: React.FC = () => {
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
       <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <h1 className="text-lg font-bold">Create a Team</h1>
-        <DangerButton buttonText="Cancel" onClick={() => router.push("/")} />
+        <DangerButton buttonText="Cancel" onClick={handleBack} />
       </header>
 
       <main className="flex justify-center items-center flex-1">
@@ -82,14 +111,28 @@ const CreateTeamPage: React.FC = () => {
             text={name}
           />
 
-          <InputField
-            label="Image ID"
-            type="text"
-            placeholder="Enter Image ID"
-            onTextChange={(value) => setImageID(value)}
-            text={imageId}
-            customStyle="mt-4"
-          />
+          <div className="mt-4">
+            <FileUploader
+              label="Team Image"
+              accept="image/*"
+              darkMode={true}
+              onUploadSuccess={handleUploadSuccess}
+              onUploadError={handleUploadError}
+              uploadEndpoint="/api/upload"
+              buttonText={{
+                select: "Select Image",
+                change: "Change Image",
+                upload: "Upload",
+                uploading: "Uploading...",
+              }}
+            />
+
+            {imageId && (
+              <div className="mt-1 text-xs text-green-400">
+                Image uploaded successfully! ID: {imageId.split("/").pop()}
+              </div>
+            )}
+          </div>
 
           {error && (
             <div className="mt-3 text-sm text-red-400 text-center">{error}</div>
@@ -99,6 +142,7 @@ const CreateTeamPage: React.FC = () => {
             buttonText="Create Team"
             onClick={handleSubmit}
             customStyle="w-full mt-4"
+            disabled={!name || !imageId}
           />
         </div>
       </main>

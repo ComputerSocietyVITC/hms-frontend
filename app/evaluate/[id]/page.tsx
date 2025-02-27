@@ -37,6 +37,20 @@ const EvaluateProjectPage = ({ params }: Params) => {
     setProjectId(id);
   }, [id]);
 
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const handleSubmit = async () => {
     if (projectId === "") {
       setError("Please enter a valid project ID.");
@@ -133,7 +147,7 @@ const EvaluateProjectPage = ({ params }: Params) => {
         title="Confirm Cancel"
         message="Are you sure you want to cancel evaluating the project?"
         positive={false}
-        onConfirm={() => router.push("/allprojects")}
+        onConfirm={handleBack}
         onCancel={() => setIsCancelDialogOpen(false)}
       />
 

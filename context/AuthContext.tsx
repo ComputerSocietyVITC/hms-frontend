@@ -171,12 +171,6 @@ const isRouteAccessible = (
 
   const accessibleRoles = roleAccess[userRole] || [];
 
-  console.log("Access Check:", {
-    userRole,
-    accessibleRoles,
-    pathname,
-  });
-
   for (const [configKey, config] of Object.entries(ROUTE_CONFIG)) {
     if (configKey === "PUBLIC") continue;
 
@@ -203,8 +197,7 @@ const decodeToken = (token: string): DecodedToken | null => {
     const payload = token.split(".")[1];
     const decodedPayload = JSON.parse(atob(payload));
     return decodedPayload;
-  } catch (error) {
-    console.error("Error decoding token:", error);
+  } catch {
     return null;
   }
 };
@@ -239,7 +232,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUserId(decoded.userId);
         setUserRole(decoded.role);
       } else {
-        console.log("Token is invalid or expired. Logging out...");
         logout();
       }
     } else {
@@ -322,11 +314,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (loading) return;
 
       if (!user && !ROUTE_CONFIG.PUBLIC.paths.includes(pathname)) {
-        console.log("Redirecting to login - no user");
-        await router.push("/login");
+        router.push("/login");
       } else if (user && !isRouteAccessible(pathname, userRole as RoleType)) {
-        console.log("Redirecting to home - not accessible");
-        await router.push("/");
+        router.push("/");
       }
     };
 

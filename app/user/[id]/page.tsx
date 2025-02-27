@@ -3,7 +3,6 @@
 import { useEffect, useState, use } from "react";
 import api from "@/api";
 import FooterSection from "@/components/ui/FooterSection";
-import HeaderComponent from "@/components/ui/HeaderComponent";
 import UserCard from "@/components/user/UserCard";
 import UserInformation from "@/components/user/UserInformation";
 import DangerButton from "@/components/ui/DangerButton";
@@ -49,8 +48,7 @@ const Profile = ({ params }: ProfileProps) => {
       if (response.status === 200) {
         setVisitedUser(response.data);
       }
-    } catch (error) {
-      console.error("Error fetching user:", error);
+    } catch {
     } finally {
       setLoading(false);
     }
@@ -61,9 +59,21 @@ const Profile = ({ params }: ProfileProps) => {
       try {
         const response = await api.get(`/team/${visitedUser.teamId}`);
         setTeam(response.data.name);
-      } catch (error) {
-        console.error("Error fetching team:", error);
-      }
+      } catch {}
+    }
+  };
+
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
     }
   };
 
@@ -100,9 +110,9 @@ const Profile = ({ params }: ProfileProps) => {
   const handleRemove = async () => {
     if (visitedUser?.teamId) {
       try {
-        const response = await api.delete(`/team/${visitedUser.teamId}/remove`);
-
-        console.log(response);
+        const response = await api.delete(`/team/remove`, {
+          data: { userId: visitedUser.id },
+        });
 
         if (response.status === 201) {
           window.location.reload();
@@ -155,7 +165,10 @@ const Profile = ({ params }: ProfileProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-      <HeaderComponent />
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
+        <h1 className="text-lg font-bold">Admin Controls</h1>
+        <DangerButton buttonText="Go Back" onClick={handleBack} />
+      </header>
       <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-10">
         <UserCard
           id={visitedUser.id}
@@ -164,6 +177,8 @@ const Profile = ({ params }: ProfileProps) => {
           college={visitedUser.college}
           github={visitedUser.github}
           isLeader={visitedUser.isLeader}
+          imageId={visitedUser.imageId}
+          mimeType={visitedUser.mimeType}
           teamName={team || ""}
           customStyle="w-[1/4]"
         />
@@ -179,7 +194,7 @@ const Profile = ({ params }: ProfileProps) => {
             customStyle="w-[3/4]"
           />
           {userRole === "EVALUATOR" && (
-            <Link href={`/team/${visitedUser.teamId}`} target="_blank">
+            <Link href={`/team/${visitedUser.teamId}`}>
               <Button
                 buttonText="View Team"
                 onClick={() => {}}
@@ -192,7 +207,7 @@ const Profile = ({ params }: ProfileProps) => {
             visitedUser.teamId && (
               <div className="flex flex-col gap-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <Link href={`/team/${visitedUser.teamId}`} target="_blank">
+                  <Link href={`/team/${visitedUser.teamId}`}>
                     <Button
                       buttonText="View Team"
                       onClick={() => {}}

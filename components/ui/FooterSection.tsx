@@ -9,7 +9,6 @@ const FooterSection = () => {
         <Link
           className="hover:underline transition-all cursor-pointer"
           href="https://ieeecsvitc.com"
-          target="_blank"
         >
           IEEE Computer Society
         </Link>
