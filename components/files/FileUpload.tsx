@@ -83,8 +83,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       } else if (onUploadError && error instanceof Error) {
         onUploadError(error);
       }
-
-      console.error("Upload error:", error);
     }
   };
 

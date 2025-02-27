@@ -94,9 +94,7 @@ export default function Page() {
       setSelectedTeamInfo((prevSelected) =>
         prevSelected?.id === deletedTeamId ? null : prevSelected
       );
-    } catch (error) {
-      console.error("Error deleting team:", error);
-    }
+    } catch {}
   };
 
   if (loading) {

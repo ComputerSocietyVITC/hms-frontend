@@ -49,8 +49,7 @@ const Profile = ({ params }: ProfileProps) => {
       if (response.status === 200) {
         setVisitedUser(response.data);
       }
-    } catch (error) {
-      console.error("Error fetching user:", error);
+    } catch {
     } finally {
       setLoading(false);
     }
@@ -61,9 +60,7 @@ const Profile = ({ params }: ProfileProps) => {
       try {
         const response = await api.get(`/team/${visitedUser.teamId}`);
         setTeam(response.data.name);
-      } catch (error) {
-        console.error("Error fetching team:", error);
-      }
+      } catch {}
     }
   };
 

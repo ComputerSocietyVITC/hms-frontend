@@ -104,15 +104,11 @@ export async function POST(request: NextRequest) {
       uploadedAt: new Date().toISOString(),
       message: "File uploaded successfully",
     });
-  } catch (error) {
-    console.error("Error uploading file:", error);
-
+  } catch {
     if (filePath) {
       try {
         await unlink(filePath).catch(() => {});
-      } catch (cleanupError) {
-        console.error("Error cleaning up temporary file:", cleanupError);
-      }
+      } catch {}
     }
 
     return NextResponse.json(
