@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, getGithubUsername, getImageUrl } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -12,6 +12,8 @@ interface UserCardProps {
   github: string | null;
   isLeader: boolean;
   teamName: string;
+  imageId: string | null;
+  mimeType: string | null;
   customStyle?: string;
 }
 
@@ -22,9 +24,11 @@ const UserCard = ({
   github,
   isLeader,
   teamName,
+  imageId,
+  mimeType,
   customStyle,
 }: UserCardProps) => {
-  const githubUsername = github?.match(/github\.com\/([^/]+)/)?.[1] || null;
+  const githubUsername = getGithubUsername(github);
 
   return (
     <div
@@ -33,12 +37,12 @@ const UserCard = ({
         customStyle
       )}
     >
-      {githubUsername ? (
+      {imageId && mimeType ? (
         <Image
           className="size-48 rounded-full"
           width={1024}
           height={1024}
-          src={`https://github.com/${githubUsername}.png`}
+          src={getImageUrl(imageId, mimeType) || ""}
           alt="profile_img"
         />
       ) : (
