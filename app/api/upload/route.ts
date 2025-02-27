@@ -16,15 +16,15 @@ const ALLOWED_FILE_TYPES = [
 ];
 
 const minioClient = new Client({
-  endPoint: process.env.MINIO_ENDPOINT || "localhost",
-  port: parseInt(process.env.MINIO_PORT || "9000"),
-  useSSL: process.env.MINIO_USE_SSL === "true",
-  accessKey: process.env.MINIO_ACCESS_KEY || "your_access_key",
-  secretKey: process.env.MINIO_SECRET_KEY || "your_secret_key",
+  endPoint: process.env.NEXT_PUBLIC_MINIO_ENDPOINT || "localhost",
+  port: parseInt(process.env.NEXT_PUBLIC_MINIO_PORT || "9000"),
+  useSSL: process.env.NEXT_PUBLIC_MINIO_USE_SSL === "true",
+  accessKey: process.env.NEXT_PUBLIC_MINIO_ACCESS_KEY || "your_access_key",
+  secretKey: process.env.NEXT_PUBLIC_MINIO_SECRET_KEY || "your_secret_key",
 });
 
-const bucketName = process.env.MINIO_BUCKET_NAME || "nextjs-uploads";
-const host = process.env.MINIO_HOST || "localhost";
+const bucketName =
+  process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME || "nextjs-uploads";
 
 const ensureBucket = async () => {
   const exists = await minioClient.bucketExists(bucketName);
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
 
     await unlink(filePath);
 
-    const fileUrl = `${host}/${bucketName}/${fileName}`;
+    const fileUrl = `${fileName}`;
 
     return NextResponse.json({
       success: true,
