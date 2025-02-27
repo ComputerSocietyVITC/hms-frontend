@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { Team, User } from "@/types";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
+import { getImageUrl } from "@/lib/utils";
 
 const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
   const [response, setResponse] = useState<Team | null>(null);
@@ -96,7 +97,10 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
             list={response.members.map((member) => ({
               name: member.name,
               githubId: member.github || "",
-              avatarSrc: (member.github && `${member.github}.png`) || "",
+              avatarSrc:
+                getImageUrl(member.imageId, member.mimeType) ||
+                (member.github && `https://github.com/${member.github}.png`) ||
+                "",
               userId: member.id,
             }))}
             displayInviteButton={false}

@@ -164,6 +164,8 @@ const Profile = ({ params }: ProfileProps) => {
           college={visitedUser.college}
           github={visitedUser.github}
           isLeader={visitedUser.isLeader}
+          imageId={visitedUser.imageId}
+          mimeType={visitedUser.mimeType}
           teamName={team || ""}
           customStyle="w-[1/4]"
         />

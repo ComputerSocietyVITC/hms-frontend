@@ -8,6 +8,7 @@ import DialogBox from "../ui/DialogBox";
 import { useCallback, useEffect, useState } from "react";
 import api from "@/api";
 import { Project } from "@/types";
+import { getImageUrl } from "@/lib/utils";
 
 export type ProjectListProps = {
   projects: Project[];
@@ -168,9 +169,9 @@ const ProjectList = ({
           className="flex items-center justify-between p-5 rounded-lg bg-[#121212] border border-gray-700"
         >
           <div className="flex items-center gap-4">
-            {project.imageId ? (
+            {project.imageId && project.mimeType ? (
               <Image
-                src={`/images/${project.imageId}`}
+                src={getImageUrl(project.imageId, project.mimeType)!}
                 alt={project.name}
                 height={48}
                 width={48}

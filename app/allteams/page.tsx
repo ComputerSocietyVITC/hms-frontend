@@ -14,7 +14,7 @@ import Error from "@/components/ui/Error";
 
 export default function Page() {
   const [selectedTeamInfo, setSelectedTeamInfo] = useState<Team | null>(null);
-  const [teams2, setTeams] = useState<Team[]>([]);
+  const [teams, setTeams] = useState<Team[]>([]);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [unauthorizedUser, setUnauthorizedUser] = useState(false);
@@ -59,14 +59,12 @@ export default function Page() {
     fetchTeams();
   }, []);
 
-  const filteredTeams = teams2.filter((team) =>
+  const filteredTeams = teams.filter((team) =>
     team.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const teams = filteredTeams.map(({ id, name }) => ({ id, name }));
-
   const handleTeamClick = (teamId: string) => {
-    const teamData = teams2.find((team) => team.id === teamId) || null;
+    const teamData = teams.find((team) => team.id === teamId) || null;
     setSelectedTeamInfo(teamData);
   };
 
@@ -121,7 +119,7 @@ export default function Page() {
       </header>
       <div className="flex-grow w-full flex flex-row gap-4 p-4 bg-[#09090b]">
         <AllTeams
-          teams={teams}
+          teams={filteredTeams}
           onClickUpdate={handleTeamClick}
           customStyle="flex-[1]"
         />

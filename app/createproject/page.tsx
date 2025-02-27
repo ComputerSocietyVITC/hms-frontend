@@ -16,7 +16,6 @@ const CreateProjectPage: React.FC = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
-  const [, setProject] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
@@ -26,8 +25,7 @@ const CreateProjectPage: React.FC = () => {
     try {
       const response = await api.get("/project");
       if (response.status === 200) {
-        setProject(response.data);
-        return response.data;
+        return true;
       }
       return null;
     } catch {

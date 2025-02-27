@@ -79,6 +79,7 @@ const Profile = () => {
           }
           name={project?.name || ""}
           imageId={project?.imageId || ""}
+          mimeType={project?.mimeType || ""}
           evaluations={project?.evaluations || []}
           teamName={team || ""}
           customStyle="w-[1/4]"

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, getImageUrl } from "@/lib/utils";
 import { Evaluation } from "@/types";
 import { HistoryIcon, ZapIcon } from "lucide-react";
 import Image from "next/image";
@@ -10,6 +10,7 @@ interface ProjectCardProps {
   updatedAt: string;
   name: string;
   imageId: string | null;
+  mimeType: string | null;
   evaluations: Evaluation[] | null;
   teamName: string;
   customStyle?: string;
@@ -20,6 +21,7 @@ const ProjectCard = ({
   updatedAt,
   name,
   imageId,
+  mimeType,
   evaluations,
   teamName,
   customStyle,
@@ -31,15 +33,15 @@ const ProjectCard = ({
         customStyle
       )}
     >
-      {imageId ? (
+      {(imageId && mimeType && (
         <Image
           className="size-48 rounded-full"
           width={1024}
           height={1024}
-          src={`https://github.com/example.png`}
+          src={getImageUrl(imageId, mimeType)!}
           alt="profile_img"
         />
-      ) : (
+      )) || (
         <div className="size-48 flex items-center justify-center rounded-full bg-gray-700 text-white font-black text-6xl border border-gray-600">
           {name.charAt(0).toUpperCase()}
         </div>

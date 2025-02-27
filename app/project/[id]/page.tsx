@@ -39,6 +39,7 @@ interface Project {
   name: string;
   description: string;
   imageId: string;
+  mimeType: string;
   teamId: string;
   team: Team;
   evaluations: Evaluation[];
@@ -171,6 +172,7 @@ const Profile = ({ params }: Props) => {
           }
           name={project?.name || ""}
           imageId={project?.imageId || ""}
+          mimeType={project?.mimeType || ""}
           evaluations={evaluationList || []}
           teamName={project?.team?.name || ""}
           customStyle="w-[1/4]"

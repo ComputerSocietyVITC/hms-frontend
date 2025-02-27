@@ -14,6 +14,7 @@ import DangerButton from "@/components/ui/DangerButton";
 import { useRouter } from "next/navigation";
 import { Team, Project } from "@/types";
 import Loading from "@/components/ui/Loading";
+import { getImageUrl } from "@/lib/utils";
 
 const TeamPage = () => {
   const [response, setResponse] = useState<Team | null>(null);
@@ -149,7 +150,10 @@ const TeamPage = () => {
                 userId: member.id,
                 name: member.name,
                 githubId: member.github || "",
-                avatarSrc: (member.github && `${member.github}.png`) || "",
+                avatarSrc:
+                  getImageUrl(member.imageId, member.mimeType) ||
+                  (member.github && `${member.github}.png`) ||
+                  "",
               })) || []
             }
             nonClickable={true}

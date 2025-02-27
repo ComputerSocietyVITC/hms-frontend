@@ -7,6 +7,7 @@ import Button from "../ui/Button";
 import Link from "next/link";
 import DialogBox from "../ui/DialogBox";
 import { Team } from "@/types";
+import { getGithubUsername, getImageUrl } from "@/lib/utils";
 
 interface SelectedTeamInfoProps {
   selectedTeamInfo: Team;
@@ -22,15 +23,6 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
   onCloseClick,
 }) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-
-  const extractGitHubUsername = (url: string | null | undefined): string => {
-    if (!url) return "GitHub ID not set";
-
-    const regex = /https:\/\/github\.com\/([^\/]+)/;
-    const match = url.match(regex);
-
-    return match ? match[1] : "Invalid URL";
-  };
 
   const handleTeamDelete = async () => {
     onTeamDelete(selectedTeamInfo.id);
@@ -67,7 +59,8 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
           <h3 className="text-xl font-semibold text-gray-300">Team Members</h3>
           <ul className="mt-2 space-y-3">
             {selectedTeamInfo.members.map((member) => {
-              const githubUsername = extractGitHubUsername(member.github);
+              const githubUsername = getGithubUsername(member.github);
+
               return (
                 <TeamMemberListItem
                   key={member.id}
@@ -76,9 +69,10 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
                   }
                   githubId={githubUsername}
                   avatarSrc={
-                    githubUsername !== "GitHub ID not set"
-                      ? `https://github.com/${githubUsername}.png`
-                      : ""
+                    getImageUrl(member.imageId, member.mimeType) ||
+                    (githubUsername &&
+                      `https://github.com/${githubUsername}.png`) ||
+                    ""
                   }
                   userId={member.id}
                   currentUserId={""}
