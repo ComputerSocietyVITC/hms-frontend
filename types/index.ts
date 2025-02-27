@@ -21,6 +21,7 @@ export interface Team {
   updatedAt: string;
   name: string;
   imageId: string;
+  mimeType: string;
   members: User[];
   project: Project;
 }
@@ -41,6 +42,7 @@ export interface Project {
   name: string;
   description: string;
   imageId: string;
+  mimeType: string;
   teamId: string;
   evaluations: Evaluation[];
 }
