@@ -11,6 +11,7 @@ import DangerButton from "@/components/ui/DangerButton";
 import DialogBox from "@/components/ui/DialogBox";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
+import FileUploader from "@/components/files/FileUpload";
 
 const UpdateProject = () => {
   const [projectId, setProjectId] = useState("");
@@ -20,6 +21,7 @@ const UpdateProject = () => {
   const [demoUrl, setDemoUrl] = useState("");
   const [reportUrl, setReportUrl] = useState("");
   const [imageId, setImageId] = useState("");
+  const [mimeType, setMimeType] = useState("");
   const [error, setError] = useState("");
 
   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
@@ -43,27 +45,26 @@ const UpdateProject = () => {
 
   useEffect(() => {
     const getProject = async () => {
-      if (user?.teamId) {
-        const response = await api.get(`/team/${user.teamId}`);
+      const response = await api.get(`/project`);
 
-        if (!response.data.project) {
-          router.push("/team");
-        }
+      if (!response.data) {
+        router.push("/team");
+      }
 
-        if (response.data) {
-          setProjectId(response.data.project.id || "");
-          setName(response.data.project.name || "");
-          setDescription(response.data.project.description || "");
-          setRepoUrl(response.data.project.repoUrl || "");
-          setDemoUrl(response.data.project.demoUrl || "");
-          setReportUrl(response.data.project.reportUrl || "");
-          setImageId(response.data.project.imageId || "");
-        }
+      if (response.data) {
+        setProjectId(response.data.id || "");
+        setName(response.data.name || "");
+        setDescription(response.data.description || "");
+        setRepoUrl(response.data.repoUrl || "");
+        setDemoUrl(response.data.demoUrl || "");
+        setReportUrl(response.data.reportUrl || "");
+        setImageId(response.data.imageId || "");
+        setMimeType(response.data.mimeType || "");
       }
     };
 
     getProject();
-  }, [router, user?.teamId]);
+  }, [router]);
 
   if (loading || !user) {
     return <Loading />;
@@ -74,6 +75,15 @@ const UpdateProject = () => {
       <Error error="You are not allowed to update projects. Only team leaders can update projects." />
     );
   }
+
+  const handleUploadSuccess = (fileUrl: string) => {
+    setImageId(fileUrl.split(".")[0]);
+    setMimeType(fileUrl.split(".")[1]);
+  };
+
+  const handleUploadError = (error: Error) => {
+    setError("Error uploading file: " + error.message);
+  };
 
   const handleUpdateProject = async () => {
     if (!projectId) {
@@ -90,6 +100,7 @@ const UpdateProject = () => {
         demoUrl,
         reportUrl,
         imageId,
+        mimeType,
       });
 
       if (response.status === 200) {
@@ -210,12 +221,19 @@ const UpdateProject = () => {
               text={reportUrl}
             />
 
-            <InputField
-              label="Image ID"
-              type="text"
-              placeholder="Enter image ID (UUID)"
-              onTextChange={setImageId}
-              text={imageId}
+            <FileUploader
+              label="Team Image"
+              accept="image/*"
+              darkMode={true}
+              onUploadSuccess={handleUploadSuccess}
+              onUploadError={handleUploadError}
+              uploadEndpoint="/api/upload"
+              buttonText={{
+                select: "Select Image",
+                change: "Change Image",
+                upload: "Upload",
+                uploading: "Uploading...",
+              }}
             />
           </div>
 
@@ -225,6 +243,14 @@ const UpdateProject = () => {
             buttonText="Update Project"
             onClick={() => setIsSaveDialogOpen(true)}
             customStyle="w-full mt-6 bg-blue-600 hover:bg-blue-500 text-white"
+            disabled={
+              !name ||
+              !description ||
+              !repoUrl ||
+              !demoUrl ||
+              !reportUrl ||
+              !imageId
+            }
           />
         </div>
       </main>
