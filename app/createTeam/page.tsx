@@ -10,10 +10,12 @@ import api from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import Loading from "@/components/ui/Loading";
+import FileUploader from "@/components/files/FileUpload";
 
 const CreateTeamPage: React.FC = () => {
   const [name, setName] = useState("");
   const [imageId, setImageID] = useState("");
+  const [mimeType, setMimeType] = useState("");
   const [error, setError] = useState("");
 
   const router = useRouter();
@@ -25,9 +27,22 @@ const CreateTeamPage: React.FC = () => {
     }
   }, [user]);
 
+  const handleUploadSuccess = (fileUrl: string) => {
+    setImageID(fileUrl.split(".")[0]);
+    setMimeType(fileUrl.split(".")[1]);
+  };
+
+  const handleUploadError = (error: Error) => {
+    setError("Error uploading file: " + error.message);
+  };
+
   const handleSubmit = async () => {
     try {
-      const response = await api.put("/team", { name: name, imageId: imageId });
+      const response = await api.put("/team", {
+        name: name,
+        imageId: imageId,
+        mimeType: mimeType,
+      });
 
       if (response.status === 201) {
         await getUser();
@@ -82,14 +97,28 @@ const CreateTeamPage: React.FC = () => {
             text={name}
           />
 
-          <InputField
-            label="Image ID"
-            type="text"
-            placeholder="Enter Image ID"
-            onTextChange={(value) => setImageID(value)}
-            text={imageId}
-            customStyle="mt-4"
-          />
+          <div className="mt-4">
+            <FileUploader
+              label="Team Image"
+              accept="image/*"
+              darkMode={true}
+              onUploadSuccess={handleUploadSuccess}
+              onUploadError={handleUploadError}
+              uploadEndpoint="/api/upload"
+              buttonText={{
+                select: "Select Image",
+                change: "Change Image",
+                upload: "Upload",
+                uploading: "Uploading...",
+              }}
+            />
+
+            {imageId && (
+              <div className="mt-1 text-xs text-green-400">
+                Image uploaded successfully! ID: {imageId.split("/").pop()}
+              </div>
+            )}
+          </div>
 
           {error && (
             <div className="mt-3 text-sm text-red-400 text-center">{error}</div>
@@ -99,6 +128,7 @@ const CreateTeamPage: React.FC = () => {
             buttonText="Create Team"
             onClick={handleSubmit}
             customStyle="w-full mt-4"
+            disabled={!name || !imageId}
           />
         </div>
       </main>
