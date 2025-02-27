@@ -100,9 +100,9 @@ const Profile = ({ params }: ProfileProps) => {
   const handleRemove = async () => {
     if (visitedUser?.teamId) {
       try {
-        const response = await api.delete(`/team/${visitedUser.teamId}/remove`);
-
-        console.log(response);
+        const response = await api.delete(`/team/remove`, {
+          data: { userId: visitedUser.id },
+        });
 
         if (response.status === 201) {
           window.location.reload();
