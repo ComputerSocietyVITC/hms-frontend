@@ -59,6 +59,8 @@ const Profile = () => {
           github={user.github}
           isLeader={user.isLeader}
           teamName={team || ""}
+          imageId={user.imageId}
+          mimeType={user.mimeType}
           customStyle="w-[1/4]"
         />
         <div className="ml-8 my-auto">

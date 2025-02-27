@@ -5,6 +5,7 @@ export interface User {
   github: string | null;
   id: string;
   imageId: string | null;
+  mimeType: string | null;
   isLeader: boolean;
   name: string;
   phone: string;
