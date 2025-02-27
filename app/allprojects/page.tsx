@@ -4,13 +4,13 @@ import DangerButton from "@/components/ui/DangerButton";
 import FooterSection from "@/components/ui/FooterSection";
 import React, { useEffect, useState } from "react";
 import ProjectList from "@/components/project/ProjectList";
-import Link from "next/link";
 import api from "@/api";
 import axios from "axios";
 import { Project } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -21,6 +21,7 @@ const Page = () => {
   const [unauthorizedError, setUnauthorizedError] = useState(false);
 
   const { user, getUser } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (!user) {
@@ -28,6 +29,20 @@ const Page = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
 
   const getAllProjects = async () => {
     try {
@@ -102,11 +117,7 @@ const Page = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="px-3 py-1 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring focus:ring-gray-500"
         />
-        <Link
-          href={`${user?.role === "EVALUATOR" ? "/evaluatorcontrols" : "/admincontrols"}`}
-        >
-          <DangerButton buttonText="Go Back" onClick={() => {}} />
-        </Link>
+        <DangerButton buttonText="Go Back" onClick={handleBack} />
       </header>
       <main className="flex-grow w-[95%] mx-auto py-8 bg-[#09090b]">
         <ProjectList

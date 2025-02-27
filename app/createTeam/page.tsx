@@ -36,6 +36,20 @@ const CreateTeamPage: React.FC = () => {
     setError("Error uploading file: " + error.message);
   };
 
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const handleSubmit = async () => {
     try {
       const response = await api.put("/team", {
@@ -77,7 +91,7 @@ const CreateTeamPage: React.FC = () => {
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
       <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
         <h1 className="text-lg font-bold">Create a Team</h1>
-        <DangerButton buttonText="Cancel" onClick={() => router.push("/")} />
+        <DangerButton buttonText="Cancel" onClick={handleBack} />
       </header>
 
       <main className="flex justify-center items-center flex-1">

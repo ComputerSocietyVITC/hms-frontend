@@ -76,6 +76,20 @@ const UpdateProject = () => {
     );
   }
 
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const handleUploadSuccess = (fileUrl: string) => {
     setImageId(fileUrl.split(".")[0]);
     setMimeType(fileUrl.split(".")[1]);
@@ -260,7 +274,7 @@ const UpdateProject = () => {
         title="Confirm Cancel"
         message="Are you sure you want to cancel editing your project?"
         positive={false}
-        onConfirm={() => router.push("/project")}
+        onConfirm={handleBack}
         onCancel={() => setIsCancelDialogOpen(false)}
       />
 

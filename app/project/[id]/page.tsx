@@ -14,6 +14,7 @@ import PositiveButton from "@/components/ui/PositiveButton";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import EvaluationList from "@/components/evaluations/EvaluationList";
+import DangerButton from "@/components/ui/DangerButton";
 
 interface Evaluation {
   id: string;
@@ -138,6 +139,20 @@ const Profile = ({ params }: Props) => {
     }
   }, [id, router]);
 
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -157,7 +172,10 @@ const Profile = ({ params }: Props) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-      <HeaderComponent />
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
+        <h1 className="text-lg font-bold">Admin Controls</h1>
+        <DangerButton buttonText="Go Back" onClick={handleBack} />
+      </header>
       <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-16">
         <ProjectCard
           createdAt={
@@ -184,7 +202,7 @@ const Profile = ({ params }: Props) => {
             description={project?.description || "No description"}
             customStyle="w-[3/4]"
           />
-          <Link href={`/evaluate/${project?.id}`} target="_blank">
+          <Link href={`/evaluate/${project?.id}`}>
             <PositiveButton
               buttonText="Evaluate Project"
               customStyle="w-full"

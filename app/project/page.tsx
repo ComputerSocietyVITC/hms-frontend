@@ -46,6 +46,20 @@ const Profile = () => {
     getProject();
   }, [user]);
 
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -63,7 +77,7 @@ const Profile = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
       <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-4 border-b border-gray-700">
         <h1 className="text-lg font-bold">Your Project</h1>
-        <DangerButton buttonText="Go Back" onClick={() => router.push("/")} />
+        <DangerButton buttonText="Go Back" onClick={handleBack} />
       </header>
       <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-10">
         <ProjectCard

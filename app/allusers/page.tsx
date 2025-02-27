@@ -6,12 +6,12 @@ import FooterSection from "@/components/ui/FooterSection";
 import { TeamMemberListItemModified } from "@/components/team/TeamMemberListItemModified";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { User } from "@/types";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import { getImageUrl } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -24,6 +24,7 @@ const Page = () => {
   const [error, setError] = useState<string | null>(null);
 
   const { user, getUser } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (!user) {
@@ -93,6 +94,20 @@ const Page = () => {
     );
   }, [searchQuery, users]);
 
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const handleUserDelete = (userId: string) => {
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
@@ -116,9 +131,7 @@ const Page = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="px-3 py-1 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring focus:ring-gray-500"
         />
-        <Link href="/admincontrols">
-          <DangerButton buttonText="Go Back" onClick={() => {}} />
-        </Link>
+        <DangerButton buttonText="Go Back" onClick={handleBack} />
       </header>
       <main className="flex-grow w-[95%] mx-auto py-8 bg-[#09090b]">
         <div className="flex flex-col">

@@ -6,11 +6,11 @@ import DangerButton from "@/components/ui/DangerButton";
 import SelectedTeamInfo from "@/components/allteams/SelectedTeamInfo";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { Team } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [selectedTeamInfo, setSelectedTeamInfo] = useState<Team | null>(null);
@@ -20,6 +20,7 @@ export default function Page() {
   const [unauthorizedUser, setUnauthorizedUser] = useState(false);
 
   const { user, getUser, loading } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (!user) {
@@ -62,6 +63,20 @@ export default function Page() {
   const filteredTeams = teams.filter((team) =>
     team.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
 
   const handleTeamClick = (teamId: string) => {
     const teamData = teams.find((team) => team.id === teamId) || null;
@@ -111,11 +126,7 @@ export default function Page() {
           }}
           className="px-3 py-1 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring focus:ring-gray-500"
         />
-        <Link
-          href={`${user?.role === "EVALUATOR" ? "/evaluatorcontrols" : "/admincontrols"}`}
-        >
-          <DangerButton buttonText="Go Back" onClick={() => {}} />
-        </Link>
+        <DangerButton buttonText="Go Back" onClick={handleBack} />
       </header>
       <div className="flex-grow w-full flex flex-row gap-4 p-4 bg-[#09090b]">
         <AllTeams

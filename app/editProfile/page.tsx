@@ -52,6 +52,20 @@ const EditProfile = () => {
     setError("Error uploading file: " + error.message);
   };
 
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!name || !regNum || !phone || !college || !github || !imageId) {
       setError("All fields are required. Please fill in all the fields.");
@@ -194,7 +208,7 @@ const EditProfile = () => {
         title="Confirm Cancel"
         message="Are you sure you want to cancel editing your profile?"
         positive={false}
-        onConfirm={() => router.push("/user")}
+        onConfirm={handleBack}
         onCancel={() => setIsCancelDialogOpen(false)}
       />
 

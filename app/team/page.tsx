@@ -111,6 +111,20 @@ const TeamPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const getLeader = () => {
     const leader = response?.members?.find((member) => member.isLeader);
     return leader || null;
@@ -134,7 +148,7 @@ const TeamPage = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
       <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-4 border-b border-gray-700">
         <h1 className="text-lg font-bold">Your Team</h1>
-        <DangerButton buttonText="Go Back" onClick={() => router.push("/")} />
+        <DangerButton buttonText="Go Back" onClick={handleBack} />
       </header>
       <div className="flex flex-grow flex-col p-8 w-full gap-8">
         <div className="flex flex-row justify-between gap-8">

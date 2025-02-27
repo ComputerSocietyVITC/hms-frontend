@@ -69,7 +69,6 @@ const UserCard = ({
             <Link
               className="hover:text-gray-300"
               href={`https://github.com/${githubUsername}`}
-              target="_blank"
             >
               {githubUsername}
             </Link>

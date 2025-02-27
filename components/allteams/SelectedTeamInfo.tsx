@@ -125,11 +125,11 @@ const SelectedTeamInfo: React.FC<SelectedTeamInfoProps> = ({
 
       <div className="mt-6 flex justify-end gap-4">
         {selectedTeamInfo.project && (
-          <Link href={`project/${selectedTeamInfo.project.id}`} target="_blank">
+          <Link href={`project/${selectedTeamInfo.project.id}`}>
             <Button buttonText="View Project" onClick={() => {}} />
           </Link>
         )}
-        <Link href={`team/${selectedTeamInfo.id}`} target="_blank">
+        <Link href={`team/${selectedTeamInfo.id}`}>
           <Button buttonText="View Team" onClick={() => {}} />
         </Link>
         {!evaluatorMode && (

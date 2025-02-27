@@ -67,6 +67,20 @@ const Profile = ({ params }: ProfileProps) => {
     }
   };
 
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
+
   const handleDelete = async () => {
     try {
       const response = await api.delete(`/user/${resolvedParams.id}`);
@@ -155,7 +169,10 @@ const Profile = ({ params }: ProfileProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-      <HeaderComponent />
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
+        <h1 className="text-lg font-bold">Admin Controls</h1>
+        <DangerButton buttonText="Go Back" onClick={handleBack} />
+      </header>
       <div className="flex flex-grow flex-row w-[80%] mx-auto align-center justify-center mt-10">
         <UserCard
           id={visitedUser.id}
@@ -181,7 +198,7 @@ const Profile = ({ params }: ProfileProps) => {
             customStyle="w-[3/4]"
           />
           {userRole === "EVALUATOR" && (
-            <Link href={`/team/${visitedUser.teamId}`} target="_blank">
+            <Link href={`/team/${visitedUser.teamId}`}>
               <Button
                 buttonText="View Team"
                 onClick={() => {}}
@@ -194,7 +211,7 @@ const Profile = ({ params }: ProfileProps) => {
             visitedUser.teamId && (
               <div className="flex flex-col gap-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <Link href={`/team/${visitedUser.teamId}`} target="_blank">
+                  <Link href={`/team/${visitedUser.teamId}`}>
                     <Button
                       buttonText="View Team"
                       onClick={() => {}}

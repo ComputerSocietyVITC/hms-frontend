@@ -205,10 +205,10 @@ const ProjectList = ({
           </div>
 
           <div className="flex gap-3">
-            <Link href={`/project/${project.id}`} target="_blank">
+            <Link href={`/project/${project.id}`}>
               <Button buttonText="View Project" onClick={() => {}} />
             </Link>
-            <Link href={`/evaluate/${project.id}`} target="_blank">
+            <Link href={`/evaluate/${project.id}`}>
               <PositiveButton
                 buttonText="Evaluate Project"
                 onClick={() => {}}
