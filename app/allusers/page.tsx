@@ -11,6 +11,7 @@ import { useAuth } from "@/context/AuthContext";
 import { User } from "@/types";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
+import { getImageUrl } from "@/lib/utils";
 
 const Page = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -128,7 +129,8 @@ const Page = () => {
               name={filteredUser.name}
               teamName={teamNames[filteredUser.teamId || ""] || "No Team"}
               avatarSrc={
-                (filteredUser.github && `${filteredUser.github}.png`) || ""
+                getImageUrl(filteredUser.imageId, filteredUser.mimeType) ||
+                (filteredUser.github ? `${filteredUser.github}.png` : "")
               }
               userId={filteredUser.id}
               currentUserId={user?.id}
