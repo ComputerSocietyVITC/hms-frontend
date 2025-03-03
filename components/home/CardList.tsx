@@ -21,9 +21,8 @@ const CardList: React.FC = () => {
           )
           .slice(0, 6);
         setProjects(sortedProjects);
-      } catch (err) {
+      } catch {
         setError("Failed to fetch projects");
-        console.error("Error fetching projects:", err);
       } finally {
         setIsLoading(false);
       }

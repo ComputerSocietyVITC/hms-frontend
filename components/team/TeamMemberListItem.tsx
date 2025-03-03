@@ -108,13 +108,7 @@ export const TeamMemberListItem = ({
 
   return (
     <div>
-      {nonClickable ? (
-        content
-      ) : (
-        <Link href={`/user/${userId}`} target="_blank">
-          {content}
-        </Link>
-      )}
+      {nonClickable ? content : <Link href={`/user/${userId}`}>{content}</Link>}
       {leaderView && (
         <DialogBox
           isOpen={isRemoveDialogOpen}

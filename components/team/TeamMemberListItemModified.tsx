@@ -117,10 +117,10 @@ export const TeamMemberListItemModified = ({
 
       {userId !== currentUserId && (
         <div className="flex gap-3">
-          <Link href={`/user/${userId}`} target="_blank">
+          <Link href={`/user/${userId}`}>
             <Button buttonText="View Profile" onClick={() => {}} />
           </Link>
-          <Link href={`/promoteUser/${userId}`} target="_blank">
+          <Link href={`/promoteUser/${userId}`}>
             <PositiveButton buttonText="Promote User" onClick={() => {}} />
           </Link>
           <DangerButton

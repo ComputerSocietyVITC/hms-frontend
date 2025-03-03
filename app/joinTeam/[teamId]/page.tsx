@@ -6,7 +6,6 @@ import DangerButton from "@/components/ui/DangerButton";
 import { useRouter, useParams } from "next/navigation";
 import api from "@/api";
 import axios from "axios";
-import Link from "next/link";
 import DialogBox from "@/components/ui/DialogBox";
 import { useAuth } from "@/context/AuthContext";
 
@@ -40,6 +39,20 @@ const JoinTeamPage: React.FC = () => {
       setTeamID(teamId);
     }
   }, [teamId]);
+
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
 
   const getErrorMessage = (status: number): string => {
     switch (status) {
@@ -92,9 +105,7 @@ const JoinTeamPage: React.FC = () => {
     <div className="bg-[#09090b] w-full h-screen flex flex-col text-white">
       <header className="flex justify-between items-center w-full bg-[#121212] text-white py-3 px-6 border-b border-gray-700">
         <h1 className="text-lg font-bold">Join a Team</h1>
-        <Link href="/">
-          <DangerButton buttonText="Cancel" onClick={() => {}} />
-        </Link>
+        <DangerButton buttonText="Cancel" onClick={handleBack} />
       </header>
 
       <main className="flex justify-center items-center flex-1">

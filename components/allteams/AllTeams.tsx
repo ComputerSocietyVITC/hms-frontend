@@ -1,11 +1,7 @@
 import React from "react";
 import TeamListItem from "./TeamListItem";
-import { cn } from "@/lib/utils";
-
-interface Team {
-  id: string;
-  name: string;
-}
+import { cn, getImageUrl } from "@/lib/utils";
+import { Team } from "@/types";
 
 interface AllTeamsProps {
   teams: Team[];
@@ -13,11 +9,7 @@ interface AllTeamsProps {
   customStyle?: string;
 }
 
-const AllTeams: React.FC<AllTeamsProps> = ({
-  teams,
-  onClickUpdate,
-  customStyle,
-}) => {
+const AllTeams = ({ teams, onClickUpdate, customStyle }: AllTeamsProps) => {
   return (
     <div
       className={cn(
@@ -34,6 +26,7 @@ const AllTeams: React.FC<AllTeamsProps> = ({
             key={team.id}
             teamId={team.id}
             teamName={team.name}
+            teamAvatar={getImageUrl(team.imageId, team.mimeType)!}
             onClick={(teamId) => onClickUpdate(teamId)}
           />
         ))}

@@ -4,7 +4,6 @@
 import api from "@/api";
 import ContributionStats from "@/components/team/ContributionStats";
 import FooterSection from "@/components/ui/FooterSection";
-import HeaderComponent from "@/components/ui/HeaderComponent";
 import ProjectInformation from "@/components/team/ProjectInformation";
 import RecentCommits from "@/components/team/RecentCommits";
 import TeamInformation from "@/components/team/TeamInformation";
@@ -14,11 +13,30 @@ import React, { useEffect, useState } from "react";
 import { Team, User } from "@/types";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
+import { getImageUrl } from "@/lib/utils";
+import DangerButton from "@/components/ui/DangerButton";
+import { useRouter } from "next/navigation";
 
 const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
   const [response, setResponse] = useState<Team | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const router = useRouter();
+
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      const currentLocation = window.location.href;
+
+      router.back();
+
+      setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          router.push("/");
+        }
+      }, 100);
+    }
+  };
 
   const getTeam = async () => {
     try {
@@ -83,7 +101,10 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#09090b] text-white">
-      <HeaderComponent />
+      <header className="w-full bg-[#121212] flex items-center justify-between px-6 py-3 border-b border-gray-700">
+        <h1 className="text-lg font-bold">Admin Controls</h1>
+        <DangerButton buttonText="Go Back" onClick={handleBack} />
+      </header>
       <div className="flex flex-grow flex-col p-8 w-full gap-8">
         <div className="flex flex-row justify-between gap-8">
           <TeamInformation
@@ -96,7 +117,10 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
             list={response.members.map((member) => ({
               name: member.name,
               githubId: member.github || "",
-              avatarSrc: (member.github && `${member.github}.png`) || "",
+              avatarSrc:
+                getImageUrl(member.imageId, member.mimeType) ||
+                (member.github && `https://github.com/${member.github}.png`) ||
+                "",
               userId: member.id,
             }))}
             displayInviteButton={false}
