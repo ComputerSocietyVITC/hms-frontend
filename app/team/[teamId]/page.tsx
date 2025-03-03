@@ -128,10 +128,10 @@ const TeamPage = ({ params }: { params: Promise<{ teamId: string }> }) => {
           />
           <ProjectInformation project={response.project} teamId={response.id} />
         </div>
-        <div className="flex flex-row gap-8">
+        {/* <div className="flex flex-row gap-8">
           <RecentCommits list={[]} />
           <ContributionStats />
-        </div>
+        </div> */}
       </div>
       <FooterSection />
     </div>

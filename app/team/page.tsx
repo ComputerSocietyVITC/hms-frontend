@@ -179,10 +179,10 @@ const TeamPage = () => {
           />
           <ProjectInformation project={project} teamId={response.id} />
         </div>
-        <div className="flex flex-row gap-8">
+        {/* <div className="flex flex-row gap-8">
           <RecentCommits list={[]} />
           <ContributionStats />
-        </div>
+        </div> */}
       </div>
       <FooterSection />
     </div>
